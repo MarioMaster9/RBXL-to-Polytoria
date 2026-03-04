@@ -1,3 +1,5 @@
+# this code is kinda garbage
+
 colorfmt = '<color name="{0}">\n<R>{1.r:.4f}</R>\n<G>{1.g:.4f}</G>\n<B>{1.b:.4f}</B>\n<A>{1.a:.4f}</A>\n</color>'
 vector2fmt = '<vector2 name="{0}">\n<X>{1.x:.4f}</X>\n<Y>{1.y:.4f}</Y>\n</vector2>'
 vector3fmt = '<vector3 name="{0}">\n<X>{1.x:.4f}</X>\n<Y>{1.y:.4f}</Y>\n<Z>{1.z:.4f}</Z>\n</vector3>'
@@ -57,4 +59,5 @@ class BufferedXMLWriter:
     def writeNumberRange(self, name, value):
         self.writeData(numberrangefmt.format(name, value))
     def writeColorRange(self, name, value):
+
         self.writeData(colorrangefmt.format(name, value))
