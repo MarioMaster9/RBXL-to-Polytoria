@@ -886,9 +886,13 @@ game.addChild(Hidden())
 game.addChild(ServerHidden())
 game.addChild(PlayerDefaults())
 game.addChild(Backpack())
-HandleObject(services['StarterGui'])
+if 'StarterGui' in services:
+    HandleObject(services['StarterGui'])
+else:
+    game.addChild(PlayerGUI())
 
 game.write(writer)
 
 writer.close()
+
 
