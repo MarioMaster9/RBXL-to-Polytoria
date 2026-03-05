@@ -479,7 +479,7 @@ def HandleDecal(obj, polyObject):
 def HandleTexture(obj, polyObject):
     HandleDecal(obj, polyObject)
     studsPerTile = Vector2(obj.get('StudsPerTileU'), obj.get('StudsPerTileV'))
-    offsetStuds = Vector2(obj.get('OffsetStudsU'), obj.get('OffsetStudsV'))
+    offsetStuds = Vector2(obj.get('OffsetStudsU', 0), obj.get('OffsetStudsV', 0))
     size = polyObject.Size.xy()
     
     polyObject.TextureScale = studsPerTile / size
@@ -895,6 +895,7 @@ else:
 game.write(writer)
 
 writer.close()
+
 
 
 
