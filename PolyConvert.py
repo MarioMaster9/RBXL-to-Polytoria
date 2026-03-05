@@ -778,6 +778,17 @@ npcSkipClasses = [
     "Humanoid"
 ]
 
+def ModelClassName(obj):
+    if args.npcs:
+        if isValidCharacter(obj):
+            return 'NPC'
+    return 'Model'
+
+
+classNameFuncs = {
+    "Model": ModelClassName,
+}
+
 # this list acts sort of like a todo list
 doNotConvert = [
     "Timer",
@@ -894,9 +905,7 @@ def HandleObject(obj, parent=game):
         return
     polyObject = None
     if className in classHandlers:
-        if args.npcs:
-            if isValidCharacter(obj):
-                className = 'NPC'
+        className = classNameFuncs.get(className, lambda x: x.className)(obj)
         handler = classHandlers[className]        
         polyObject = getConstructor(className)()
         polyObject.parent = parent
