@@ -684,6 +684,7 @@ classHandlers = {
     "Decal":            HandleDecal,
     "Folder":           HandleFolder,
     "Frame":            HandleFrame,
+    "GuiMain":          HandleScreenGui,
     "ImageButton":      HandleImageLabel,
     "ImageLabel":       HandleImageLabel,
     "IntValue":         HandleValue,
@@ -722,6 +723,7 @@ aliases = {
     "Color3Value":     "ColorValue",
     "CornerWedgePart": "Part",
     "Frame":           "UIView",
+    "GuiMain":         "GUI",
     "ImageButton":     "UIImage",
     "ImageLabel":      "UIImage",
     "ScreenGui":       "GUI",
@@ -898,6 +900,7 @@ else:
 game.write(writer)
 
 writer.close()
+
 
 
 
