@@ -65,6 +65,7 @@ from instances.Truss             import Truss
 from instances.UIButton          import UIButton
 from instances.UIImage           import UIImage
 from instances.UILabel           import UILabel
+from instances.UITextInput       import UITextInput
 from instances.UIView            import UIView
 from instances.Vector3Value      import Vector3Value
 from instances.Game              import Game
@@ -643,6 +644,15 @@ def HandleTextButton(obj, polyObject):
     polyObject.Interactable = obj.get('Active')
     HandleTextLabel(obj, polyObject)
 
+def HandleTextBox(obj, polyObject):
+    polyObject.Placeholder = obj.get('PlaceholderText')
+    polyObject.PlaceholderColor = Color4.FromColor3(obj.get('PlaceholderColor3'))
+    polyObject.IsMultiline = obj.get('MultiLine')
+    polyObject.IsReadOnly = not obj.get('TextEditable')
+    HandleTextLabel(obj, polyObject)
+
+
+
 # used for instances that have no unique properties/don't need properties set
 def HandleBase(obj, polyObject):
     pass
@@ -675,6 +685,7 @@ constructors = {
     "UIButton":       UIButton,
     "UIImage":        UIImage,
     "UILabel":        UILabel,
+    "UITextInput":    UITextInput,
     "UIView":         UIView,
     "Vector3Value":   Vector3Value
 }
@@ -710,6 +721,7 @@ classHandlers = {
     "StarterGui":       HandleBase,
     "StockSound":       HandleSound,
     "StringValue":      HandleValue,
+    "TextBox":          HandleTextBox,
     "TextButton":       HandleTextButton,
     "TextLabel":        HandleTextLabel,
     "Texture":          HandleTexture,
@@ -740,6 +752,7 @@ aliases = {
     "SpotLight":       "Spotlight",
     "StarterGui":      "PlayerGUI",
     "StockSound":      "Sound",
+    "TextBox":         "UITextInput",
     "TextButton":      "UIButton",
     "TextLabel":       "UILabel",
     "Texture":         "Decal",
