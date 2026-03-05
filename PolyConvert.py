@@ -756,20 +756,22 @@ classNames = {}
 for className, handler in classHandlers.items():
     classNames[className] = aliases.get(className, className)
 
+npcSkipClasses = [
+    "Shirt",
+    "Pants",
+    "Humanoid"
+]
+
 # this list acts sort of like a todo list
 doNotConvert = [
     "Timer",
     "ObjectValue",                # Do later
     "Geometry",
-    "BlockMesh",
-    "CylinderMesh",
-    "SpecialMesh",
     "Weld",
     "Snap",
     "Motor",
     "ManualWeld",
     "Glue",
-    "Humanoid",
     "Camera",
     "Hint",
     "Terrain",
@@ -809,6 +811,11 @@ doNotConvert = [
     "Animation",                  # Do later
     "ScrollingFrame",             # Do later
 ]
+
+if not args.npc:
+    doNotConvert = doNotConvert + npcSkipClasses
+
+doNotConvert = doNotConvert + meshClasses
 
 def Skybox(obj, polyObject):
     polyObject.TopId = int(getResource(obj.get('SkyboxUp')))
@@ -852,11 +859,6 @@ def DoLighting(polyObject):
     polyObject.addChild(DoSunLight(SunLight()))
     return polyObject
 
-npcSkipClasses = [
-    "Shirt",
-    "Pants",
-    "Humanoid"
-]
 
 npcSkipNames = [
     "Head",
