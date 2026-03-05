@@ -22,6 +22,7 @@ class Instance:
             datatype = item[1]
             if not hasattr(self, item[0]):
                 continue
+            assert not getattr(self, item[0]) is None, f'{item[0]} of {self.className} is None'
             match item[1]:
                 case "boolean":
                     writer.writeBoolean(item[0], getattr(self, item[0]))
