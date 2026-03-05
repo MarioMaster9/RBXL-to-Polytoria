@@ -78,17 +78,19 @@ parser.add_argument('-n', '--npcs', action='store_true', help='Specify whether t
 
 args = parser.parse_args()
 
-try:
-    shutil.rmtree('scripts')
-except FileNotFoundError:
-    pass
-try:
-    shutil.rmtree('embedded')
-except FileNotFoundError:
-    pass
+def removeFolder(folder):
+    try:
+        shutil.rmtree(folder)
+    except FileNotFoundError:
+        pass
+
+removeFolder('scripts')
+removeFolder('embedded')
+removeFolder('out')
 
 os.mkdir('scripts')
 os.mkdir('embedded')
+os.mkdir('out')
 
 game = Game("1.4.155")
 
@@ -212,7 +214,7 @@ services = {}
 for child in placeRoot.children:
     services[child.className] = child
 sky = services['Lighting'].findFirstChildOfClass("Sky")
-writer = BufferedXMLWriter(f'{args.outfile}.poly')
+writer = BufferedXMLWriter(f'out/{args.outfile}.poly')
 
 def isValidCharacter(mdl):
     if mdl.className != 'Model':
