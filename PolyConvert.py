@@ -923,7 +923,7 @@ def HandleService(service):
     if service in services:
         HandleObject(services[service])
     else:
-        game.addChild(getConstructor(service))
+        game.addChild(getConstructor(service)())
 
 HandleService('Workspace')
 game.addChild(DoLighting(Lighting()))
