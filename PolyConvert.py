@@ -789,6 +789,9 @@ doNotConvert = [
     "UIGridLayout",
     "Highlight",
     "Fire",                       # Do later
+    "DialogChoice",
+    "Dialog",
+    "Smoke",                      # Do later
 ]
 
 def Skybox(obj, polyObject):
@@ -895,6 +898,7 @@ else:
 game.write(writer)
 
 writer.close()
+
 
 
 
