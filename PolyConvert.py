@@ -819,15 +819,18 @@ def Skybox(obj, polyObject):
     polyObject.BackId = int(getResource(obj.get('SkyboxBk')))
     return polyObject
 
+SECONDS_IN_MINUTE = 60
+
+SECONDS_IN_HOUR = SECONDS_IN_MINUTE * 60
+
 def getgametime():
     timeofday = services['Lighting'].get('TimeOfDay')
     hms = timeofday.split(":")
-    hours = int(hms[0])
+    hours   = int(hms[0])
     minutes = int(hms[1])
     seconds = int(hms[2])
     
-    _time = seconds + (minutes * 60) + (hours * 60 * 60)
-    return _time
+    return seconds + (minutes * SECONDS_IN_MINUTE) + (hours * SECONDS_IN_HOUR)
 
 def getSunRotation():
     para = LightingParameters(getgametime(), True, services['Lighting'].get('GeographicLatitude'))    
