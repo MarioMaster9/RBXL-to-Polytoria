@@ -45,6 +45,7 @@ from instances.LocalScript       import LocalScript
 from instances.MeshPart          import MeshPart
 from instances.Model             import Model
 from instances.ModuleScript      import ModuleScript
+from instances.NetworkEvent      import NetworkEvent
 from instances.NPC               import NPC
 from instances.NumberValue       import NumberValue
 from instances.Part              import Part
@@ -645,6 +646,10 @@ def HandleTextButton(obj, polyObject):
     polyObject.Interactable = obj.get('Active')
     HandleTextLabel(obj, polyObject)
 
+# used for instances that have no unique properties/don't need properties set
+def HandleBase(obj, polyObject):
+    pass
+
 constructors = {
     "BoolValue":      BoolValue,
     "ColorValue":     ColorValue,
@@ -657,6 +662,7 @@ constructors = {
     "MeshPart":       MeshPart,
     "Model":          Model,
     "ModuleScript":   ModuleScript,
+    "NetworkEvent":   NetworkEvent,
     "NPC":            NPC,
     "NumberValue":    NumberValue,
     "Part":           Part,
@@ -692,6 +698,7 @@ classHandlers = {
     "MeshPart":         HandleMeshPart,
     "Model":            HandleModel,
     "ModuleScript":     HandleScript,
+    "NetworkEvent":     HandleBase,
     "NumberValue":      HandleValue,
     "Part":             HandlePart,
     "PointLight":       HandlePointLight,
@@ -726,6 +733,7 @@ aliases = {
     "GuiMain":         "GUI",
     "ImageButton":     "UIImage",
     "ImageLabel":      "UIImage",
+    "RemoteEvent":     "NetworkEvent",
     "ScreenGui":       "GUI",
     "Script":          "ScriptInstance",
     "SpawnLocation":   "Part",
