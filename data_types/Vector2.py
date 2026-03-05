@@ -22,7 +22,7 @@ class Vector2:
             return Vector2(other * self.x, other * self.y)
         else:
             return Vector2(other.x * self.x, other.y * self.y)
-    def __div__(self, rkVector):
+    def __truediv__(self, rkVector):
         return Vector2(self.x / rkVector.x, self.y / rkVector.y)
     def add(self, other):
         self.x = self.x + other.x
@@ -33,4 +33,5 @@ class Vector2:
         y = float(elem.find("Y").text)
         return Vector2(x, y)
 Vector2.ZERO = Vector2(0, 0)
+
 Vector2.ONE = Vector2(1, 1)
