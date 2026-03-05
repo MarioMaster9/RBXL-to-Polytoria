@@ -744,6 +744,7 @@ classNames = {}
 for className, handler in classHandlers.items():
     classNames[className] = aliases.get(className, className)
 
+# this list acts sort of like a todo list
 doNotConvert = [
     "Timer",
     "ObjectValue",                # Do later
@@ -890,3 +891,4 @@ HandleObject(services['StarterGui'])
 game.write(writer)
 
 writer.close()
+
