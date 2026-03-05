@@ -667,6 +667,7 @@ constructors = {
     "PointLight":     PointLight,
     "ScriptInstance": ScriptInstance,
     "Seat":           Seat,
+    "ServerHidden":   ServerHidden,
     "Sound":          Sound,
     "Spotlight":      Spotlight,
     "StringValue":    StringValue,
@@ -702,6 +703,7 @@ classHandlers = {
     "ScreenGui":        HandleScreenGui,
     "Script":           HandleScript,
     "Seat":             HandlePart,
+    "ServerStorage":    HandleBase,
     "Sound":            HandleSound,
     "SpawnLocation":    HandlePart,
     "SpotLight":        HandleSpotlight,
@@ -733,6 +735,7 @@ aliases = {
     "RemoteEvent":     "NetworkEvent",
     "ScreenGui":       "GUI",
     "Script":          "ScriptInstance",
+    "ServerStorage":   "ServerHidden",
     "SpawnLocation":   "Part",
     "SpotLight":       "Spotlight",
     "StarterGui":      "PlayerGUI",
@@ -912,7 +915,7 @@ game.addChild(DoLighting(Lighting()))
 game.addChild(Players())
 game.addChild(ScriptService())
 game.addChild(Hidden())
-game.addChild(ServerHidden())
+HandleService('ServerStorage')
 game.addChild(PlayerDefaults())
 game.addChild(Backpack())
 HandleService('StarterGui')
