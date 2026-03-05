@@ -130,7 +130,7 @@ def getPartElasticity(obj):
 def getColor4(obj: TreeItem, propType: str):
     # color4 method, assuming that the format will always be propType followed by "Color3" for color, or propType followed by "Transparency" for transparency
     # Mainly used for GUI objects
-    return Color4.FromColor3(obj.get(propType + "Color3"), alpha(obj.get(propType + "Transparency")))
+    return Color4.FromColor3(obj.get(propType + "Color3", Color3.BLACK), alpha(obj.get(propType + "Transparency", 1)))
 
 @multimethod
 def getColor4(obj: TreeItem, color3: str, transparency: str):
@@ -645,10 +645,10 @@ def HandleTextButton(obj, polyObject):
     HandleTextLabel(obj, polyObject)
 
 def HandleTextBox(obj, polyObject):
-    polyObject.Placeholder = obj.get('PlaceholderText')
-    polyObject.PlaceholderColor = Color4.FromColor3(obj.get('PlaceholderColor3'))
+    polyObject.Placeholder = obj.get('PlaceholderText', '')
+    polyObject.PlaceholderColor = Color4.FromColor3(obj.get('PlaceholderColor3', Color3.BLACK))
     polyObject.IsMultiline = obj.get('MultiLine')
-    polyObject.IsReadOnly = not obj.get('TextEditable')
+    polyObject.IsReadOnly = not obj.get('TextEditable', True)
     HandleTextLabel(obj, polyObject)
 
 
