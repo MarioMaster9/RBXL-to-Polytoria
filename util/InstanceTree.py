@@ -48,6 +48,11 @@ getText = lambda x: x.text or ''
 
 # just return the element, used if the type is not fully implemented but may be required in the future
 basicDeserialize = lambda x: x
+
+def basicDeserialize_Report(x):
+    print(x.tag)
+    return x
+
 booleanDeserialize = lambda x: x.text=="true"
 floatDeserialize = lambda x: float(x.text)
 intDeserialize = lambda x: int(x.text)
@@ -96,12 +101,8 @@ class InstanceTree:
         for elem in propertyElem:
             if elem.tag in skippedTags:
                 continue
-            handler = xmlHandlers.get(elem.tag)
-            if handler is None:
-                print(elem.tag)
-                properties[elem.attrib['name']] = elem
-            else:
-                properties[elem.attrib['name']] = handler(elem)
+            handler = xmlHandlers.get(elem.tag, basicDeserialize_Report)
+            properties[elem.attrib['name']] = handler(elem)
         return properties
     @staticmethod
     def CreateRoot(elem):
