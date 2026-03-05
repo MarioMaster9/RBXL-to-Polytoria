@@ -784,6 +784,16 @@ def ModelModifier(obj):
             return 'NPC'
     return 'Model'
 
+def PartModifier(obj):
+    mesh = getAppliedMeshInfo(obj)
+    if not mesh.exists:
+        return "Part"
+    if mesh.type != "FileMesh":
+        return "Part"
+    if mesh.id.url in meshIdMap:
+        return "Part"
+    obj.set("MeshId", mesh.id)
+    return "MeshPart"
 
 objectmodifiers = {
     "Model": ModelModifier,
