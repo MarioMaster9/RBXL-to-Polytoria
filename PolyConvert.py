@@ -533,10 +533,13 @@ def HandleAttachment(obj, polyObject):
     
 
 def HandleWorkspace(obj, polyObject):
+    polyObject.addChild(Camera())
     polyObject.FogEnabled = services['Lighting'].has('FogStart')
     polyObject.FogStartDistance = services['Lighting'].get('FogStart', 0)
     polyObject.FogEndDistance = services['Lighting'].get('FogEnd', 0)
     polyObject.FogColor = Color4.FromColor3(services['Lighting'].get('FogColor', Color3.WHITE))
+    if not sky is None:
+        polyObject.addChild(Skybox(sky, ImageSky()))
 
 def HandleScreenGui(obj, polyObject):
     polyObject.Visible = obj.get('Enabled', True)
@@ -903,8 +906,6 @@ def HandleObject(obj, parent=game):
         handler(obj, polyObject)
     else:
         print(f"UNSUPPORTED: {className}")
-    if className == 'Workspace':
-        polyObject.addChild(Camera())
     if className == 'NPC':
         for child in obj.children:
             if child.className in npcSkipClasses:
@@ -915,9 +916,6 @@ def HandleObject(obj, parent=game):
     else:
         for child in obj.children:
             HandleObject(child, polyObject)
-    if className == 'Workspace':
-        if not sky is None:
-            polyObject.addChild(Skybox(sky, ImageSky()))
 
 def HandleService(service):
     if service in services:
