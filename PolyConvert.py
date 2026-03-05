@@ -290,9 +290,6 @@ def HandleValue(obj, polyObject):
 def HandleColorValue(obj, polyObject):
     polyObject.Value = Color4.FromColor3(obj.get('Value'))
 
-def HandleFolder(obj, polyObject):
-    pass
-
 cylinderEuler    = Vector3(  0, 0, 90) # Regular cylinders in polytoria face up
 wedgeEuler       = Vector3( 90, 0,  0) # Wedges are mirrored i think
 cornerWedgeEuler = Vector3(-90, 0,  0)
@@ -540,8 +537,6 @@ def HandleWorkspace(obj, polyObject):
     polyObject.FogEndDistance = services['Lighting'].get('FogEnd', 0)
     polyObject.FogColor = Color4.FromColor3(services['Lighting'].get('FogColor', Color3.WHITE))
 
-def HandleStarterGui(obj, polyObject):
-    pass
 def HandleScreenGui(obj, polyObject):
     polyObject.Visible = obj.get('Enabled', True)
 def HandleFrame(obj, polyObject):
@@ -690,7 +685,7 @@ classHandlers = {
     "Color3Value":      HandleColorValue,
     "CornerWedgePart":  HandlePart,
     "Decal":            HandleDecal,
-    "Folder":           HandleFolder,
+    "Folder":           HandleBase,
     "Frame":            HandleFrame,
     "GuiMain":          HandleScreenGui,
     "ImageButton":      HandleImageLabel,
@@ -710,7 +705,7 @@ classHandlers = {
     "Sound":            HandleSound,
     "SpawnLocation":    HandlePart,
     "SpotLight":        HandleSpotlight,
-    "StarterGui":       HandleStarterGui,
+    "StarterGui":       HandleBase,
     "StockSound":       HandleSound,
     "StringValue":      HandleValue,
     "TextButton":       HandleTextButton,
