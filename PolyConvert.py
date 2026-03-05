@@ -627,7 +627,7 @@ def HandleTextLabel(obj, polyObject):
     fontSize /= FONT_SCALE
     polyObject.FontSize = fontSize
     polyObject.MaxFontSize = fontSize
-    polyObject.AutoSize = obj.get('TextScaled')
+    polyObject.AutoSize = obj.get('TextScaled', False)
     font = obj.get('FontFace', FontFace.FromEnum(obj.get('Font')))
     match font.weight:
         case Enum.FontWeight.Bold:
@@ -894,5 +894,6 @@ else:
 game.write(writer)
 
 writer.close()
+
 
 
