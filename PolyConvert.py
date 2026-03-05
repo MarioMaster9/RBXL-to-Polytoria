@@ -787,7 +787,8 @@ doNotConvert = [
     "HopperBin",                  # Do later
     "ViewportFrame",              # Do later
     "UIGridLayout",
-    "Highlight"
+    "Highlight",
+    "Fire",                       # Do later
 ]
 
 def Skybox(obj, polyObject):
@@ -894,6 +895,7 @@ else:
 game.write(writer)
 
 writer.close()
+
 
 
 
