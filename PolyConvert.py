@@ -548,7 +548,7 @@ def HandleFrame(obj, polyObject):
     HandleUIField(obj, polyObject)
 
 def fixUIPosition(position):
-    # seems to work for WTTTOR, not fully tested
+    # seems to work for WTTTOR and NDS, may not work for other places
     position.scale.y = 1-position.scale.y
     position.offset.y = -position.offset.y
 
@@ -900,6 +900,7 @@ else:
 game.write(writer)
 
 writer.close()
+
 
 
 
