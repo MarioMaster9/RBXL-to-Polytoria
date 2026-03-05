@@ -340,7 +340,8 @@ shapeClassMap = {
 meshClasses = [
     'SpecialMesh',
     'CylinderMesh',
-    'BlockMesh'
+    'BlockMesh',
+    'FileMesh'
 ]
 
 def getExtraPartInfo(obj):
