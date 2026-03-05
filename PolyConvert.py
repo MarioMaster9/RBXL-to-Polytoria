@@ -695,6 +695,7 @@ classHandlers = {
     "Attachment":       HandleAttachment,
     "BoolValue":        HandleValue,
     "Color3Value":      HandleColorValue,
+    "Configuration":    HandleBase,
     "CornerWedgePart":  HandlePart,
     "Decal":            HandleDecal,
     "Folder":           HandleBase,
@@ -739,6 +740,7 @@ aliases = {
     "Accessory":       "Model",
     "Attachment":      "Model",
     "Color3Value":     "ColorValue",
+    "Configuration":   "Folder",
     "CornerWedgePart": "Part",
     "Frame":           "UIView",
     "GuiMain":         "GUI",
@@ -936,11 +938,3 @@ HandleService('StarterGui')
 game.write(writer)
 
 writer.close()
-
-
-
-
-
-
-
-
