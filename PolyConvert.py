@@ -823,7 +823,7 @@ doNotConvert = [
     "ScrollingFrame",             # Do later
 ]
 
-if not args.npc:
+if not args.npcs:
     doNotConvert = doNotConvert + npcSkipClasses
 
 doNotConvert = doNotConvert + meshClasses
