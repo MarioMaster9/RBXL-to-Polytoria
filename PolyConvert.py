@@ -804,6 +804,10 @@ doNotConvert = [
     "DialogChoice",
     "Dialog",
     "Smoke",                      # Do later
+    "RemoteFunction",
+    "Backpack",                   # Do later
+    "Animation",                  # Do later
+    "ScrollingFrame",             # Do later
 ]
 
 def Skybox(obj, polyObject):
@@ -860,6 +864,9 @@ npcSkipNames = [
     "Right Leg"
 ]
 
+def getConstructor(className):
+    return constructors[classNames[className]]
+
 def HandleObject(obj, parent=game):
     className = obj.className
     if className in doNotConvert:
@@ -870,7 +877,7 @@ def HandleObject(obj, parent=game):
             if isValidCharacter(obj):
                 className = 'NPC'
         handler = classHandlers[className]        
-        polyObject = constructors[classNames[className]]()
+        polyObject = getConstructor(className)()
         polyObject.parent = parent
         if not hasattr(polyObject, "Name"):
             polyObject.Name = obj.get('Name')
@@ -894,7 +901,13 @@ def HandleObject(obj, parent=game):
         if not sky is None:
             polyObject.addChild(Skybox(sky, ImageSky()))
 
-HandleObject(services['Workspace'])
+def HandleService(service):
+    if service in services:
+        HandleObject(services[service])
+    else:
+        game.addChild(getConstructor(service))
+
+HandleService('Workspace')
 game.addChild(DoLighting(Lighting()))
 game.addChild(Players())
 game.addChild(ScriptService())
@@ -902,10 +915,7 @@ game.addChild(Hidden())
 game.addChild(ServerHidden())
 game.addChild(PlayerDefaults())
 game.addChild(Backpack())
-if 'StarterGui' in services:
-    HandleObject(services['StarterGui'])
-else:
-    game.addChild(PlayerGUI())
+HandleService('StarterGui')
 
 game.write(writer)
 
