@@ -10,7 +10,9 @@ import config
 import util.extmath as extmath
 from data_types.Color3           import Color3
 from data_types.Color4           import Color4
+from data_types.Content          import Content
 from data_types.CoordinateFrame  import CoordinateFrame
+from data_types.MeshInfo         import MeshInfo
 from data_types.FontFace         import FontFace
 from data_types.Vector2          import Vector2
 from data_types.Vector3          import Vector3
@@ -783,6 +785,24 @@ def ModelModifier(obj):
         if isValidCharacter(obj):
             return 'NPC'
     return 'Model'
+
+def getAppliedMeshInfo(obj):
+    for child in reversed(obj.children):
+        if not child.className in meshClasses:
+            continue
+        match child.className:
+            case 'SpecialMesh':
+                meshType = child.get('MeshType')
+                if meshType != Enum.MeshType.FileMesh:
+                    return MeshInfo.EMPTY
+                return MeshInfo("FileMesh", child.get('MeshId'))
+            case 'FileMesh':
+                return MeshInfo("FileMesh", child.get('MeshId'))
+            case 'CylinderMesh':
+                return MeshInfo("CylinderMesh", Content.EMPTY)
+            case 'BlockMesh':
+                return MeshInfo("BlockMesh", Content.EMPTY)
+    return MeshInfo.EMPTY
 
 def PartModifier(obj):
     mesh = getAppliedMeshInfo(obj)

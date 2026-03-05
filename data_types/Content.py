@@ -26,13 +26,13 @@ class Content:
     def FromXML(elem):
         if len(elem) == 0:
             print("MALFORMED CONTENT TAG!")
-            return Content("")
+            return Content.EMPTY
         childElem = elem[0]
         match childElem.tag:
             case "url":
                 return Content(childElem.text)
             case "null":
-                return Content("")
+                return Content.EMPTY
             case "binary":
                 data = base64.b64decode(childElem.text)
                 ext = ''
@@ -54,3 +54,4 @@ class Content:
                 return Content("hash://" + childElem.text)
             case _:
                 return Content("MALFORMED" + childElem.tag)
+Content.EMPTY = Content("")
