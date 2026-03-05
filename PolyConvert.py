@@ -778,15 +778,15 @@ npcSkipClasses = [
     "Humanoid"
 ]
 
-def ModelClassName(obj):
+def ModelModifier(obj):
     if args.npcs:
         if isValidCharacter(obj):
             return 'NPC'
     return 'Model'
 
 
-classNameFuncs = {
-    "Model": ModelClassName,
+objectmodifiers = {
+    "Model": ModelModifier,
 }
 
 # this list acts sort of like a todo list
@@ -905,7 +905,7 @@ def HandleObject(obj, parent=game):
         return
     polyObject = None
     if className in classHandlers:
-        className = classNameFuncs.get(className, lambda x: x.className)(obj)
+        className = objectmodifiers.get(className, lambda x: x.className)(obj)
         handler = classHandlers[className]        
         polyObject = getConstructor(className)()
         polyObject.parent = parent
