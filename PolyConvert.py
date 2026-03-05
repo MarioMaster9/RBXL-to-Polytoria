@@ -560,7 +560,7 @@ def HandleUIField(obj, polyObject):
     polyObject.SizeOffset = size.offset
     polyObject.SizeRelative = size.scale
     polyObject.Visible = obj.get('Visible')
-    polyObject.ClipDescendants = obj.get('ClipsDescendants')
+    polyObject.ClipDescendants = obj.get('ClipsDescendants', False)
 
 def HandleImageLabel(obj, polyObject):
     opacity = alpha(obj.get('ImageTransparency', 0))
