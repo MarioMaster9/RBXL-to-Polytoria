@@ -984,7 +984,6 @@ game.addChild(Hidden())
 HandleService('ServerStorage')
 game.addChild(PlayerDefaults())
 HandleService('StarterPack')
-game.addChild(Backpack())
 HandleService('StarterGui')
 
 game.write(writer)
