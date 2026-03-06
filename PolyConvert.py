@@ -1040,20 +1040,9 @@ storageLighting = Folder()
 storageLighting.Name = 'Storage from lighting'
 hidden.addChild(storageLighting)
 
-importantLighting = [
-    'ImageSky',
-    'SunLight'
-]
+lighting = game.findService('Lighting')
 
-children = []
-
-for child in game.findService('Lighting').children:
-    if child.className in importantLighting:
-        continue
-    children.append(child)
-
-for child in children:
-    child.move(storageLighting)
+lighting.moveChildren(storageLighting, ['ImageSky', 'SunLight'])
 
 game.write(writer)
 

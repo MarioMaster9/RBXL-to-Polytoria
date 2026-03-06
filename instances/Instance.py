@@ -23,6 +23,15 @@ class Instance:
             if child.className == classToFind:
                 return child
         return None
+    def moveChildren(self, newParent, ignoreList):
+        children = []
+        for child in self.children:
+            if child.className in ignoreList:
+                continue
+            children.append(child)
+        
+        for child in children:
+            child.move(newParent)
     def addChild(self, obj):
         obj.parent = self
         self.children.append(obj)
