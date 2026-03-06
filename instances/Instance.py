@@ -14,8 +14,21 @@ class Instance:
             self.serializationProperties = properties + self.serializationProperties
         else:
             self.serializationProperties = properties
+    def get(self, prop, default=None):
+        if not hasattr(self, prop):
+            return default
+        return getattr(self, prop)
+    def findFirstChildOfClass(self, classToFind):
+        for child in self.children:
+            if child.className == classToFind:
+                return child
+        return None
     def addChild(self, obj):
+        obj.parent = self
         self.children.append(obj)
+    def move(self, newParent):
+        self.parent.children.remove(self)
+        newParent.addChild(self)
     def serializeNew(self, writer):
         for item in self.serializationProperties:
             propName = item[0]

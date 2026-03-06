@@ -549,8 +549,6 @@ def HandleWorkspace(obj, polyObject):
     polyObject.FogStartDistance = services['Lighting'].get('FogStart', 0)
     polyObject.FogEndDistance = services['Lighting'].get('FogEnd', 0)
     polyObject.FogColor = Color4.FromColor3(services['Lighting'].get('FogColor', Color3.WHITE))
-    if not sky is None:
-        polyObject.addChild(Skybox(sky, ImageSky()))
 
 def HandleScreenGui(obj, polyObject):
     polyObject.Visible = obj.get('Enabled', True)
@@ -668,6 +666,45 @@ def HandleTextBox(obj, polyObject):
 def HandleTool(obj, polyObject):
     polyObject.Droppable = obj.get('CanBeDropped', True)
 
+def HandleSky(obj, polyObject):
+    polyObject.TopId = int(getResource(obj.get('SkyboxUp')))
+    polyObject.BottomId = int(getResource(obj.get('SkyboxDn')))
+    polyObject.LeftId = int(getResource(obj.get('SkyboxLf')))
+    polyObject.RightId = int(getResource(obj.get('SkyboxRt')))
+    polyObject.FrontId = int(getResource(obj.get('SkyboxFt')))
+    polyObject.BackId = int(getResource(obj.get('SkyboxBk')))
+
+SECONDS_IN_MINUTE = 60
+
+SECONDS_IN_HOUR = SECONDS_IN_MINUTE * 60
+
+def getgametime():
+    timeofday = services['Lighting'].get('TimeOfDay')
+    hms = timeofday.split(":")
+    hours   = int(hms[0])
+    minutes = int(hms[1])
+    seconds = int(hms[2])
+    
+    return seconds + (minutes * SECONDS_IN_MINUTE) + (hours * SECONDS_IN_HOUR)
+
+def getSunRotation():
+    para = LightingParameters(getgametime(), True, services['Lighting'].get('GeographicLatitude'))    
+    cf = CoordinateFrame.CreateEmpty()
+    cf.lookAt(para.lightDirection, Vector3.unitY)
+    
+    return cf.rotation
+
+defaultSunColor = Color3(255/255, 244/255, 214/255)
+
+def DoSunLight(polyObject):
+    polyObject.Brightness = services['Lighting'].get('Brightness')
+    polyObject.Color = Color4.FromColor3(services['Lighting'].get('OutdoorAmbient', defaultSunColor))
+    polyObject.Rotation = fixRotation(getSunRotation())
+    return polyObject
+
+def HandleLighting(obj, polyObject):
+    polyObject.AmbientColor = Color4.FromColor3(obj.get('Ambient'))
+    polyObject.addChild(DoSunLight(SunLight()))
 
 # used for instances that have no unique properties/don't need properties set
 def HandleBase(obj, polyObject):
@@ -681,7 +718,9 @@ constructors = {
     "Environment":    Environment,
     "Folder":         Folder,
     "GUI":            GUI,
+    "ImageSky":       ImageSky,
     "IntValue":       IntValue,
+    "Lighting":       Lighting,
     "LocalScript":    LocalScript,
     "MeshPart":       MeshPart,
     "Model":          Model,
@@ -723,6 +762,7 @@ classHandlers = {
     "ImageButton":      HandleImageLabel,
     "ImageLabel":       HandleImageLabel,
     "IntValue":         HandleValue,
+    "Lighting":         HandleLighting,
     "LocalScript":      HandleScript,
     "MeshPart":         HandleMeshPart,
     "Model":            HandleModel,
@@ -735,6 +775,7 @@ classHandlers = {
     "Script":           HandleScript,
     "Seat":             HandlePart,
     "ServerStorage":    HandleBase,
+    "Sky":              HandleSky,
     "Sound":            HandleSound,
     "SpawnLocation":    HandlePart,
     "SpotLight":        HandleSpotlight,
@@ -772,6 +813,7 @@ aliases = {
     "ScreenGui":       "GUI",
     "Script":          "ScriptInstance",
     "ServerStorage":   "ServerHidden",
+    "Sky":             "ImageSky",
     "SpawnLocation":   "Part",
     "SpotLight":       "Spotlight",
     "StarterGui":      "PlayerGUI",
@@ -937,48 +979,6 @@ if not args.npcs:
 
 doNotConvert = doNotConvert + meshClasses
 
-def Skybox(obj, polyObject):
-    polyObject.TopId = int(getResource(obj.get('SkyboxUp')))
-    polyObject.BottomId = int(getResource(obj.get('SkyboxDn')))
-    polyObject.LeftId = int(getResource(obj.get('SkyboxLf')))
-    polyObject.RightId = int(getResource(obj.get('SkyboxRt')))
-    polyObject.FrontId = int(getResource(obj.get('SkyboxFt')))
-    polyObject.BackId = int(getResource(obj.get('SkyboxBk')))
-    return polyObject
-
-SECONDS_IN_MINUTE = 60
-
-SECONDS_IN_HOUR = SECONDS_IN_MINUTE * 60
-
-def getgametime():
-    timeofday = services['Lighting'].get('TimeOfDay')
-    hms = timeofday.split(":")
-    hours   = int(hms[0])
-    minutes = int(hms[1])
-    seconds = int(hms[2])
-    
-    return seconds + (minutes * SECONDS_IN_MINUTE) + (hours * SECONDS_IN_HOUR)
-
-def getSunRotation():
-    para = LightingParameters(getgametime(), True, services['Lighting'].get('GeographicLatitude'))    
-    cf = CoordinateFrame.CreateEmpty()
-    cf.lookAt(para.lightDirection, Vector3.unitY)
-    
-    return cf.rotation
-
-defaultSunColor = Color3(255/255, 244/255, 214/255)
-
-def DoSunLight(polyObject):
-    polyObject.Brightness = services['Lighting'].get('Brightness')
-    polyObject.Color = Color4.FromColor3(services['Lighting'].get('OutdoorAmbient', defaultSunColor))
-    polyObject.Rotation = fixRotation(getSunRotation())
-    return polyObject
-
-def DoLighting(polyObject):
-    polyObject.AmbientColor = Color4.FromColor3(services['Lighting'].get('Ambient'))
-    polyObject.addChild(DoSunLight(SunLight()))
-    return polyObject
-
 
 limbs = [
     "Head",
@@ -1001,9 +1001,7 @@ def HandleObject(obj, parent=game):
         className = objectmodifiers.get(className, lambda x: x.className)(obj)
         handler = classHandlers[className]        
         polyObject = getConstructor(className)()
-        polyObject.parent = parent
-        if not hasattr(polyObject, "Name"):
-            polyObject.Name = obj.get('Name')
+        polyObject.Name = polyObject.get('Name', obj.get('Name'))
         parent.addChild(polyObject)
         handler(obj, polyObject)
     else:
@@ -1026,7 +1024,7 @@ def HandleService(service):
         game.addChild(getConstructor(service)())
 
 HandleService('Workspace')
-game.addChild(DoLighting(Lighting()))
+HandleService('Lighting')
 game.addChild(Players())
 game.addChild(ScriptService())
 game.addChild(Hidden())
@@ -1034,6 +1032,22 @@ HandleService('ServerStorage')
 game.addChild(PlayerDefaults())
 HandleService('StarterPack')
 HandleService('StarterGui')
+
+# lighting storage
+hidden = game.findService('Hidden')
+
+storageLighting = Folder()
+storageLighting.Name = 'Storage from lighting'
+hidden.addChild(storageLighting)
+
+importantLighting = [
+    'ImageSky',
+    'SunLight'
+]
+for child in game.findService('Lighting').children:
+    if child.className in importantLighting:
+        continue
+    child.move(storageLighting)
 
 game.write(writer)
 
