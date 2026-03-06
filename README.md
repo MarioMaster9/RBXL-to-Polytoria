@@ -24,7 +24,8 @@ Next, rename it to whatever you want. After this, open the file in whatever text
 
 Heres a guide for how it should be structured. I added example data to help.
 
-```{
+```javascript
+{
     "assets": {
         "assetId1": "replacement1",
         "assetId2": "replacement2",
@@ -38,4 +39,5 @@ Heres a guide for how it should be structured. I added example data to help.
         "hash2": "script2",
         "hash3": "script3",
     }
-}```
+}
+```
