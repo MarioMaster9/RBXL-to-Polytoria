@@ -789,7 +789,7 @@ classNames = {}
 for className, handler in classHandlers.items():
     classNames[className] = aliases.get(className, className)
 
-npcSkipClasses = [
+charItems = [
     "Shirt",
     "Pants",
     "Humanoid"
@@ -805,18 +805,21 @@ def getAppliedMeshInfo(obj):
     for child in reversed(obj.children):
         if not child.className in meshClasses:
             continue
+        offset = child.get('Offset')
+        scale = child.get('Scale')
+        vertexColor = child.get('VertexColor', Vector3.ONE)
         match child.className:
             case 'SpecialMesh':
                 meshType = child.get('MeshType')
                 if meshType != Enum.MeshType.FileMesh:
                     return MeshInfo.EMPTY
-                return MeshInfo("FileMesh", child.get('MeshId'))
+                return MeshInfo("FileMesh",     child.get('MeshId'), offset, scale, vertexColor)
             case 'FileMesh':
-                return MeshInfo("FileMesh", child.get('MeshId'))
+                return MeshInfo("FileMesh",     child.get('MeshId'), offset, scale, vertexColor)
             case 'CylinderMesh':
-                return MeshInfo("CylinderMesh", Content.EMPTY)
+                return MeshInfo("CylinderMesh", Content.EMPTY,       offset, scale, vertexColor)
             case 'BlockMesh':
-                return MeshInfo("BlockMesh", Content.EMPTY)
+                return MeshInfo("BlockMesh",    Content.EMPTY,       offset, scale, vertexColor)
     return MeshInfo.EMPTY
 
 def PartModifier(obj):
@@ -884,7 +887,7 @@ doNotConvert = [
 ]
 
 if not args.npcs:
-    doNotConvert = doNotConvert + npcSkipClasses
+    doNotConvert = doNotConvert + charItems
 
 doNotConvert = doNotConvert + meshClasses
 
@@ -961,7 +964,7 @@ def HandleObject(obj, parent=game):
         print(f"UNSUPPORTED: {className}")
     if className == 'NPC':
         for child in obj.children:
-            if child.className in npcSkipClasses:
+            if child.className in charItems:
                 continue
             if child.get('Name') in limbs:
                 continue
