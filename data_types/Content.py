@@ -1,4 +1,5 @@
 import base64
+import re
 import util.hashfuncs as hashfuncs
 import hashlib
 import io
@@ -17,10 +18,28 @@ magic = {
     b'version 1.00': "mesh"
 }
 
+idMatcher = re.compile(r'id=([0-9]+)')
+
 class Content:
     def __init__(self, url):
         self.url = url
+        self.identifier
     def __str__(self):
+        return self.url
+    def isPrefix(self, prefix):
+        return self.url.startswith(prefix)
+    @property
+    def identifier(self):
+        if self.isPrefix('rbxassetid://'):
+            return self.url[13:]
+        if self.isPrefix('http://'):
+            result = idMatcher.search(self.url)
+            if result is None:
+                return self.url
+            else:
+                return result.group(1)
+        if self.isPrefix('hash://'):
+            return self.url[7:]
         return self.url
     @staticmethod
     def FromXML(elem):

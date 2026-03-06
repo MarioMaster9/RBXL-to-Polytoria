@@ -1,4 +1,7 @@
 from multimethod import multimethod
+import json
+from json.decoder import JSONDecodeError
+
 import shutil
 import xml.etree.ElementTree as ET
 import math
@@ -6,7 +9,6 @@ import util.hashfuncs as hashfuncs
 import argparse
 import os
 
-import config
 import util.extmath as extmath
 from data_types.Color3           import Color3
 from data_types.Color4           import Color4
@@ -79,14 +81,30 @@ parser = argparse.ArgumentParser(
 parser.add_argument('filename')
 parser.add_argument('-o', '--outfile', default='final', help='File to output (without extension)')
 parser.add_argument('-n', '--npcs', action='store_true', help='Specify whether to convert NPCs or not')
+parser.add_argument('-c', '--config', help='Configuration file (see: config-template.json)')
+
+config_assets = {}
+config_scriptNames = {}
 
 args = parser.parse_args()
+
+if not args.config is None:
+    try:
+        with open(args.config, 'r') as f:
+            data = json.load(f)
+            config_assets = data['assets']
+            config_scriptNames = data['scriptNames']
+    except FileNotFoundError:
+        print(f'Configuration file {args.config} not found! Proceeding without configuration')
+    except JSONDecodeError:
+        print(f'Configuration file {args.config} malformed! Proceeding without configuration')
 
 def removeFolder(folder):
     try:
         shutil.rmtree(folder)
     except FileNotFoundError:
         pass
+
 
 removeFolder('scripts')
 removeFolder('embedded')
@@ -180,16 +198,16 @@ materialLookup = {
 missingAssets = []
 
 def getResource(res):
-    if res.url in missingAssets:
+    if res.identifier in missingAssets:
         return "0"
     resId = "0"
-    if res.url == "":
+    if res.identifier == "":
         return resId
-    if res.url in config.assets:
-        resId = config.assets[res.url]
+    if res.identifier in config_assets:
+        resId = config_assets[res.identifier]
     else:
-        print("MISSING ASSET: " + res.url)
-        missingAssets.append(res.url)
+        print("MISSING ASSET: " + res.identifier)
+        missingAssets.append(res.identifier)
     return resId
 
 # None is defined here so that i don't have to have an extra if statement for getting the replacement script source
@@ -197,7 +215,7 @@ scriptSources = {
     None: ""
 }
 
-for _, name in config.scriptNames.items():
+for _, name in config_scriptNames.items():
     with open(f"replacements/{name}.lua", "r") as f:
         scriptSources[name] = f.read()
 
@@ -206,7 +224,7 @@ def saveScript(source, sourceHash):
         f.write(source.encode('utf-8'))
 
 def getScriptSource(scriptHash):
-    return scriptSources[config.scriptNames.get(scriptHash)]
+    return scriptSources[config_scriptNames.get(scriptHash)]
 
 tree = ET.parse(args.filename)
 root = tree.getroot()
@@ -345,7 +363,7 @@ meshClasses = [
 ]
 
 meshIdMap = {
-    "http://www.roblox.com/asset/?id=1033714": {"shape": PartShape.Cone, "scale": strawHatScale}
+    "1033714": {"shape": PartShape.Cone, "scale": strawHatScale}
 }
 
 def getExtraPartInfo(obj):
@@ -359,7 +377,7 @@ def getExtraPartInfo(obj):
             case 'SpecialMesh':
                 conf = meshTypeMap[child.get('MeshType')]
                 shape = conf['shape']
-                if child.get('MeshId').url == "http://www.roblox.com/asset/?id=1033714":
+                if child.get('MeshId').identifier == "1033714":
                     shape = PartShape.Cone
                     scale = strawHatScale * scale
                 return shape, conf['alias'], offset, scale, vertexColor
@@ -917,17 +935,24 @@ def getAppliedMeshInfo(obj):
         shape = partPhysicalShapes[obj.get('shape', Enum.PartType.Block)]
     return MeshInfo(shape, uri, offset, scale, vertexColor)
 
+
+importantDerivedParts = [
+    'TrussPart',
+    'Seat',
+    'VehicleSeat'
+]
+
 def PartModifier(obj):
     classname = "Part"
-    if obj.className == "TrussPart":
-        classname = "TrussPart"
+    if obj.className in importantDerivedParts:
+        classname = obj.className
     mesh = getAppliedMeshInfo(obj)
     obj.setcustom('meshInfo', mesh)
     if not mesh.exists:
         return classname
     if mesh.type != "FileMesh":
         return classname
-    if mesh.id.url in meshIdMap:
+    if mesh.id.identifier in meshIdMap:
         return classname
     obj.set("MeshId", mesh.id)
     return "MeshPart"
@@ -935,6 +960,8 @@ def PartModifier(obj):
 objectmodifiers = {
     "Model": ModelModifier,
     "Part": PartModifier,
+    "Seat": PartModifier,
+    "VehicleSeat": PartModifier,
     "WedgePart": PartModifier,
     "MeshPart": PartModifier,
     "CornerWedgePart": PartModifier,
