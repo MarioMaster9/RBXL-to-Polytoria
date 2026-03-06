@@ -671,6 +671,7 @@ def HandleBase(obj, polyObject):
     pass
 
 constructors = {
+    "Backpack":       Backpack,
     "BoolValue":      BoolValue,
     "ColorValue":     ColorValue,
     "Decal":          Decal,
@@ -735,6 +736,7 @@ classHandlers = {
     "SpawnLocation":    HandlePart,
     "SpotLight":        HandleSpotlight,
     "StarterGui":       HandleBase,
+    "StarterPack":      HandleBase,
     "StockSound":       HandleSound,
     "StringValue":      HandleValue,
     "TextBox":          HandleTextBox,
@@ -770,6 +772,7 @@ aliases = {
     "SpawnLocation":   "Part",
     "SpotLight":       "Spotlight",
     "StarterGui":      "PlayerGUI",
+    "StarterPack":     "Backpack",
     "StockSound":      "Sound",
     "TextBox":         "UITextInput",
     "TextButton":      "UIButton",
@@ -980,6 +983,7 @@ game.addChild(ScriptService())
 game.addChild(Hidden())
 HandleService('ServerStorage')
 game.addChild(PlayerDefaults())
+HandleService('StarterPack')
 game.addChild(Backpack())
 HandleService('StarterGui')
 
