@@ -217,7 +217,6 @@ InstanceTree.BuildTree(root, placeRoot)
 services = {}
 for child in placeRoot.children:
     services[child.className] = child
-sky = services['Lighting'].findFirstChildOfClass("Sky")
 writer = BufferedXMLWriter(f'out/{args.outfile}.poly')
 
 def isValidCharacter(mdl):
