@@ -309,13 +309,13 @@ aliasTransforms = {
 }
 
 meshTypeMap = {
-    Enum.MeshType.Head:     {"alias": "UpCylinder", "shape": PartShape.Cylinder},
-    Enum.MeshType.Torso:    {"alias": "Block",      "shape": PartShape.Brick},
-    Enum.MeshType.Wedge:    {"alias": "Wedge",      "shape": PartShape.Wedge},
-    Enum.MeshType.Sphere:   {"alias": "BallMesh",   "shape": PartShape.Ball},
-    Enum.MeshType.Cylinder: {"alias": "Cylinder",   "shape": PartShape.Cylinder},
-    Enum.MeshType.FileMesh: {"alias": "FileMesh",   "shape": PartShape.Brick},
-    Enum.MeshType.Brick:    {"alias": "Block",      "shape": PartShape.Brick},
+    Enum.MeshType.Head:     {"alias": "UpCylinder",   "shape": PartShape.Cylinder},
+    Enum.MeshType.Torso:    {"alias": "Block",        "shape": PartShape.Brick},
+    Enum.MeshType.Wedge:    {"alias": "Wedge",        "shape": PartShape.Wedge},
+    Enum.MeshType.Sphere:   {"alias": "SphereMesh",   "shape": PartShape.Ball},
+    Enum.MeshType.Cylinder: {"alias": "Cylinder",     "shape": PartShape.Cylinder},
+    Enum.MeshType.FileMesh: {"alias": "FileMesh",     "shape": PartShape.Brick},
+    Enum.MeshType.Brick:    {"alias": "Block",        "shape": PartShape.Brick},
 }
 
 partTypeMap = {
@@ -813,27 +813,27 @@ def getAppliedMeshInfo(obj):
                 meshType = child.get('MeshType')
                 match meshType:
                     case Enum.MeshType.Head:
-                        return MeshInfo("CylinderMesh", Content.EMPTY,       offset, scale, vertexColor)
+                        return MeshInfo("UpCylinder",   Content.EMPTY,       offset, scale, vertexColor)
                     case Enum.MeshType.Torso:
-                        return MeshInfo("BlockMesh",    Content.EMPTY,       offset, scale, vertexColor)
+                        return MeshInfo("Block",        Content.EMPTY,       offset, scale, vertexColor)
                     case Enum.MeshType.Wedge:
                         return MeshInfo("Wedge",        Content.EMPTY,       offset, scale, vertexColor)
                     case Enum.MeshType.Sphere:
-                        return MeshInfo("Sphere",       Content.EMPTY,       offset, scale, vertexColor)
+                        return MeshInfo("SphereMesh",   Content.EMPTY,       offset, scale, vertexColor)
                     case Enum.MeshType.Cylinder:
                         return MeshInfo("Cylinder",     Content.EMPTY,       offset, scale, vertexColor)
                     case Enum.MeshType.FileMesh:
                         return MeshInfo("FileMesh",     child.get('MeshId'), offset, scale, vertexColor)
                     case Enum.MeshType.Brick:
-                        return MeshInfo("BlockMesh",    Content.EMPTY,       offset, scale, vertexColor)
+                        return MeshInfo("Block",        Content.EMPTY,       offset, scale, vertexColor)
                     case _:
                         return MeshInfo.EMPTY
             case 'FileMesh':
                 return MeshInfo("FileMesh",     child.get('MeshId'), offset, scale, vertexColor)
             case 'CylinderMesh':
-                return MeshInfo("CylinderMesh", Content.EMPTY,       offset, scale, vertexColor)
+                return MeshInfo("UpCylinder",   Content.EMPTY,       offset, scale, vertexColor)
             case 'BlockMesh':
-                return MeshInfo("BlockMesh",    Content.EMPTY,       offset, scale, vertexColor)
+                return MeshInfo("Block",        Content.EMPTY,       offset, scale, vertexColor)
     return MeshInfo.EMPTY
 
 def PartModifier(obj):
