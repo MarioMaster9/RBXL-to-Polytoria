@@ -344,6 +344,10 @@ meshClasses = [
     'FileMesh'
 ]
 
+meshIdMap = {
+    "http://www.roblox.com/asset/?id=1033714": {"shape": PartShape.Cone, "scale": strawHatScale}
+}
+
 def getExtraPartInfo(obj):
     for child in obj.children:
         if not child.className in meshClasses:

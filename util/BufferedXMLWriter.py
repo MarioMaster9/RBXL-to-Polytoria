@@ -59,5 +59,4 @@ class BufferedXMLWriter:
     def writeNumberRange(self, name, value):
         self.writeData(numberrangefmt.format(name, value))
     def writeColorRange(self, name, value):
-
         self.writeData(colorrangefmt.format(name, value))
