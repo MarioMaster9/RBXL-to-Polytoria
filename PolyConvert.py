@@ -465,6 +465,9 @@ faceRotations = {
 
 def HandleDecal(obj, polyObject):
     polyObject.ImageID = getResource(obj.get('Texture'))
+    if not isinstance(polyObject.parent, Part):
+        polyObject.Size = Vector3.ZERO
+        return
     size = obj.parent.getcustom('decalSize')
     face = obj.get('Face')
     worldTransform = obj.parent.getcustom('worldTransform')
