@@ -801,7 +801,7 @@ def ModelModifier(obj):
             return 'NPC'
     return 'Model'
 
-physicalShapes = {
+meshPhysicalShapes = {
     Enum.MeshType.Head:     "UpCylinder",
     Enum.MeshType.Torso:    "Block",
     Enum.MeshType.Wedge:    "Wedge",
@@ -811,18 +811,38 @@ physicalShapes = {
     Enum.MeshType.Brick:    "Block"
 }
 
+partPhysicalShapes = {
+    Enum.PartType.Ball:        "Ball",
+    Enum.PartType.Block:       "Block",
+    Enum.PartType.Cylinder:    "Cylinder",
+    Enum.PartType.Wedge:       "Wedge",
+    Enum.PartType.CornerWedge: "CornerWedge"
+}
+
+classPhysicalShapes = {
+    "VehicleSeat":     "Block",
+#    "UnionOperation":  "Block",
+    "WedgePart":       "Wedge",
+    "CornerWedgePart": "CornerWedge",
+    "TrussPart":       "Truss"
+}
+
 def getAppliedMeshInfo(obj):
+    offset = Vector3.ZERO
+    scale = Vector3.ONE
+    vertexColor = Vector3.ONE
+    shape = None
+    uri = Content.EMPTY
     for child in reversed(obj.children):
         if not child.className in meshClasses:
             continue
-        offset = child.get('Offset')
-        scale = child.get('Scale')
-        vertexColor = child.get('VertexColor', Vector3.ONE)
-        uri = Content.EMPTY
+        offset = child.get('Offset', offset)
+        scale = child.get('Scale', scale)
+        vertexColor = child.get('VertexColor', vertexColor)
         match child.className:
             case 'SpecialMesh':
                 meshType = child.get('MeshType')
-                shape = physicalShapes.get(meshType)
+                shape = meshPhysicalShapes.get(meshType)
                 if shape is None:
                     return MeshInfo.EMPTY
                 if meshType == Enum.MeshType.FileMesh:
@@ -835,7 +855,12 @@ def getAppliedMeshInfo(obj):
                 return MeshInfo("UpCylinder", uri, offset, scale, vertexColor)
             case 'BlockMesh':
                 return MeshInfo("Block",      uri, offset, scale, vertexColor)
-    return MeshInfo.EMPTY
+    # TODO: UnionOperation
+    if obj.className in classPhysicalShapes:
+        shape = classPhysicalShapes[obj.className]
+    else:
+        shape = partPhysicalShapes[obj.get('shape', Enum.PartType.Block)]
+    return MeshInfo(shape, uri, offset, scale, vertexColor)
 
 def PartModifier(obj):
     mesh = getAppliedMeshInfo(obj)
