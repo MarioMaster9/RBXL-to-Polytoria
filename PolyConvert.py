@@ -821,7 +821,7 @@ partPhysicalShapes = {
 
 classPhysicalShapes = {
     "VehicleSeat":     "Block",
-#    "UnionOperation":  "Block",
+    "UnionOperation":  "FileMesh",
     "WedgePart":       "Wedge",
     "CornerWedgePart": "CornerWedge",
     "TrussPart":       "Truss"
@@ -855,7 +855,8 @@ def getAppliedMeshInfo(obj):
                 return MeshInfo("UpCylinder", uri, offset, scale, vertexColor)
             case 'BlockMesh':
                 return MeshInfo("Block",      uri, offset, scale, vertexColor)
-    # TODO: UnionOperation
+    if obj.className == "UnionOperation":
+        uri = obj.get('AssetId')
     if obj.className in classPhysicalShapes:
         shape = classPhysicalShapes[obj.className]
     else:
