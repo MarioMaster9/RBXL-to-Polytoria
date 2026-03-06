@@ -801,6 +801,16 @@ def ModelModifier(obj):
             return 'NPC'
     return 'Model'
 
+physicalShapeMap = {
+    Enum.MeshType.Head:     "UpCylinder",
+    Enum.MeshType.Torso:    "Block",
+    Enum.MeshType.Wedge:    "Wedge",
+    Enum.MeshType.Sphere:   "SphereMesh",
+    Enum.MeshType.Cylinder: "Cylinder",
+    Enum.MeshType.FileMesh: "FileMesh",
+    Enum.MeshType.Brick:    "Block"
+}
+
 def getAppliedMeshInfo(obj):
     for child in reversed(obj.children):
         if not child.className in meshClasses:
@@ -811,23 +821,13 @@ def getAppliedMeshInfo(obj):
         match child.className:
             case 'SpecialMesh':
                 meshType = child.get('MeshType')
-                match meshType:
-                    case Enum.MeshType.Head:
-                        return MeshInfo("UpCylinder",   Content.EMPTY,       offset, scale, vertexColor)
-                    case Enum.MeshType.Torso:
-                        return MeshInfo("Block",        Content.EMPTY,       offset, scale, vertexColor)
-                    case Enum.MeshType.Wedge:
-                        return MeshInfo("Wedge",        Content.EMPTY,       offset, scale, vertexColor)
-                    case Enum.MeshType.Sphere:
-                        return MeshInfo("SphereMesh",   Content.EMPTY,       offset, scale, vertexColor)
-                    case Enum.MeshType.Cylinder:
-                        return MeshInfo("Cylinder",     Content.EMPTY,       offset, scale, vertexColor)
-                    case Enum.MeshType.FileMesh:
-                        return MeshInfo("FileMesh",     child.get('MeshId'), offset, scale, vertexColor)
-                    case Enum.MeshType.Brick:
-                        return MeshInfo("Block",        Content.EMPTY,       offset, scale, vertexColor)
-                    case _:
-                        return MeshInfo.EMPTY
+                shape = physicalShapeMap.get(meshType)
+                if shape is None:
+                    return MeshInfo.EMPTY
+                uri = Content.EMPTY
+                if meshType == Enum.MeshType.FileMesh:
+                    uri = child.get('MeshId')
+                return MeshInfo(shape,          uri,                 offset, scale, vertexColor)
             case 'FileMesh':
                 return MeshInfo("FileMesh",     child.get('MeshId'), offset, scale, vertexColor)
             case 'CylinderMesh':
