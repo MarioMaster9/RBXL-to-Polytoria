@@ -931,7 +931,7 @@ def DoLighting(polyObject):
     return polyObject
 
 
-npcSkipNames = [
+limbs = [
     "Head",
     "Torso",
     "Left Arm",
@@ -963,7 +963,7 @@ def HandleObject(obj, parent=game):
         for child in obj.children:
             if child.className in npcSkipClasses:
                 continue
-            if child.get('Name') in npcSkipNames:
+            if child.get('Name') in limbs:
                 continue
             HandleObject(child, polyObject)
     else:
