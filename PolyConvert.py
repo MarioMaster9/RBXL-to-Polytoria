@@ -839,7 +839,7 @@ def getAppliedMeshInfo(obj):
 
 def PartModifier(obj):
     mesh = getAppliedMeshInfo(obj)
-    obj.setCustom('meshInfo', mesh)
+    obj.setcustom('meshInfo', mesh)
     if not mesh.exists:
         return "Part"
     if mesh.type != "FileMesh":
@@ -851,6 +851,7 @@ def PartModifier(obj):
 
 objectmodifiers = {
     "Model": ModelModifier,
+    "Part": PartModifier
 }
 
 # this list acts sort of like a todo list

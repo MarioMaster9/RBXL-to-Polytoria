@@ -25,6 +25,8 @@ class TreeItem:
                 self.parent.setcustom('hasHumanoid', True)
     def get(self, prop, default=None):
         return self.properties.get(prop, default)
+    def set(self, prop, value):
+        self.properties[prop] = value
     def has(self, prop):
         return prop in self.properties
     def getcustom(self, prop, default=None):
