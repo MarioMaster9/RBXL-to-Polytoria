@@ -707,6 +707,7 @@ constructors = {
 classHandlers = {
     "Accessory":        HandleModel,
     "Attachment":       HandleAttachment,
+    "Backpack":         HandleBase,
     "BoolValue":        HandleValue,
     "Color3Value":      HandleColorValue,
     "Configuration":    HandleBase,
@@ -754,6 +755,7 @@ if args.npcs:
 aliases = {
     "Accessory":       "Model",
     "Attachment":      "Model",
+    "Backpack":        "Folder",
     "Color3Value":     "ColorValue",
     "Configuration":   "Folder",
     "CornerWedgePart": "Part",
