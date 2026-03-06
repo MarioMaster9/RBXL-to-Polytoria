@@ -811,9 +811,23 @@ def getAppliedMeshInfo(obj):
         match child.className:
             case 'SpecialMesh':
                 meshType = child.get('MeshType')
-                if meshType != Enum.MeshType.FileMesh:
-                    return MeshInfo.EMPTY
-                return MeshInfo("FileMesh",     child.get('MeshId'), offset, scale, vertexColor)
+                match meshType:
+                    case Enum.MeshType.Head:
+                        return MeshInfo("CylinderMesh", Content.EMPTY,       offset, scale, vertexColor)
+                    case Enum.MeshType.Torso:
+                        return MeshInfo("BlockMesh",    Content.EMPTY,       offset, scale, vertexColor)
+                    case Enum.MeshType.Wedge:
+                        return MeshInfo("Wedge",        Content.EMPTY,       offset, scale, vertexColor)
+                    case Enum.MeshType.Sphere:
+                        return MeshInfo("Sphere",       Content.EMPTY,       offset, scale, vertexColor)
+                    case Enum.MeshType.Cylinder:
+                        return MeshInfo("Cylinder",     Content.EMPTY,       offset, scale, vertexColor)
+                    case Enum.MeshType.FileMesh:
+                        return MeshInfo("FileMesh",     child.get('MeshId'), offset, scale, vertexColor)
+                    case Enum.MeshType.Brick:
+                        return MeshInfo("BlockMesh",    Content.EMPTY,       offset, scale, vertexColor)
+                    case _:
+                        return MeshInfo.EMPTY
             case 'FileMesh':
                 return MeshInfo("FileMesh",     child.get('MeshId'), offset, scale, vertexColor)
             case 'CylinderMesh':
