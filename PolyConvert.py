@@ -839,6 +839,7 @@ def getAppliedMeshInfo(obj):
 
 def PartModifier(obj):
     mesh = getAppliedMeshInfo(obj)
+    obj.setCustom('meshInfo', mesh)
     if not mesh.exists:
         return "Part"
     if mesh.type != "FileMesh":
