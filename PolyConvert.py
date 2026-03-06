@@ -801,7 +801,7 @@ def ModelModifier(obj):
             return 'NPC'
     return 'Model'
 
-physicalShapeMap = {
+physicalShapes = {
     Enum.MeshType.Head:     "UpCylinder",
     Enum.MeshType.Torso:    "Block",
     Enum.MeshType.Wedge:    "Wedge",
@@ -818,22 +818,23 @@ def getAppliedMeshInfo(obj):
         offset = child.get('Offset')
         scale = child.get('Scale')
         vertexColor = child.get('VertexColor', Vector3.ONE)
+        uri = Content.EMPTY
         match child.className:
             case 'SpecialMesh':
                 meshType = child.get('MeshType')
-                shape = physicalShapeMap.get(meshType)
+                shape = physicalShapes.get(meshType)
                 if shape is None:
                     return MeshInfo.EMPTY
-                uri = Content.EMPTY
                 if meshType == Enum.MeshType.FileMesh:
                     uri = child.get('MeshId')
-                return MeshInfo(shape,          uri,                 offset, scale, vertexColor)
+                return MeshInfo(shape,        uri, offset, scale, vertexColor)
             case 'FileMesh':
-                return MeshInfo("FileMesh",     child.get('MeshId'), offset, scale, vertexColor)
+                uri = child.get('MeshId')
+                return MeshInfo("FileMesh",   uri, offset, scale, vertexColor)
             case 'CylinderMesh':
-                return MeshInfo("UpCylinder",   Content.EMPTY,       offset, scale, vertexColor)
+                return MeshInfo("UpCylinder", uri, offset, scale, vertexColor)
             case 'BlockMesh':
-                return MeshInfo("Block",        Content.EMPTY,       offset, scale, vertexColor)
+                return MeshInfo("Block",      uri, offset, scale, vertexColor)
     return MeshInfo.EMPTY
 
 def PartModifier(obj):
