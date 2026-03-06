@@ -202,8 +202,8 @@ for _, name in config.scriptNames.items():
         scriptSources[name] = f.read()
 
 def saveScript(source, sourceHash):
-    with open(f'scripts/{sourceHash}.lua', 'w+') as f:
-        f.write(source)
+    with open(f'scripts/{sourceHash}.lua', 'wb+') as f:
+        f.write(source.encode('utf-8'))
 
 def getScriptSource(scriptHash):
     return scriptSources[config.scriptNames.get(scriptHash)]
