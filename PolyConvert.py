@@ -1044,9 +1044,15 @@ importantLighting = [
     'ImageSky',
     'SunLight'
 ]
+
+children = []
+
 for child in game.findService('Lighting').children:
     if child.className in importantLighting:
         continue
+    children.append(child)
+
+for child in children:
     child.move(storageLighting)
 
 game.write(writer)
