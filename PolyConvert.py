@@ -63,6 +63,7 @@ from instances.Sound             import Sound
 from instances.Spotlight         import Spotlight
 from instances.StringValue       import StringValue
 from instances.SunLight          import SunLight
+from instances.Tool              import Tool
 from instances.Truss             import Truss
 from instances.UIButton          import UIButton
 from instances.UIImage           import UIImage
@@ -661,6 +662,8 @@ def HandleTextBox(obj, polyObject):
     polyObject.IsReadOnly = not obj.get('TextEditable', True)
     HandleTextLabel(obj, polyObject)
 
+def HandleTool(obj, polyObject):
+    polyObject.Droppable = obj.get('CanBeDropped', True)
 
 
 # used for instances that have no unique properties/don't need properties set
@@ -691,6 +694,7 @@ constructors = {
     "Sound":          Sound,
     "Spotlight":      Spotlight,
     "StringValue":    StringValue,
+    "Tool":           Tool,
     "Truss":          Truss,
     "UIButton":       UIButton,
     "UIImage":        UIImage,
@@ -736,6 +740,7 @@ classHandlers = {
     "TextButton":       HandleTextButton,
     "TextLabel":        HandleTextLabel,
     "Texture":          HandleTexture,
+    "Tool":             HandleTool,
     "TrussPart":        HandleTruss,
     "UnionOperation":   HandleUnionOperation,
     "Vector3Value":     HandleValue,
