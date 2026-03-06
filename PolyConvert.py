@@ -330,8 +330,8 @@ strawHatScale = Vector3(2, 0.75, 2)
 
 shapeClassMap = {
     "VehicleSeat":     partTypeMap[Enum.PartType.Block],
-    "MeshPart":        partTypeMap[Enum.PartType.Block],
-    "UnionOperation":  partTypeMap[Enum.PartType.Block],
+    "MeshPart":        meshTypeMap[Enum.MeshType.FileMesh],
+    "UnionOperation":  meshTypeMap[Enum.MeshType.FileMesh],
     "WedgePart":       partTypeMap[Enum.PartType.Wedge],
     "CornerWedgePart": partTypeMap[Enum.PartType.CornerWedge],
     "TrussPart":       {"alias": "Truss", "shape": PartShape.Truss}
@@ -378,6 +378,11 @@ def getExtraPartInfo(obj):
 def HandlePart(obj, polyObject):
     size = Vector3.ONE
     shape, alias, offset, scale, vertexColor = getExtraPartInfo(obj)
+
+    meshInfo = obj.getcustom('meshInfo')
+    assert not meshInfo is None, f'Class {obj.className} has no meshInfo!'
+
+    assert alias == meshInfo.type, f"Mismatch! Expected {alias}, got {meshInfo.type}"
     
     # use the transform defined for the specified alias. otherwise, use the identity matrix
     transform = aliasTransforms.get(alias, Matrix3.IDENTITY)
@@ -877,6 +882,11 @@ def getAppliedMeshInfo(obj):
     vertexColor = Vector3.ONE
     shape = None
     uri = Content.EMPTY
+    if obj.className == "MeshPart":
+        uri = obj.get('MeshId')
+        scale = obj.get('size')
+        shape = 'FileMesh'
+        return MeshInfo(shape, uri, offset, scale, vertexColor)
     for child in reversed(obj.children):
         if not child.className in meshClasses:
             continue
@@ -908,20 +918,28 @@ def getAppliedMeshInfo(obj):
     return MeshInfo(shape, uri, offset, scale, vertexColor)
 
 def PartModifier(obj):
+    classname = "Part"
+    if obj.className == "TrussPart":
+        classname = "TrussPart"
     mesh = getAppliedMeshInfo(obj)
     obj.setcustom('meshInfo', mesh)
     if not mesh.exists:
-        return "Part"
+        return classname
     if mesh.type != "FileMesh":
-        return "Part"
+        return classname
     if mesh.id.url in meshIdMap:
-        return "Part"
+        return classname
     obj.set("MeshId", mesh.id)
     return "MeshPart"
 
 objectmodifiers = {
     "Model": ModelModifier,
     "Part": PartModifier,
+    "WedgePart": PartModifier,
+    "MeshPart": PartModifier,
+    "CornerWedgePart": PartModifier,
+    "TrussPart": PartModifier,
+    "SpawnLocation": PartModifier,
     "UnionOperation": PartModifier
 }
 
