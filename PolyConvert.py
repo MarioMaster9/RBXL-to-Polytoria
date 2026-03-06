@@ -876,7 +876,6 @@ doNotConvert = [
     "Dialog",
     "Smoke",                      # Do later
     "RemoteFunction",
-    "Backpack",                   # Do later
     "Animation",                  # Do later
     "ScrollingFrame",             # Do later
 ]
