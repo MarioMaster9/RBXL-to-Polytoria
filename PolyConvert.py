@@ -921,7 +921,8 @@ def PartModifier(obj):
 
 objectmodifiers = {
     "Model": ModelModifier,
-    "Part": PartModifier
+    "Part": PartModifier,
+    "UnionOperation": PartModifier
 }
 
 # this list acts sort of like a todo list
