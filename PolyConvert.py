@@ -930,7 +930,7 @@ def getAppliedMeshInfo(obj):
         shape = classPhysicalShapes[obj.className]
     else:
         shape = partPhysicalShapes[obj.get('shape', Enum.PartType.Block)]
-    return MeshInfo(shape, uri, offset, obj.get('size'), Vector3.ONE)
+    return MeshInfo(shape, uri, Vector3.ZERO, obj.get('size'), Vector3.ONE)
 
 
 importantDerivedParts = [
