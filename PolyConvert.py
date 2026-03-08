@@ -887,7 +887,6 @@ partPhysicalShapes = {
 }
 
 classPhysicalShapes = {
-    "VehicleSeat":     "Block",
     "UnionOperation":  "FileMesh",
     "WedgePart":       "Wedge",
     "CornerWedgePart": "CornerWedge",
@@ -895,22 +894,16 @@ classPhysicalShapes = {
 }
 
 def getAppliedMeshInfo(obj):
-    offset = Vector3.ZERO
-    scale = Vector3.ONE
-    vertexColor = Vector3.ONE
     shape = None
     uri = Content.EMPTY
     if obj.className == "MeshPart":
-        uri = obj.get('MeshId')
-        scale = obj.get('size')
-        shape = 'FileMesh'
-        return MeshInfo(shape, uri, offset, scale, vertexColor)
+        return MeshInfo('FileMesh', obj.get('MeshId'), Vector3.ZERO, obj.get('size'), Vector3.ONE)
     for child in reversed(obj.children):
         if not child.className in meshClasses:
             continue
-        offset = child.get('Offset', offset)
-        scale = child.get('Scale', scale)
-        vertexColor = child.get('VertexColor', vertexColor)
+        offset = child.get('Offset', Vector3.ZERO)
+        scale = child.get('Scale', Vector3.ONE)
+        vertexColor = child.get('VertexColor', Vector3.ONE)
         match child.className:
             case 'SpecialMesh':
                 meshType = child.get('MeshType')
@@ -921,22 +914,23 @@ def getAppliedMeshInfo(obj):
                     uri = child.get('MeshId')
                 else:
                     scale = scale * obj.get('size')
-                return MeshInfo(shape,        uri, offset, scale, vertexColor)
             case 'FileMesh':
                 uri = child.get('MeshId')
-                return MeshInfo("FileMesh",   uri, offset, scale, vertexColor)
+                shape = 'FileMesh'
             case 'CylinderMesh':
-                return MeshInfo("UpCylinder", uri, offset, scale * obj.get('size'), vertexColor)
+                shape = 'UpCylinder'
+                scale *= obj.get('size')
             case 'BlockMesh':
-                return MeshInfo("Block",      uri, offset, scale * obj.get('size'), vertexColor)
-    scale = obj.get('size')
+                shape = 'Block'
+                scale *= obj.get('size')
+        return MeshInfo(shape, uri, offset, scale, vertexColor)
     if obj.className == "UnionOperation":
         uri = obj.get('AssetId')
     if obj.className in classPhysicalShapes:
         shape = classPhysicalShapes[obj.className]
     else:
         shape = partPhysicalShapes[obj.get('shape', Enum.PartType.Block)]
-    return MeshInfo(shape, uri, offset, scale, vertexColor)
+    return MeshInfo(shape, uri, offset, obj.get('size'), Vector3.ONE)
 
 
 importantDerivedParts = [
