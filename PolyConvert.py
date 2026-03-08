@@ -919,14 +919,17 @@ def getAppliedMeshInfo(obj):
                     return MeshInfo.EMPTY
                 if meshType == Enum.MeshType.FileMesh:
                     uri = child.get('MeshId')
+                else:
+                    scale = scale * obj.get('size')
                 return MeshInfo(shape,        uri, offset, scale, vertexColor)
             case 'FileMesh':
                 uri = child.get('MeshId')
                 return MeshInfo("FileMesh",   uri, offset, scale, vertexColor)
             case 'CylinderMesh':
-                return MeshInfo("UpCylinder", uri, offset, scale, vertexColor)
+                return MeshInfo("UpCylinder", uri, offset, scale * obj.get('size'), vertexColor)
             case 'BlockMesh':
-                return MeshInfo("Block",      uri, offset, scale, vertexColor)
+                return MeshInfo("Block",      uri, offset, scale * obj.get('size'), vertexColor)
+    scale = obj.get('size')
     if obj.className == "UnionOperation":
         uri = obj.get('AssetId')
     if obj.className in classPhysicalShapes:
