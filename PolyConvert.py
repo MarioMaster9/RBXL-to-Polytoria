@@ -319,40 +319,10 @@ cylinderTransform    = Matrix3.fromEulerAnglesYXZ(*extmath.radians(cylinderEuler
 wedgeTransform       = Matrix3.fromEulerAnglesYXZ(*extmath.radians(wedgeEuler))
 cornerWedgeTransform = Matrix3.fromEulerAnglesYXZ(*extmath.radians(cornerWedgeEuler))
 
-aliasTransforms = {
+typeTransforms = {
     "Wedge":       wedgeTransform,
     "Cylinder":    cylinderTransform,
     "CornerWedge": cornerWedgeTransform
-}
-
-meshTypeMap = {
-    Enum.MeshType.Head:     {"alias": "UpCylinder",   "shape": PartShape.Cylinder},
-    Enum.MeshType.Torso:    {"alias": "Block",        "shape": PartShape.Brick},
-    Enum.MeshType.Wedge:    {"alias": "Wedge",        "shape": PartShape.Wedge},
-    Enum.MeshType.Sphere:   {"alias": "SphereMesh",   "shape": PartShape.Ball},
-    Enum.MeshType.Cylinder: {"alias": "Cylinder",     "shape": PartShape.Cylinder},
-    Enum.MeshType.FileMesh: {"alias": "FileMesh",     "shape": PartShape.Brick},
-    Enum.MeshType.Brick:    {"alias": "Block",        "shape": PartShape.Brick},
-}
-
-partTypeMap = {
-    Enum.PartType.Ball:        {"alias": "Ball",           "shape": PartShape.Ball},
-    Enum.PartType.Block:       {"alias": "Block",          "shape": PartShape.Brick},
-    Enum.PartType.Cylinder:    {"alias": "Cylinder",       "shape": PartShape.Cylinder},
-    Enum.PartType.Wedge:       {"alias": "Wedge",          "shape": PartShape.Wedge},
-    Enum.PartType.CornerWedge: {"alias": "CornerWedge",    "shape": PartShape.CornerWedge},
-}
-
-# Scale to apply to objects with the straw hat mesh so that they can become the cone PartShape
-strawHatScale = Vector3(2, 0.75, 2)
-
-shapeClassMap = {
-    "VehicleSeat":     partTypeMap[Enum.PartType.Block],
-    "MeshPart":        meshTypeMap[Enum.MeshType.FileMesh],
-    "UnionOperation":  meshTypeMap[Enum.MeshType.FileMesh],
-    "WedgePart":       partTypeMap[Enum.PartType.Wedge],
-    "CornerWedgePart": partTypeMap[Enum.PartType.CornerWedge],
-    "TrussPart":       {"alias": "Truss", "shape": PartShape.Truss}
 }
 
 meshClasses = [
@@ -361,38 +331,6 @@ meshClasses = [
     'BlockMesh',
     'FileMesh'
 ]
-
-meshIdMap = {
-    "1033714": {"shape": PartShape.Cone, "scale": strawHatScale}
-}
-
-typeShapes = {
-    "UpCylinder": PartShape.Cylinder,
-    "Cylinder": PartShape.Cylinder,
-    "Block": PartShape.Brick,
-    "SphereMesh": PartShape.Ball,
-    "Ball": PartShape.Ball,
-    "Wedge": PartShape.Wedge,
-    "CornerWedge": PartShape.CornerWedge,
-    "FileMesh": PartShape.Brick
-}
-
-trussShapes = {
-    Enum.Style.AlternatingSupports: PartShape.Truss,
-    Enum.Style.BridgeStyleSupports: PartShape.Truss,
-    Enum.Style.NoSupports: PartShape.TrussFrame
-}
-
-def getExtraPartInfo(obj):
-    meshInfo = obj.getcustom('meshInfo')
-    if meshInfo.type == 'FileMesh':
-        if meshInfo.id.identifier in meshIdMap:
-            info = meshIdMap[meshInfo.id.identifier]
-            return info['shape'], info['scale']
-    elif meshInfo.type == 'Truss':
-        trussStyle = obj.get('style')
-        return trussShapes[trussStyle], Vector3.ONE
-    return typeShapes.get(meshInfo.type, PartShape.Brick), Vector3.ONE
 
 meshPhysicalShapes = {
     Enum.MeshType.Head:     "UpCylinder",
@@ -482,6 +420,38 @@ def PartModifier(obj):
     obj.set("MeshId", mesh.id)
     return "MeshPart"
 
+meshIdMap = {
+    "1033714": {"shape": PartShape.Cone, "scale": Vector3(2, 0.75, 2)}
+}
+
+typeShapes = {
+    "UpCylinder": PartShape.Cylinder,
+    "Cylinder": PartShape.Cylinder,
+    "Block": PartShape.Brick,
+    "SphereMesh": PartShape.Ball,
+    "Ball": PartShape.Ball,
+    "Wedge": PartShape.Wedge,
+    "CornerWedge": PartShape.CornerWedge,
+    "FileMesh": PartShape.Brick
+}
+
+trussShapes = {
+    Enum.Style.AlternatingSupports: PartShape.Truss,
+    Enum.Style.BridgeStyleSupports: PartShape.Truss,
+    Enum.Style.NoSupports: PartShape.TrussFrame
+}
+
+def getExtraPartInfo(obj):
+    meshInfo = obj.getcustom('meshInfo')
+    if meshInfo.type == 'FileMesh':
+        if meshInfo.id.identifier in meshIdMap:
+            info = meshIdMap[meshInfo.id.identifier]
+            return info['shape'], info['scale']
+    elif meshInfo.type == 'Truss':
+        trussStyle = obj.get('style')
+        return trussShapes[trussStyle], Vector3.ONE
+    return typeShapes.get(meshInfo.type, PartShape.Brick), Vector3.ONE
+
 def HandlePart(obj, polyObject):
     size = Vector3.ONE
     shape, scale = getExtraPartInfo(obj)
@@ -489,36 +459,31 @@ def HandlePart(obj, polyObject):
     meshInfo = obj.getcustom('meshInfo')
     
     size = meshInfo.scale * scale
-    alias = meshInfo.type
     vertexColor = meshInfo.vertexColor
-    offset = meshInfo.offset
 
-    
-
-    # use the transform defined for the specified alias. otherwise, use the identity matrix
-    transform = aliasTransforms.get(alias, Matrix3.IDENTITY)
-    #size *= scale
+    # use the transform defined for the specified type. otherwise, use the identity matrix
+    transform = typeTransforms.get(meshInfo.type, Matrix3.IDENTITY)
     decalSize = size
-    match alias:
+    match meshInfo.type:
         case 'Cylinder' | 'UpCylinder':
-            if alias == "Cylinder":
+            if meshInfo.type == "Cylinder":
                 # Regular cylinder shape is on it's side, so modify size to be equivalent to UpCylinder
                 decalSize = decalSize.yxz()
             # modify size to be the smallest of the horizontal sizes, matching the behavior in roblox
             minSize = min(decalSize.x, decalSize.z)
             decalSize = Vector3(minSize, decalSize.y, minSize)
             size = decalSize.copy() # store a copy of the modified size so that the code afterwards doesn't affect the copy
-            if alias == "Cylinder":
+            if meshInfo.type == "Cylinder":
                 # Restore the size
                 decalSize = decalSize.yxz()
     obj.setcustom('decalSize', decalSize)
-    match alias:
+    match meshInfo.type:
         case 'Wedge' | 'CornerWedge':
             size = size.zyx()
     
     # store worldTransform, used by decals to correctly position the faces
-    untransformed = CoordinateFrame(Matrix3.IDENTITY, offset)
-    transformed = CoordinateFrame(transform, offset)
+    untransformed = CoordinateFrame(Matrix3.IDENTITY, meshInfo.offset)
+    transformed = CoordinateFrame(transform, meshInfo.offset)
     obj.setcustom('worldTransform', obj.get('CFrame') * untransformed)
     rotation, position = getRotationAndPosition(obj.get('CFrame') * transformed)
     match obj.className:
