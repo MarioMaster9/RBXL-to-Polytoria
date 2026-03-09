@@ -157,6 +157,11 @@ class PartType:
     Wedge       = 3
     CornerWedge = 4
 
+class Style:
+    AlternatingSupports = 0
+    BridgeStyleSupports = 1
+    NoSupports = 2
+
 class TextXAlignment:
     Left   = 0
     Right  = 1

@@ -366,48 +366,138 @@ meshIdMap = {
     "1033714": {"shape": PartShape.Cone, "scale": strawHatScale}
 }
 
+typeShapes = {
+    "UpCylinder": PartShape.Cylinder,
+    "Cylinder": PartShape.Cylinder,
+    "Block": PartShape.Brick,
+    "SphereMesh": PartShape.Ball,
+    "Ball": PartShape.Ball,
+    "Wedge": PartShape.Wedge,
+    "CornerWedge": PartShape.CornerWedge,
+    "FileMesh": PartShape.Brick
+}
+
+trussShapes = {
+    Enum.Style.AlternatingSupports: PartShape.Truss,
+    Enum.Style.BridgeStyleSupports: PartShape.Truss,
+    Enum.Style.NoSupports: PartShape.TrussFrame
+}
+
 def getExtraPartInfo(obj):
-    for child in obj.children:
+    meshInfo = obj.getcustom('meshInfo')
+    if meshInfo.type == 'FileMesh':
+        if meshInfo.id.identifier in meshIdMap:
+            info = meshIdMap[meshInfo.id.identifier]
+            return info['shape'], info['scale']
+    elif meshInfo.type == 'Truss':
+        trussStyle = obj.get('style')
+        return trussShapes[trussStyle], Vector3.ONE
+    return typeShapes.get(meshInfo.type, PartShape.Brick), Vector3.ONE
+
+meshPhysicalShapes = {
+    Enum.MeshType.Head:     "UpCylinder",
+    Enum.MeshType.Torso:    "Block",
+    Enum.MeshType.Wedge:    "Wedge",
+    Enum.MeshType.Sphere:   "SphereMesh",
+    Enum.MeshType.Cylinder: "Cylinder",
+    Enum.MeshType.FileMesh: "FileMesh",
+    Enum.MeshType.Brick:    "Block"
+}
+
+partPhysicalShapes = {
+    Enum.PartType.Ball:        "Ball",
+    Enum.PartType.Block:       "Block",
+    Enum.PartType.Cylinder:    "Cylinder",
+    Enum.PartType.Wedge:       "Wedge",
+    Enum.PartType.CornerWedge: "CornerWedge"
+}
+
+classPhysicalShapes = {
+    "UnionOperation":  "FileMesh",
+    "WedgePart":       "Wedge",
+    "CornerWedgePart": "CornerWedge",
+    "TrussPart":       "Truss"
+}
+
+def getAppliedMeshInfo(obj):
+    shape = None
+    uri = Content.EMPTY
+    if obj.className == "MeshPart":
+        return MeshInfo('FileMesh', obj.get('MeshId'), Vector3.ZERO, obj.get('size'), Vector3.ONE)
+    for child in reversed(obj.children):
         if not child.className in meshClasses:
             continue
-        offset = child.get('Offset')
-        scale = child.get('Scale')
+        offset = child.get('Offset', Vector3.ZERO)
+        scale = child.get('Scale', Vector3.ONE)
         vertexColor = child.get('VertexColor', Vector3.ONE)
-        match child.className:
+        className = child.className
+        if className == 'SpecialMesh':
+            meshType = child.get('MeshType')
+            if meshType == Enum.MeshType.FileMesh:
+                className = 'FileMesh'
+        match className:
             case 'SpecialMesh':
-                conf = meshTypeMap[child.get('MeshType')]
-                shape = conf['shape']
-                if child.get('MeshId').identifier == "1033714":
-                    shape = PartShape.Cone
-                    scale = strawHatScale * scale
-                return shape, conf['alias'], offset, scale, vertexColor
+                meshType = child.get('MeshType')
+                if not meshType in meshPhysicalShapes:
+                    return MeshInfo.EMPTY
+                shape = meshPhysicalShapes.get(meshType)
+                scale *= obj.get('size')
+            case 'FileMesh':
+                uri = child.get('MeshId')
+                shape = 'FileMesh'
             case 'CylinderMesh':
-                return PartShape.Cylinder, "UpCylinder", offset, scale, vertexColor
+                shape = 'UpCylinder'
+                scale *= obj.get('size')
             case 'BlockMesh':
-                return PartShape.Brick, "Block", offset, scale, vertexColor
-    conf = None
-    if obj.className in shapeClassMap:
-        conf = shapeClassMap[obj.className]
+                shape = 'Block'
+                scale *= obj.get('size')
+        return MeshInfo(shape, uri, offset, scale, vertexColor)
+    if obj.className == "UnionOperation":
+        uri = obj.get('AssetId')
+    if obj.className in classPhysicalShapes:
+        shape = classPhysicalShapes[obj.className]
     else:
-        conf = partTypeMap[obj.get('shape', Enum.PartType.Block)]
-    return conf['shape'], conf['alias'], Vector3.ZERO, Vector3.ONE, Vector3.ONE
+        shape = partPhysicalShapes[obj.get('shape', Enum.PartType.Block)]
+    return MeshInfo(shape, uri, Vector3.ZERO, obj.get('size'), Vector3.ONE)
 
+
+importantDerivedParts = [
+    'TrussPart',
+    'Seat',
+    'VehicleSeat'
+]
+
+def PartModifier(obj):
+    classname = "Part"
+    if obj.className in importantDerivedParts:
+        classname = obj.className
+    mesh = getAppliedMeshInfo(obj)
+    obj.setcustom('meshInfo', mesh)
+    if not mesh.exists:
+        return classname
+    if mesh.type != "FileMesh":
+        return classname
+    if mesh.id.identifier in meshIdMap:
+        return classname
+    obj.set("MeshId", mesh.id)
+    return "MeshPart"
 
 def HandlePart(obj, polyObject):
     size = Vector3.ONE
-    shape, alias, offset, scale, vertexColor = getExtraPartInfo(obj)
+    shape, scale = getExtraPartInfo(obj)
 
     meshInfo = obj.getcustom('meshInfo')
-    assert not meshInfo is None, f'Class {obj.className} has no meshInfo!'
-
-    assert alias == meshInfo.type, f"Mismatch! Expected {alias}, got {meshInfo.type}"
     
+    size = meshInfo.scale * scale
+    alias = meshInfo.type
+    vertexColor = meshInfo.vertexColor
+    offset = meshInfo.offset
+
+    
+
     # use the transform defined for the specified alias. otherwise, use the identity matrix
     transform = aliasTransforms.get(alias, Matrix3.IDENTITY)
-    if alias != "FileMesh":
-        # FileMesh scales are absolute, all other types are relative
-        size = obj.get('size')
-    size *= scale
+    #size *= scale
     decalSize = size
     match alias:
         case 'Cylinder' | 'UpCylinder':
@@ -867,92 +957,6 @@ def ModelModifier(obj):
         if isValidCharacter(obj):
             return 'NPC'
     return 'Model'
-
-meshPhysicalShapes = {
-    Enum.MeshType.Head:     "UpCylinder",
-    Enum.MeshType.Torso:    "Block",
-    Enum.MeshType.Wedge:    "Wedge",
-    Enum.MeshType.Sphere:   "SphereMesh",
-    Enum.MeshType.Cylinder: "Cylinder",
-    Enum.MeshType.FileMesh: "FileMesh",
-    Enum.MeshType.Brick:    "Block"
-}
-
-partPhysicalShapes = {
-    Enum.PartType.Ball:        "Ball",
-    Enum.PartType.Block:       "Block",
-    Enum.PartType.Cylinder:    "Cylinder",
-    Enum.PartType.Wedge:       "Wedge",
-    Enum.PartType.CornerWedge: "CornerWedge"
-}
-
-classPhysicalShapes = {
-    "UnionOperation":  "FileMesh",
-    "WedgePart":       "Wedge",
-    "CornerWedgePart": "CornerWedge",
-    "TrussPart":       "Truss"
-}
-
-def getAppliedMeshInfo(obj):
-    shape = None
-    uri = Content.EMPTY
-    if obj.className == "MeshPart":
-        return MeshInfo('FileMesh', obj.get('MeshId'), Vector3.ZERO, obj.get('size'), Vector3.ONE)
-    for child in reversed(obj.children):
-        if not child.className in meshClasses:
-            continue
-        offset = child.get('Offset', Vector3.ZERO)
-        scale = child.get('Scale', Vector3.ONE)
-        vertexColor = child.get('VertexColor', Vector3.ONE)
-        match child.className:
-            case 'SpecialMesh':
-                meshType = child.get('MeshType')
-                shape = meshPhysicalShapes.get(meshType)
-                if shape is None:
-                    return MeshInfo.EMPTY
-                if meshType == Enum.MeshType.FileMesh:
-                    uri = child.get('MeshId')
-                else:
-                    scale = scale * obj.get('size')
-            case 'FileMesh':
-                uri = child.get('MeshId')
-                shape = 'FileMesh'
-            case 'CylinderMesh':
-                shape = 'UpCylinder'
-                scale *= obj.get('size')
-            case 'BlockMesh':
-                shape = 'Block'
-                scale *= obj.get('size')
-        return MeshInfo(shape, uri, offset, scale, vertexColor)
-    if obj.className == "UnionOperation":
-        uri = obj.get('AssetId')
-    if obj.className in classPhysicalShapes:
-        shape = classPhysicalShapes[obj.className]
-    else:
-        shape = partPhysicalShapes[obj.get('shape', Enum.PartType.Block)]
-    return MeshInfo(shape, uri, Vector3.ZERO, obj.get('size'), Vector3.ONE)
-
-
-importantDerivedParts = [
-    'TrussPart',
-    'Seat',
-    'VehicleSeat'
-]
-
-def PartModifier(obj):
-    classname = "Part"
-    if obj.className in importantDerivedParts:
-        classname = obj.className
-    mesh = getAppliedMeshInfo(obj)
-    obj.setcustom('meshInfo', mesh)
-    if not mesh.exists:
-        return classname
-    if mesh.type != "FileMesh":
-        return classname
-    if mesh.id.identifier in meshIdMap:
-        return classname
-    obj.set("MeshId", mesh.id)
-    return "MeshPart"
 
 objectmodifiers = {
     "Model": ModelModifier,
