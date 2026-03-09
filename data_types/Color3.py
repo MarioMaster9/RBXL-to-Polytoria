@@ -1,4 +1,5 @@
 import struct
+import math
 
 extract_argb = struct.Struct('>I').pack
 
@@ -26,6 +27,20 @@ class Color3:
         raise NotImplementedError
     def __neg__(self):
         return Color3(-self.r, -self.g, -self.b)
+    def length(self):
+        return math.sqrt(self.r*self.r + self.g*self.g + self.b*self.b)
+    def unitize(self, fTolerance=1e-06):
+        fLength = self.length()
+
+        if fLength > fTolerance:
+            fInvLength = 1 / fLength
+            self.r *= fInvLength
+            self.g *= fInvLength
+            self.b *= fInvLength
+        else:
+            fLength = 0
+        
+        return fLength
     @staticmethod
     def FromXML(elem):
         if elem.find("R") is None:
