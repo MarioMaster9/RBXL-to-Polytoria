@@ -398,8 +398,8 @@ def getAppliedMeshInfo(obj):
         shape = partPhysicalShapes[obj.get('shape', Enum.PartType.Block)]
     return MeshInfo(shape, uri, Vector3.ZERO, obj.get('size'), Vector3.ONE)
 
-
-importantDerivedParts = [
+# Instances derived from part that have additional functionality
+functionalParts = [
     'TrussPart',
     'Seat',
     'VehicleSeat'
@@ -407,7 +407,7 @@ importantDerivedParts = [
 
 def PartModifier(obj):
     classname = "Part"
-    if obj.className in importantDerivedParts:
+    if obj.className in functionalParts:
         classname = obj.className
     mesh = getAppliedMeshInfo(obj)
     obj.setcustom('meshInfo', mesh)
