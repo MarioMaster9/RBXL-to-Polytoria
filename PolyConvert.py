@@ -918,10 +918,11 @@ charItems = [
 ]
 
 def ModelModifier(obj):
-    if args.npcs:
-        if isValidCharacter(obj):
-            return 'NPC'
-    return 'Model'
+    if not args.npc:
+        return 'Model'
+    if not isValidCharacter(obj):
+        return 'Model'
+    return 'NPC'
 
 objectmodifiers = {
     "Model": ModelModifier,
