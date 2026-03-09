@@ -32,7 +32,7 @@ class Content:
     def identifier(self):
         if self.isPrefix('rbxassetid://'):
             return self.url[13:]
-        if self.isPrefix('http://'):
+        if self.isPrefix('http://') or self.isPrefix('https://'):
             result = idMatcher.search(self.url)
             if result is None:
                 return self.url
