@@ -20,9 +20,17 @@ class TreeItem:
             if self.className == "Model":
                 self.setcustom('hasHumanoid', False)
             self.properties = InstanceTree.GetProperties(elem)
-            self.parent = parent
-            if self.className == "Humanoid":
-                self.parent.setcustom('hasHumanoid', True)
+            parent.addChild(self)
+    def addChild(self, child):
+        self.children.append(child)
+        child.setParent(self)
+    def setParent(self, parent):
+        self.parent = parent
+        if self.className != 'Humanoid':
+            return
+        if parent.className != 'Model':
+            return
+        parent.setcustom('hasHumanoid', True)
     def get(self, prop, default=None):
         return self.properties.get(prop, default)
     def set(self, prop, value):
@@ -115,5 +123,4 @@ class InstanceTree:
             if child.tag != 'Item':
                 continue
             newItem = TreeItem(child, obj)
-            obj.children.append(newItem)
             InstanceTree.BuildTree(child, newItem)

@@ -30,8 +30,8 @@ headerstart = magic + framedescriptor
 
 def createFrame(fp):
     comLength = fp.readUint32()
-    fp.readUint32()
-    fp.readUint32()
+    decomLength = fp.readUint32()
+    reserved = fp.readUint32()
     
     header = headerstart + comLength.to_bytes(4, 'little')
     data = header + fp.readBytes(comLength)
@@ -84,14 +84,9 @@ class BinaryChunk:
         self.parentIds = stream.readIds(self.length)
         
         for i in range(0, self.length):
-            childId = self.childIds[i]
-            parentId = self.parentIds[i]
-            if parentId != -1:
-                rbxl.instances[parentId].children.append(rbxl.instances[childId])
-                rbxl.instances[childId].parent = rbxl.instances[parentId]
-            else:
-                rbxl.root.children.append(rbxl.instances[childId])
-                rbxl.instances[childId].parent = rbxl.root
+            child = rbxl.instances[self.childIds[i]]
+            parent = rbxl.instances[self.parentIds[i]]
+            parent.addChild(child)
     def decode_SSTR(self, stream, rbxl):
         self.version = stream.readUint32()
         assert self.version == 0, f'Invalid SharedString Chunk Version! Expected 0, got {self.version}'
@@ -166,7 +161,6 @@ class BinaryChunk:
                 b = stream.readInterleavedFloat(instCount)
                 for i in range(instCount):
                     color = Color3(r[i], g[i], b[i])
-                    #color.unitize()
                     values.append(color)
             case BinaryToken.VECTOR2:
                 x = stream.readInterleavedFloat(instCount)
@@ -235,7 +229,6 @@ class BinaryChunk:
                         time = stream.readFloat32()
                         color = Color3(stream.readFloat32(), stream.readFloat32(), stream.readFloat32())
                         envelope = stream.readFloat32()
-                        #color.unitize()
                         keypoints.append(ColorSequenceKeypoint(time, color))
                     values.append(ColorSequence(keypoints))
             case BinaryToken.NUMBERRANGE:

@@ -16,7 +16,8 @@ class BinaryRBXL:
         if self.version == 0:
             self.classCount = stream.readUint32()
             self.instanceCount = stream.readUint32()
-            self.instances = [None] * self.instanceCount
+            self.instances = {}
+            self.instances[-1] = self.root # handle root parent
             self.sharedStrings = []
             stream.skip(8)
             

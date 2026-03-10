@@ -1002,12 +1002,15 @@ doNotConvert = [
     "RemoteFunction",
     "Animation",                  # Do later
     "ScrollingFrame",             # Do later
+    "SunRaysEffect",
+    "ColorCorrectionEffect",
+    "BloomEffect",
 ]
 
 if not args.npcs:
-    doNotConvert = doNotConvert + charItems
+    doNotConvert += charItems
 
-doNotConvert = doNotConvert + meshClasses
+doNotConvert += meshClasses
 
 
 limbs = [
