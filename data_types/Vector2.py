@@ -1,3 +1,5 @@
+import math
+
 class Vector2:
     def __init__(self, x, y):
         self.x = x
@@ -23,7 +25,13 @@ class Vector2:
         else:
             return Vector2(other.x * self.x, other.y * self.y)
     def __truediv__(self, rkVector):
-        return Vector2(self.x / rkVector.x, self.y / rkVector.y)
+        x = math.inf
+        if rkVector.x != 0:
+            x = self.x / rkVector.x
+        y = math.inf
+        if rkVector.y != 0:
+            y = self.y / rkVector.y
+        return Vector2(x, y)
     def add(self, other):
         self.x = self.x + other.x
         self.y = self.y + other.y

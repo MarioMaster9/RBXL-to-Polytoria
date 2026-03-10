@@ -4,7 +4,10 @@ from .Vector3 import Vector3
 class MeshInfo:
     def __init__(self, _type, id, offset, scale, vertexColor, exists=True):
         self.type = _type
-        self.id = id
+        if type(id) is Content:
+            self.id = id
+        else:
+            self.id = Content(id)
         self.offset = offset
         self.scale = scale
         self.vertexColor = vertexColor

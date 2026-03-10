@@ -1,5 +1,6 @@
 from multimethod import multimethod
 import json
+import io
 from json.decoder import JSONDecodeError
 
 import shutil
@@ -22,6 +23,8 @@ from data_types.Matrix3          import Matrix3
 from util.LightingParameters     import LightingParameters
 from util.BufferedXMLWriter      import BufferedXMLWriter
 from util.InstanceTree           import InstanceTree, TreeItem
+from util.BinaryRBXL             import BinaryRBXL
+from util.DataStream             import DataStream
 import data_types.BrickColor     as BrickColor
 import data_types.Enum           as Enum
 
@@ -198,6 +201,9 @@ materialLookup = {
 missingAssets = []
 
 def getResource(res):
+    if type(res) is str:
+        # bad code
+        res = Content(res)
     if res.identifier in missingAssets:
         return "0"
     resId = "0"
@@ -226,15 +232,27 @@ def saveScript(source, sourceHash):
 def getScriptSource(scriptHash):
     return scriptSources[config_scriptNames.get(scriptHash)]
 
-tree = ET.parse(args.filename)
-root = tree.getroot()
-placeRoot = InstanceTree.CreateRoot(root)
-
-InstanceTree.BuildTree(root, placeRoot)
-
 services = {}
-for child in placeRoot.children:
-    services[child.className] = child
+
+isBinaryFormat = False
+with open(args.filename, 'rb') as f:
+    isBinaryFormat = f.read(8) == b'<roblox!'
+if isBinaryFormat:
+    data = None
+    with open(args.filename, 'rb') as f:
+        data = f.read()
+    rbxl = BinaryRBXL(DataStream(io.BytesIO(data)))
+    for child in rbxl.root.children:
+        services[child.className] = child
+else:
+    tree = ET.parse(args.filename)
+    root = tree.getroot()
+    placeRoot = InstanceTree.CreateRoot(root)
+
+    InstanceTree.BuildTree(root, placeRoot)
+
+    for child in placeRoot.children:
+        services[child.className] = child
 writer = BufferedXMLWriter(f'out/{args.outfile}.poly')
 
 def isValidCharacter(mdl):
