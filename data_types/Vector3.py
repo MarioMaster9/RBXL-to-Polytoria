@@ -1,5 +1,6 @@
 import math
 from .Vector2 import Vector2
+import data_types.Enum as Enum
 
 class Vector3:
     def __init__(self, x, y, z):
@@ -132,6 +133,21 @@ class Vector3:
         return Vector3(self.y, self.z, self.z)
     def zzz(self):
         return Vector3(self.z, self.z, self.z)
+    @staticmethod
+    def FromNormalId(norm):
+        match norm:
+            case Enum.NormalId.Right:
+                return Vector3(1, 0, 0)
+            case Enum.NormalId.Top:
+                return Vector3(0, 1, 0)
+            case Enum.NormalId.Back:
+                return Vector3(0, 0, 1)
+            case Enum.NormalId.Left:
+                return Vector3(-1, 0, 0)
+            case Enum.NormalId.Bottom:
+                return Vector3(0, -1, 0)
+            case Enum.NormalId.Front:
+                return Vector3(0, 0, -1)
     @staticmethod
     def FromXML(elem):
         x = float(elem.find("X").text)

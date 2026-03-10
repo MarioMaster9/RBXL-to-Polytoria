@@ -918,7 +918,7 @@ charItems = [
 ]
 
 def ModelModifier(obj):
-    if not args.npc:
+    if not args.npcs:
         return 'Model'
     if not isValidCharacter(obj):
         return 'Model'

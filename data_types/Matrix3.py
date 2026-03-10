@@ -178,6 +178,18 @@ class Matrix3:
 
         return m
     @staticmethod
+    def FromOrientId(orientId):
+        matrix = Matrix3.CreateEmpty()
+        norm1 = orientId // 6
+        norm2 = orientId % 6
+        norm1Vec3 = Vector3.FromNormalId(norm1)
+        norm2Vec3 = Vector3.FromNormalId(norm2)
+        cross = norm1Vec3.cross(norm2Vec3)
+        matrix.setColumn(0, norm1Vec3)
+        matrix.setColumn(1, norm2Vec3)
+        matrix.setColumn(2, cross)
+        return matrix
+    @staticmethod
     def CreateEmpty():
         return Matrix3(0, 0, 0, 0, 0, 0, 0, 0, 0)
     @staticmethod
