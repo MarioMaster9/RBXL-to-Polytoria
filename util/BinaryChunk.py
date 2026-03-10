@@ -180,12 +180,20 @@ class BinaryChunk:
                     matId = stream.readUint8()
                     matrix = None
                     if matId == 0:
-                        matrix = Matrix3(stream.readFloat32(), stream.readFloat32(), stream.readFloat32(), stream.readFloat32(), stream.readFloat32(), stream.readFloat32(), stream.readFloat32(), stream.readFloat32(), stream.readFloat32())
+                        r00 = stream.readFloat32()
+                        r01 = stream.readFloat32()
+                        r02 = stream.readFloat32()
+                        r10 = stream.readFloat32()
+                        r11 = stream.readFloat32()
+                        r12 = stream.readFloat32()
+                        r20 = stream.readFloat32()
+                        r21 = stream.readFloat32()
+                        r22 = stream.readFloat32()
+                        matrix = Matrix3(r00, r01, r02, r10, r11, r12, r20, r21, r22)
                     else:
                         matrix = Matrix3.FromOrientId(matId - 1)
                     matrices.append(matrix)
                 positions = self.readTyped(BinaryToken.VECTOR3, stream, instCount)
-
                 for i, position in enumerate(positions):
                     values.append(CoordinateFrame(matrices[i], positions[i]))
             case BinaryToken.CFRAMEQUAT:
@@ -194,7 +202,11 @@ class BinaryChunk:
                     matId = stream.readUint8()
                     matrix = None
                     if matId == 0:
-                        quat = Quaternion(stream.readFloat32(), stream.readFloat32(), stream.readFloat32(), stream.readFloat32())
+                        x = stream.readFloat32()
+                        y = stream.readFloat32()
+                        z = stream.readFloat32()
+                        w = stream.readFloat32()
+                        quat = Quaternion(x, y, z, w)
                         matrix = quat.toRotationMatrix()
                     else:
                         matrix = Matrix3.FromOrientId(matId - 1)
@@ -208,7 +220,10 @@ class BinaryChunk:
                 values = self.readReferences(stream, instCount, rbxl)
             case BinaryToken.VECTOR3INT16:
                 for i in range(instCount):
-                    values.append(Vector3(stream.readInt16(), stream.readInt16(), stream.readInt16()))
+                    x = stream.readInt16()
+                    y = stream.readInt16()
+                    z = stream.readInt16()
+                    values.append(Vector3(x, y, z))
             case BinaryToken.NUMBERSEQUENCE:
                 for i in range(instCount):
                     length = stream.readUint32()
@@ -218,9 +233,7 @@ class BinaryChunk:
                         value = stream.readFloat32()
                         envelope = stream.readFloat32()
                         keypoints.append(NumberSequenceKeypoint(time, value))
-                    v = NumberSequence()
-                    v.keypoints = keypoints
-                    values.append(v)
+                    values.append(NumberSequence(keypoints))
             case BinaryToken.COLORSEQUENCE:
                 for i in range(instCount):
                     length = stream.readUint32()
