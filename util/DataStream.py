@@ -49,8 +49,6 @@ class DataStream:
         return decoded
     def readUint8(self, endianness='little'):
         return int.from_bytes(self.stream.read(1), endianness, signed=False)
-    def readInt8(self, endianness='little'):
-        return int.from_bytes(self.stream.read(1), endianness, signed=True)
     def readUint16(self, endianness='little'):
         return int.from_bytes(self.stream.read(2), endianness, signed=False)
     def readInt16(self, endianness='little'):
@@ -61,8 +59,6 @@ class DataStream:
         return int.from_bytes(self.stream.read(4), endianness, signed=True)
     def readUint64(self, endianness='little'):
         return int.from_bytes(self.stream.read(8), endianness, signed=False)
-    def readInt64(self, endianness='little'):
-        return int.from_bytes(self.stream.read(8), endianness, signed=True)
     def readBoolean(self):
         return self.readByte() == b'\x01'
     def readLengthPrefixedString(self):
