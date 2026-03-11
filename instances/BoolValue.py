@@ -1,5 +1,4 @@
 from .ValueBase import ValueBase
-
 class BoolValue(ValueBase):
     ClassName = "BoolValue"
     Properties = [

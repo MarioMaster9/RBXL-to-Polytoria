@@ -1,8 +1,5 @@
 from .DynamicInstance import DynamicInstance
-from enums.Material import Material
-from enums.PhysicsMaterialCombine import PhysicsMaterialCombine
-
-
+from enums import Material, PhysicsMaterialCombine
 class Part(DynamicInstance):
     ClassName = "Part"
     Properties = [

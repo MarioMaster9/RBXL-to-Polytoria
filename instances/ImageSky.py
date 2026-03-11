@@ -1,5 +1,4 @@
 from .Instance import Instance
-
 class ImageSky(Instance):
     ClassName = "ImageSky"
     Properties = [

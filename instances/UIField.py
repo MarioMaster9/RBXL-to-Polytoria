@@ -1,6 +1,5 @@
 from .Instance import Instance
-from data_types.Vector2 import Vector2
-
+from data_types import Vector2
 class UIField(Instance):
     ClassName = "UIField"
     Properties = [

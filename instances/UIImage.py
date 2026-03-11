@@ -1,6 +1,5 @@
 from .UIField import UIField
-from enums.ImageType import ImageType
-
+from enums import ImageType
 class UIImage(UIField):
     ClassName = "UIImage"
     Properties = [

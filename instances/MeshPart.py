@@ -1,6 +1,5 @@
 from .Part import Part
-from enums.CollisionType import CollisionType
-
+from enums import CollisionType
 class MeshPart(Part):
     ClassName = "MeshPart"
     Properties = [

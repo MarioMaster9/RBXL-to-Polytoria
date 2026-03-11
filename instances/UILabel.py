@@ -1,7 +1,5 @@
 from .UIView import UIView
-from enums.TextJustify import TextJustify
-from enums.TextFontPreset import TextFontPreset
-
+from enums import TextJustify, TextFontPreset
 class UILabel(UIView):
     ClassName = "UILabel"
     Properties = [

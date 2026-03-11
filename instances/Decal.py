@@ -1,8 +1,6 @@
 from .DynamicInstance import DynamicInstance
-from enums.ImageType import ImageType
-from data_types.Vector2 import Vector2
-from data_types.Color4 import Color4
-
+from enums import ImageType
+from data_types import Vector2, Color4
 class Decal(DynamicInstance):
     ClassName = "Decal"
     Properties = [

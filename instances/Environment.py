@@ -1,8 +1,6 @@
 from .Instance import Instance
-from enums.SkyboxPreset import SkyboxPreset
-from data_types.Vector3 import Vector3
-from data_types.Color4 import Color4
-
+from enums import SkyboxPreset
+from data_types import Vector3, Color4
 class Environment(Instance):
     ClassName = "Environment"
     Properties = [

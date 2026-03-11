@@ -1,6 +1,5 @@
 from .Instance import Instance
-from enums.AmbientSource import AmbientSource
-
+from enums import AmbientSource
 class Lighting(Instance):
     ClassName = "Lighting"
     Properties = [

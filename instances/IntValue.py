@@ -1,5 +1,4 @@
 from .ValueBase import ValueBase
-
 class IntValue(ValueBase):
     ClassName = "IntValue"
     Properties = [

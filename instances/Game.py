@@ -1,5 +1,4 @@
 from .Instance import Instance
-
 class Game(Instance):
     ClassName = "Game"
     def __init__(self, version):

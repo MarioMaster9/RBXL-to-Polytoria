@@ -1,5 +1,4 @@
 from .UILabel import UILabel
-
 class UIButton(UILabel):
     ClassName = "UIButton"
     Properties = [

@@ -1,5 +1,4 @@
 from .Instance import Instance
-
 class BaseScript(Instance):
     ClassName = "BaseScript"
     Properties = [

@@ -1,5 +1,4 @@
 from .Instance import Instance
-
 class GUI(Instance):
     ClassName = "GUI"
     Properties = [

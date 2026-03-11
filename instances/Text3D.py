@@ -1,5 +1,4 @@
 from .DynamicInstance import DynamicInstance
-
 class Text3D(DynamicInstance):
     ClassName = "Text3D"
     Properties = [

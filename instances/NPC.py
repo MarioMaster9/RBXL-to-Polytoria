@@ -1,7 +1,5 @@
 from .DynamicInstance import DynamicInstance
-from data_types.Color4 import Color4
-from data_types.Vector3 import Vector3
-
+from data_types import Color4, Vector3
 class NPC(DynamicInstance):
     ClassName = "NPC"
     Properties = [

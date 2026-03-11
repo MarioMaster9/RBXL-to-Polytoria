@@ -1,5 +1,4 @@
 from .DynamicInstance import DynamicInstance
-
 class Particles(DynamicInstance):
     ClassName = "Particles"
     Properties = [

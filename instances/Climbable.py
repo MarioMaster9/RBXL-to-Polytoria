@@ -1,5 +1,4 @@
 from .Part import Part
-
 class Climbable(Part):
     ClassName = "Climbable"
     Properties = [

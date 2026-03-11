@@ -1,5 +1,4 @@
 from .ValueBase import ValueBase
-
 class ColorValue(ValueBase):
     ClassName = "ColorValue"
     Properties = [

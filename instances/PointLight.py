@@ -1,6 +1,5 @@
 from .DynamicInstance import DynamicInstance
-from data_types.Vector3 import Vector3
-
+from data_types import Vector3
 class PointLight(DynamicInstance):
     ClassName = "PointLight"
     Properties = [

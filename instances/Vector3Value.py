@@ -1,5 +1,4 @@
 from .ValueBase import ValueBase
-
 class Vector3Value(ValueBase):
     ClassName = "Vector3Value"
     Properties = [

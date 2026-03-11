@@ -1,5 +1,4 @@
 from .Instance import Instance
-
 class DynamicInstance(Instance):
     ClassName = "DynamicInstance"
     Properties = [

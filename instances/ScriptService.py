@@ -1,5 +1,4 @@
 from .Instance import Instance
-
 class ScriptService(Instance):
     ClassName = "ScriptService"
     def __init__(self):

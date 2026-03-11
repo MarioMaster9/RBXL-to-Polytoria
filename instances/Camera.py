@@ -1,7 +1,6 @@
 from .DynamicInstance import DynamicInstance
-from enums.CameraMode import CameraMode
-from data_types.Vector3 import Vector3
-
+from enums import CameraMode
+from data_types import Vector3
 class Camera(DynamicInstance):
     ClassName = "Camera"
     Properties = [

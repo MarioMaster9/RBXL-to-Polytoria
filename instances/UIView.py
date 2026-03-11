@@ -1,5 +1,4 @@
 from .UIField import UIField
-
 class UIView(UIField):
     ClassName = "UIView"
     Properties = [

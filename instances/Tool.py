@@ -1,5 +1,4 @@
 from .DynamicInstance import DynamicInstance
-
 class Tool(DynamicInstance):
     ClassName = "Tool"
     Properties = [

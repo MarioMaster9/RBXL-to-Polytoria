@@ -1,5 +1,4 @@
 from .Instance import Instance
-
 class Players(Instance):
     ClassName = "Players"
     Properties = [
