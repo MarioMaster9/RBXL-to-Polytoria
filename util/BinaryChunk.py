@@ -28,22 +28,27 @@ magic = b'\x04\x22\x4D\x18'
 framedescriptor = b'\x60\x70\x73'
 headerstart = magic + framedescriptor
 
-def createFrame(fp):
+def createFrame(fp, length):
+    header = headerstart + length.to_bytes(4, 'little')
+    data = header + fp.readBytes(length)
+    return data + b'\x00\x00\x00\x00'
+
+def decompress(fp):
     comLength = fp.readUint32()
     decomLength = fp.readUint32()
     reserved = fp.readUint32()
-    
-    header = headerstart + comLength.to_bytes(4, 'little')
-    data = header + fp.readBytes(comLength)
-    return data + b'\x00\x00\x00\x00'
-    
+
+    if comLength != 0:
+        return lz4.frame.decompress(createFrame(stream, comLength))
+    else:
+        return stream.readBytes(decomLength)
 
 class BinaryChunk:
     def __init__(self, stream):
         self.loadFromFile(stream)
     def loadFromFile(self, stream):
         self.signature = stream.readBytes(4)
-        self.payload = lz4.frame.decompress(createFrame(stream))
+        self.payload = decompress(stream)
     def uniqueDecode(self, stream, rbxl):
         match self.signature:
             case b'INST':
@@ -135,18 +140,9 @@ class BinaryChunk:
                     values.append(UDim2(Vector2(scaleX[i], scaleY[i]), Vector2(offX[i], offY[i])))
             case BinaryToken.RAY:
                 for i in range(instCount):
-                    posX = stream.readFloat32()
-                    posY = stream.readFloat32()
-                    posZ = stream.readFloat32()
-                    
-                    dirX = stream.readFloat32()
-                    dirY = stream.readFloat32()
-                    dirZ = stream.readFloat32()
-                    
-                    origin = Vector3(posX, posY, posZ)
-                    direction = Vector3(dirX, dirY, dirZ)
-                    
-                    values.append({'origin': origin, 'direction': direction})
+                    pos = [stream.readFloat32() for _ in range(3)]
+                    dir = [stream.readFloat32() for _ in range(3)]
+                    values.append({'origin': Vector3(*pos), 'direction': Vector3(*dir)})
             case BinaryToken.FACES:
                 for i in range(instCount):
                     values.append(stream.readUint8())
@@ -173,25 +169,21 @@ class BinaryChunk:
                 z = stream.readInterleavedFloat(instCount)
                 for i in range(instCount):
                     values.append(Vector3(x[i], y[i], z[i]))
-            #
+            case BinaryToken.VECTOR2INT16:
+                for i in range(instCount):
+                    x = stream.readInt16()
+                    y = stream.readInt16()
+                    values.append(Vector2(x, y))
             case BinaryToken.CFRAME:
                 matrices = []
                 for i in range(instCount):
-                    matId = stream.readUint8()
+                    orientId = stream.readUint8()
                     matrix = None
-                    if matId == 0:
-                        r00 = stream.readFloat32()
-                        r01 = stream.readFloat32()
-                        r02 = stream.readFloat32()
-                        r10 = stream.readFloat32()
-                        r11 = stream.readFloat32()
-                        r12 = stream.readFloat32()
-                        r20 = stream.readFloat32()
-                        r21 = stream.readFloat32()
-                        r22 = stream.readFloat32()
-                        matrix = Matrix3(r00, r01, r02, r10, r11, r12, r20, r21, r22)
+                    if orientId == 0:
+                        transform = [stream.readFloat32() for _ in range(9)]
+                        matrix = Matrix3(*transform)
                     else:
-                        matrix = Matrix3.FromOrientId(matId - 1)
+                        matrix = Matrix3.FromOrientId(orientId - 1)
                     matrices.append(matrix)
                 positions = self.readTyped(BinaryToken.VECTOR3, stream, instCount)
                 for i, position in enumerate(positions):
@@ -199,17 +191,13 @@ class BinaryChunk:
             case BinaryToken.CFRAMEQUAT:
                 matrices = []
                 for i in range(instCount):
-                    matId = stream.readUint8()
+                    orientId = stream.readUint8()
                     matrix = None
-                    if matId == 0:
-                        x = stream.readFloat32()
-                        y = stream.readFloat32()
-                        z = stream.readFloat32()
-                        w = stream.readFloat32()
-                        quat = Quaternion(x, y, z, w)
-                        matrix = quat.toRotationMatrix()
+                    if orientId == 0:
+                        quaternion = [stream.readFloat32() for _ in range(4)]
+                        matrix = Quaternion(*quaternion).toRotationMatrix()
                     else:
-                        matrix = Matrix3.FromOrientId(matId - 1)
+                        matrix = Matrix3.FromOrientId(orientId - 1)
                     matrices.append(matrix)
                 positions = self.readTyped(BinaryToken.VECTOR3, stream, instCount)
                 for i, position in enumerate(positions):

@@ -13,7 +13,7 @@ class BinaryToken:
     COLOR3 = 0x0C
     VECTOR2 = 0x0D
     VECTOR3 = 0x0E
-    #0x0F
+    VECTOR2INT16 = 0x0F
     CFRAME = 0x10
     CFRAMEQUAT = 0x11
     ENUM = 0x12

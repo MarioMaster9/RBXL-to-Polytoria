@@ -515,7 +515,7 @@ def HandlePart(obj, polyObject):
     vertexColor.clamp(-Vector3.ONE, Vector3.ONE) # clamp vertexColor so that colors don't end up weird
     partColor = getPartColor4(obj)
     if str(meshInfo.textureId) != '':
-        partColor *= Color3(*vertexColor)
+        partColor = Color4.FromColor3(Color3(*vertexColor), partColor.a)
     polyObject.Color = partColor
     
     # commented out due to objects not being welded together
