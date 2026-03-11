@@ -10,23 +10,14 @@ import util.hashfuncs as hashfuncs
 import argparse
 import os
 
+from data_types import *
 import util.extmath as extmath
-from data_types.Color3           import Color3
-from data_types.Color4           import Color4
-from data_types.Content          import Content
-from data_types.CoordinateFrame  import CoordinateFrame
-from data_types.MeshInfo         import MeshInfo
-from data_types.FontFace         import FontFace
-from data_types.Vector2          import Vector2
-from data_types.Vector3          import Vector3
-from data_types.Matrix3          import Matrix3
+
 from util.LightingParameters     import LightingParameters
 from util.BufferedXMLWriter      import BufferedXMLWriter
 from util.InstanceTree           import InstanceTree, TreeItem
 from util.BinaryRBXL             import BinaryRBXL
 from util.DataStream             import DataStream
-import data_types.BrickColor     as BrickColor
-import data_types.Enum           as Enum
 
 # ENUMS
 from enums.Material              import Material

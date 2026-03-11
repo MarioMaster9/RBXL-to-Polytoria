@@ -4,22 +4,8 @@ import zstd as zstd
 
 from .BinaryTreeItem import BinaryTreeItem
 from .BinaryToken import BinaryToken
-from data_types.Color3 import Color3
-from data_types.ColorSequence import ColorSequence
-from data_types.ColorSequenceKeypoint import ColorSequenceKeypoint
-from data_types.Content import Content
-from data_types.CoordinateFrame import CoordinateFrame
-from data_types.FontFace import FontFace
-from data_types.Matrix3 import Matrix3
-from data_types.NumberRange import NumberRange
-from data_types.NumberSequence import NumberSequence
-from data_types.NumberSequenceKeypoint import NumberSequenceKeypoint
-from data_types.PhysicalProperties import PhysicalProperties
-from data_types.Rect import Rect
-from data_types.UDim import UDim
-from data_types.UDim2 import UDim2
-from data_types.Vector2 import Vector2
-from data_types.Vector3 import Vector3
+
+from data_types import *
 
 intConvert = lambda x, a: struct.unpack('<i', x)[0]
 uintConvert = lambda x, a: struct.unpack('<I', x)[0]
@@ -37,10 +23,10 @@ def createFrame(fp, length):
 
 zstdheader = b'\x28\xB5\x2F\xFD'
 
-def decompress(fp):
-    comLength = fp.readUint32()
-    decomLength = fp.readUint32()
-    reserved = fp.readUint32()
+def decompress(stream):
+    comLength = stream.readUint32()
+    decomLength = stream.readUint32()
+    reserved = stream.readUint32()
 
     if comLength == 0:
         return stream.readBytes(decomLength)

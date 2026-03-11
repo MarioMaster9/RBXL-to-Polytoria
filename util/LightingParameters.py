@@ -1,10 +1,5 @@
 import math
-from data_types.Color3                   import Color3
-from data_types.CoordinateFrame          import CoordinateFrame
-from data_types.ColorSequence            import ColorSequence
-from data_types.ColorSequenceKeypoint    import ColorSequenceKeypoint
-from data_types.Matrix3                  import Matrix3
-from data_types.Vector3                  import Vector3
+from data_types import *
 
 def linearSpline(x, controlX, controlY, numControl):
     assert numControl >= 1

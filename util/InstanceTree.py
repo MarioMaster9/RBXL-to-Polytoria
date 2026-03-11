@@ -1,15 +1,5 @@
 import base64
-from data_types.Color3                 import Color3
-from data_types.Content                import Content
-from data_types.ColorSequence          import ColorSequence
-from data_types.CoordinateFrame        import CoordinateFrame
-from data_types.FontFace               import FontFace
-from data_types.NumberRange            import NumberRange
-from data_types.NumberSequence         import NumberSequence
-from data_types.PhysicalProperties     import PhysicalProperties
-from data_types.UDim2                  import UDim2
-from data_types.Vector2                import Vector2
-from data_types.Vector3                import Vector3
+from data_types import *
 
 class TreeItem:
     def __init__(self, elem, parent):
