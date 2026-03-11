@@ -537,16 +537,6 @@ def HandleScript(obj, polyObject):
 decalDist = 0.0015
 decalOffset = 0.5
 
-# normalid offsets
-normals = {
-    Enum.NormalId.Right:    Vector3.unitX,
-    Enum.NormalId.Top:      Vector3.unitY,
-    Enum.NormalId.Back:     Vector3.unitZ,
-    Enum.NormalId.Left:    -Vector3.unitX,
-    Enum.NormalId.Bottom:  -Vector3.unitY,
-    Enum.NormalId.Front:   -Vector3.unitZ,
-}
-
 # make code look cleaner
 pi = math.pi
 faceRotations = {
@@ -566,8 +556,9 @@ def HandleDecal(obj, polyObject):
     size = obj.parent.getcustom('decalSize')
     face = obj.get('Face')
     worldTransform = obj.parent.getcustom('worldTransform')
-    faceOffset = normals[face] * decalOffset
-    extraOffset = normals[face] * decalDist # offset used to mitigate z-fighting
+    faceNormal = Vector3.FromNormalId(face)
+    faceOffset = faceNormal * decalOffset
+    extraOffset = faceNormal * decalDist # offset used to mitigate z-fighting
     localPosition = (faceOffset * size) + extraOffset
     match face:
         case Enum.NormalId.Right | Enum.NormalId.Left:
