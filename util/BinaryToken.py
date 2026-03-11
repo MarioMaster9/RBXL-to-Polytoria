@@ -33,3 +33,4 @@ class BinaryToken:
     FONT = 0x20
     CAPABILITIES = 0x21
     CONTENT = 0x22
+    ASSETCONTENTMAP = 0x23
