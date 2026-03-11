@@ -86,7 +86,9 @@ parser.add_argument('-o', '--outfile', default='final', help='File to output (wi
 parser.add_argument('-n', '--npcs', action='store_true', help='Specify whether to convert NPCs or not')
 parser.add_argument('-c', '--config', help='Configuration file (see: config-template.json)')
 
-config_assets = {}
+config_assets = {
+    "rbxasset://fonts/sword.mesh": "130473"
+}
 config_scriptNames = {}
 
 args = parser.parse_args()
@@ -95,7 +97,7 @@ if not args.config is None:
     try:
         with open(args.config, 'r') as f:
             data = json.load(f)
-            config_assets = data['assets']
+            config_assets.update(data['assets'])
             config_scriptNames = data['scriptNames']
     except FileNotFoundError:
         print(f'Configuration file {args.config} not found! Proceeding without configuration')
@@ -378,8 +380,9 @@ classPhysicalShapes = {
 def getAppliedMeshInfo(obj):
     shape = None
     uri = Content.EMPTY
+    textureUri = Content.EMPTY
     if obj.className == "MeshPart":
-        return MeshInfo('FileMesh', obj.get('MeshId'), Vector3.ZERO, obj.get('size'), Vector3.ONE)
+        return MeshInfo('FileMesh', obj.get('MeshId'), textureUri, Vector3.ZERO, obj.get('size'), Vector3.ONE)
     for child in reversed(obj.children):
         if not child.className in meshClasses:
             continue
@@ -400,6 +403,7 @@ def getAppliedMeshInfo(obj):
                 scale *= obj.get('size')
             case 'FileMesh':
                 uri = child.get('MeshId')
+                textureUri = child.get('TextureId')
                 shape = 'FileMesh'
             case 'CylinderMesh':
                 shape = 'UpCylinder'
@@ -407,14 +411,14 @@ def getAppliedMeshInfo(obj):
             case 'BlockMesh':
                 shape = 'Block'
                 scale *= obj.get('size')
-        return MeshInfo(shape, uri, offset, scale, vertexColor)
+        return MeshInfo(shape, uri, textureUri, offset, scale, vertexColor)
     if obj.className == "UnionOperation":
         uri = obj.get('AssetId')
     if obj.className in classPhysicalShapes:
         shape = classPhysicalShapes[obj.className]
     else:
         shape = partPhysicalShapes[obj.get('shape', Enum.PartType.Block)]
-    return MeshInfo(shape, uri, Vector3.ZERO, obj.get('size'), Vector3.ONE)
+    return MeshInfo(shape, uri, textureUri, Vector3.ZERO, obj.get('size'), Vector3.ONE)
 
 # Instances derived from part that have additional functionality
 functionalParts = [
@@ -509,7 +513,10 @@ def HandlePart(obj, polyObject):
             # rotate seats so the player doesn't sit in them backwards
             rotation.y = (rotation.y + 180) % 360
     vertexColor.clamp(-Vector3.ONE, Vector3.ONE) # clamp vertexColor so that colors don't end up weird
-    polyObject.Color = getPartColor4(obj) * Color3(*vertexColor)
+    partColor = getPartColor4(obj)
+    if str(meshInfo.textureId) != '':
+        partColor *= Color3(*vertexColor)
+    polyObject.Color = partColor
     
     # commented out due to objects not being welded together
     #polyObject.Anchored = obj.get('Anchored')
