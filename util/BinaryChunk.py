@@ -1,5 +1,7 @@
 import struct
 import lz4.frame
+import zstd as zstd
+
 from .BinaryTreeItem import BinaryTreeItem
 from .BinaryToken import BinaryToken
 from data_types.Color3 import Color3
@@ -33,16 +35,20 @@ def createFrame(fp, length):
     data = header + fp.readBytes(length)
     return data + b'\x00\x00\x00\x00'
 
+zstdheader = b'\x28\xB5\x2F\xFD'
+
 def decompress(fp):
     comLength = fp.readUint32()
     decomLength = fp.readUint32()
     reserved = fp.readUint32()
 
-    if comLength != 0:
-        return lz4.frame.decompress(createFrame(stream, comLength))
-    else:
+    if comLength == 0:
         return stream.readBytes(decomLength)
-
+    
+    if comLength > 4 and stream.peek(4) == zstdheader:
+        return zstd.decompress(stream.readBytes(comLength))
+    else:
+        return lz4.frame.decompress(createFrame(stream, comLength))
 class BinaryChunk:
     def __init__(self, stream):
         self.loadFromFile(stream)

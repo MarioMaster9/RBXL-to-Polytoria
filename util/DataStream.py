@@ -35,6 +35,10 @@ class DataStream:
         return self.tell() > len(self.stream)
     def readBytes(self, size):
         return self.stream.read(size)
+    def peek(self, size):
+        data = self.stream.read(size)
+        self.seek(-size, True)
+        return data
     def readChars(self, size):
         stringBytes = self.readBytes(size)
         decoded = None
