@@ -65,6 +65,8 @@ class BinaryChunk:
                 self.decode_PRNT(stream, rbxl)
             case b'SSTR':
                 self.decode_SSTR(stream, rbxl)
+            case b'HASH':
+                self.decode_HASH(stream, rbxl)
             case _:
                 print(self.signature)
     def decode_INST(self, stream, rbxl):
@@ -107,6 +109,14 @@ class BinaryChunk:
             md5 = stream.readBytes(16).hex()
             value = stream.readString()
             rbxl.sharedStrings.append({"md5": md5, "value": value})
+    def decode_HASH(self, stream, rbxl):
+        self.instanceCount = stream.readUint32()
+        self.hashSize = stream.readUint8()
+        self.hashFunc = stream.readUint8()
+        self.data = []
+        for i in range(self.instanceCount):
+            item = stream.readBytes(self.hashSize).hex()
+            self.data.append(item)
     def readReferences(self, stream, instCount, rbxl):
         values = stream.readIds(instCount)
         refIds = []
