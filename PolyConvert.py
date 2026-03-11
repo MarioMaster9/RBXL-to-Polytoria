@@ -96,22 +96,21 @@ def removeFolder(folder):
     except FileNotFoundError:
         pass
 
+def remakeFolder(folder):
+    removeFolder(folder)
+    os.mkdir(folder)
 
-removeFolder('scripts')
-removeFolder('embedded')
-removeFolder('out')
+remakeFolder('scripts')
+remakeFolder('embedded')
+remakeFolder('out')
 
-os.mkdir('scripts')
-os.mkdir('embedded')
-os.mkdir('out')
+game = Game("1.5.2")
 
-game = Game("1.4.155")
+mirrorMul = Vector3(-1, 1, 1)
 
 def mirrorVector(v):
     # positions are mirrored
-    newV = v.copy()
-    newV.x = -newV.x
-    return newV
+    return v * mirrorMul
 
 # convert transparency to opacity
 def alpha(transparency):
