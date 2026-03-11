@@ -549,6 +549,8 @@ faceRotations = {
 }
 
 def HandleDecal(obj, polyObject):
+    if str(obj.get('Texture')) == '':
+        polyObject.Color = Color4(0, 0, 0, 0)
     polyObject.ImageID = getResource(obj.get('Texture'))
     if not isinstance(polyObject.parent, Part):
         polyObject.Size = Vector3.ZERO
