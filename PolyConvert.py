@@ -10,16 +10,16 @@ import util.hashfuncs as hashfuncs
 import argparse
 import os
 
-from data_types import *
+from rbxl.data_types import *
 from enums import *
 
 import util.extmath as extmath
 
 from util.LightingParameters     import LightingParameters
 from util.BufferedXMLWriter      import BufferedXMLWriter
-from util.InstanceTree           import InstanceTree, TreeItem
-from util.BinaryRBXL             import BinaryRBXL
-from util.DataStream             import DataStream
+from rbxl.util.InstanceTree      import InstanceTree, TreeItem
+from rbxl.util.BinaryRBXL        import BinaryRBXL
+from rbxl.util.DataStream        import DataStream
 
 # INSTANCES
 from instances.Backpack          import Backpack

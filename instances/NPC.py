@@ -1,5 +1,5 @@
 from .DynamicInstance import DynamicInstance
-from data_types import Color4, Vector3
+from rbxl.data_types import Color4, Vector3
 class NPC(DynamicInstance):
     ClassName = "NPC"
     Properties = [

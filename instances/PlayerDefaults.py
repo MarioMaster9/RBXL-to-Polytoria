@@ -1,5 +1,5 @@
 from .Instance import Instance
-from data_types import Color4
+from rbxl.data_types import Color4
 class PlayerDefaults(Instance):
     ClassName = "PlayerDefaults"
     Properties = [

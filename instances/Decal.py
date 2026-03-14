@@ -1,6 +1,6 @@
 from .DynamicInstance import DynamicInstance
 from enums import ImageType
-from data_types import Vector2, Color4
+from rbxl.data_types import Vector2, Color4
 class Decal(DynamicInstance):
     ClassName = "Decal"
     Properties = [

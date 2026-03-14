@@ -1,5 +1,5 @@
 from .Instance import Instance
-from data_types import Vector2
+from rbxl.data_types import Vector2
 class UIField(Instance):
     ClassName = "UIField"
     Properties = [

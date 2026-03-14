@@ -1,5 +1,5 @@
 from .DynamicInstance import DynamicInstance
-from data_types import Vector3
+from rbxl.data_types import Vector3
 class Sound(DynamicInstance):
     ClassName = "Sound"
     Properties = [

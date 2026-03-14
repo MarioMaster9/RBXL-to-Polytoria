@@ -1,5 +1,5 @@
 import math
-from data_types import *
+from rbxl.data_types import *
 
 def linearSpline(x, controlX, controlY, numControl):
     assert numControl >= 1

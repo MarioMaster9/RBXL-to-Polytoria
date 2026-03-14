@@ -1,6 +1,6 @@
 from .Instance import Instance
 from enums import SkyboxPreset
-from data_types import Vector3, Color4
+from rbxl.data_types import Vector3, Color4
 class Environment(Instance):
     ClassName = "Environment"
     Properties = [
