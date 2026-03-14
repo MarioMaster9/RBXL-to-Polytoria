@@ -11,55 +11,13 @@ import os
 
 from rbxl.data_types import *
 from enums import *
+from instances import *
 
 import util.extmath as extmath
 
 from util.LightingParameters     import LightingParameters
 from util.BufferedXMLWriter      import BufferedXMLWriter
 from rbxl.util.InstanceTree      import TreeItem
-
-# INSTANCES
-from instances.Backpack          import Backpack
-from instances.BoolValue         import BoolValue
-from instances.Camera            import Camera
-from instances.ColorValue        import ColorValue
-from instances.Decal             import Decal
-from instances.Environment       import Environment
-from instances.Folder            import Folder
-from instances.GUI               import GUI
-from instances.Hidden            import Hidden
-from instances.ImageSky          import ImageSky
-from instances.IntValue          import IntValue
-from instances.Lighting          import Lighting
-from instances.LocalScript       import LocalScript
-from instances.MeshPart          import MeshPart
-from instances.Model             import Model
-from instances.ModuleScript      import ModuleScript
-from instances.NetworkEvent      import NetworkEvent
-from instances.NPC               import NPC
-from instances.NumberValue       import NumberValue
-from instances.Part              import Part
-from instances.PlayerDefaults    import PlayerDefaults
-from instances.PlayerGUI         import PlayerGUI
-from instances.Players           import Players
-from instances.PointLight        import PointLight
-from instances.ScriptInstance    import ScriptInstance
-from instances.ScriptService     import ScriptService
-from instances.Seat              import Seat
-from instances.ServerHidden      import ServerHidden
-from instances.Sound             import Sound
-from instances.Spotlight         import Spotlight
-from instances.StringValue       import StringValue
-from instances.SunLight          import SunLight
-from instances.Tool              import Tool
-from instances.Truss             import Truss
-from instances.UIButton          import UIButton
-from instances.UIImage           import UIImage
-from instances.UILabel           import UILabel
-from instances.UITextInput       import UITextInput
-from instances.UIView            import UIView
-from instances.Vector3Value      import Vector3Value
-from instances.Game              import Game
 
 def removeFolder(folder):
     try:
