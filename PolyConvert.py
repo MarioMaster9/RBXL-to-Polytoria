@@ -1,5 +1,6 @@
 from multimethod import multimethod
 import json
+import rbxl
 import io
 from json.decoder import JSONDecodeError
 
@@ -17,7 +18,7 @@ import util.extmath as extmath
 
 from util.LightingParameters     import LightingParameters
 from util.BufferedXMLWriter      import BufferedXMLWriter
-from rbxl.util.InstanceTree      import InstanceTree, TreeItem
+from rbxl.util.InstanceTree      import TreeItem
 from rbxl.util.BinaryRBXL        import BinaryRBXL
 from rbxl.util.DataStream        import DataStream
 
@@ -64,6 +65,16 @@ from instances.UIView            import UIView
 from instances.Vector3Value      import Vector3Value
 from instances.Game              import Game
 
+def removeFolder(folder):
+    try:
+        shutil.rmtree(folder)
+    except FileNotFoundError:
+        pass
+
+def remakeFolder(folder):
+    removeFolder(folder)
+    os.mkdir(folder)
+
 parser = argparse.ArgumentParser(
                     prog='RBXL to Polytoria',
                     description='Converts RBXL files to Polytoria (XML format only)')
@@ -90,21 +101,18 @@ if not args.config is None:
     except JSONDecodeError:
         print(f'Configuration file {args.config} malformed! Proceeding without configuration')
 
-def removeFolder(folder):
-    try:
-        shutil.rmtree(folder)
-    except FileNotFoundError:
-        pass
-
-def remakeFolder(folder):
-    removeFolder(folder)
-    os.mkdir(folder)
-
 remakeFolder('scripts')
 remakeFolder('embedded')
 remakeFolder('out')
 
 game = Game("1.5.2")
+
+services = {}
+
+root = rbxl.parse(args.filename)
+for child in root.children:
+    services[child.className] = child
+writer = BufferedXMLWriter(f'out/{args.outfile}.poly')
 
 mirrorMul = Vector3(-1, 1, 1)
 
@@ -151,14 +159,6 @@ def getColor4(obj: TreeItem, color3: str, transparency: str):
 def getPartColor4(obj):
     # color4 method for parts, due to part color property name and datatype changes in various versions
     return Color4.FromColor3(getPartColor(obj), alpha(obj.get('Transparency')))
-
-# method used to swap indices in a table
-# not used anymore, but it was originally used for decal faces
-def swap(l, idx0, idx1):
-    item0 = l[idx0]
-    item1 = l[idx1]
-    l[idx0] = item1
-    l[idx1] = item0
 
 materialLookup = {
     Enum.Material.SmoothPlastic: Material.SmoothPlastic,
@@ -218,29 +218,6 @@ def saveScript(source, sourceHash):
 
 def getScriptSource(scriptHash):
     return scriptSources[config_scriptNames.get(scriptHash)]
-
-services = {}
-
-isBinaryFormat = False
-with open(args.filename, 'rb') as f:
-    isBinaryFormat = f.read(8) == b'<roblox!'
-if isBinaryFormat:
-    data = None
-    with open(args.filename, 'rb') as f:
-        data = f.read()
-    rbxl = BinaryRBXL(DataStream(io.BytesIO(data)))
-    for child in rbxl.root.children:
-        services[child.className] = child
-else:
-    tree = ET.parse(args.filename)
-    root = tree.getroot()
-    placeRoot = InstanceTree.CreateRoot(root)
-
-    InstanceTree.BuildTree(root, placeRoot)
-
-    for child in placeRoot.children:
-        services[child.className] = child
-writer = BufferedXMLWriter(f'out/{args.outfile}.poly')
 
 def isValidCharacter(mdl):
     if mdl.className != 'Model':
