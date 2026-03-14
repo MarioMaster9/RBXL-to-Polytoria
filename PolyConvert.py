@@ -1,11 +1,9 @@
 from multimethod import multimethod
 import json
 import rbxl
-import io
 from json.decoder import JSONDecodeError
 
 import shutil
-import xml.etree.ElementTree as ET
 import math
 import util.hashfuncs as hashfuncs
 import argparse
@@ -19,8 +17,6 @@ import util.extmath as extmath
 from util.LightingParameters     import LightingParameters
 from util.BufferedXMLWriter      import BufferedXMLWriter
 from rbxl.util.InstanceTree      import TreeItem
-from rbxl.util.BinaryRBXL        import BinaryRBXL
-from rbxl.util.DataStream        import DataStream
 
 # INSTANCES
 from instances.Backpack          import Backpack
