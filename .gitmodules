@@ -1,0 +1,3 @@
+[submodule "rbxl-parser"]
+	path = rbxl-parser
+	url = https://github.com/MarioMaster9/rbxl-parser.git
