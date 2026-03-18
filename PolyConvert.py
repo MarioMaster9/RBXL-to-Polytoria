@@ -195,8 +195,36 @@ def fixRotation(rot):
 def getRotationAndPosition(cf):
     return fixRotation(cf.rotation), mirrorVector(cf.translation)
 
+baseParts = [
+    "CornerWedgePart",
+    "Part",
+    "FlagStand",
+    "Seat",
+    "SkateboardPlatform",
+    "SpawnLocation",
+    "WedgePart",
+    "Terrain",
+    "MeshPart",
+    "PartOperation",
+    "IntersectOperation",
+    "NegateOperation",
+    "UnionOperation",
+    "TrussPart",
+    "VehicleSeat"
+]
+
 def HandleModel(obj, polyObject):
-    pass
+    descendants = obj.getdescendants()
+    position = Vector3(0, 0, 0)
+    partCount = 0
+    for descendant in descendants:
+        if not descendant.className in baseParts:
+            continue
+        position += descendant.get("CFrame").translation
+        partCount += 1
+    if partCount != 0:
+        position /= partCount
+    polyObject.Position = mirrorVector(position)
 
 def HandleNPC(obj, polyObject):
     shirt = obj.findFirstChildOfClass("Shirt")
