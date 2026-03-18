@@ -1,7 +1,8 @@
-from multimethod import multimethod
 import json
-import rbxl
+from multimethod import multimethod
 from json.decoder import JSONDecodeError
+from datetime import datetime, timezone
+import rbxl
 
 import shutil
 import math
@@ -691,12 +692,8 @@ SECONDS_IN_HOUR = SECONDS_IN_MINUTE * 60
 
 def getgametime():
     timeofday = services['Lighting'].get('TimeOfDay')
-    hms = timeofday.split(":")
-    hours   = int(hms[0])
-    minutes = int(hms[1])
-    seconds = int(hms[2])
-    
-    return seconds + (minutes * SECONDS_IN_MINUTE) + (hours * SECONDS_IN_HOUR)
+    timestamp = datetime.strptime(timeofday, '%H:%M:%S').replace(tzinfo=timezone.utc)
+    return int(timestamp.timestamp())
 
 def getSunRotation():
     para = LightingParameters(getgametime(), True, services['Lighting'].get('GeographicLatitude'))    
