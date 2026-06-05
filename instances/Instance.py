@@ -53,7 +53,11 @@ class Instance:
                     json_self[item[0]] = getattr(self, item[0])
                 case "color":
                     value = getattr(self, item[0])
-                    json_self[item[0]] = f'{value.r:02x}{value.g:02x}{value.b:02x}{value.a:02x}'
+                    r = int(value.r*255)
+                    g = int(value.g*255)
+                    b = int(value.b*255)
+                    a = int(value.a*255)
+                    json_self[item[0]] = f'{r:02x}{g:02x}{b:02x}{a:02x}'
                 case "vector2" | "vector3":
                     json_self[item[0]] = [*getattr(self, item[0])]
                 case "numberrange":
