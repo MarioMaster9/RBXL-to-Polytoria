@@ -38,7 +38,7 @@ class Instance:
     def move(self, newParent):
         self.parent.children.remove(self)
         newParent.addChild(self)
-    def serializeNew(self, writer):
+    def serialize(self, json_self):
         for item in self.serializationProperties:
             propName = item[0]
             datatype = item[1]
@@ -47,31 +47,30 @@ class Instance:
             assert not getattr(self, item[0]) is None, f'{item[0]} of {self.className} is None'
             match item[1]:
                 case "boolean":
-                    writer.writeBoolean(item[0], getattr(self, item[0]))
-                case "string":
-                    writer.writeString(item[0], getattr(self, item[0]))
-                case "int":
-                    writer.writeInt(item[0], getattr(self, item[0]))
-                case "float":
-                    writer.writeFloat(item[0], getattr(self, item[0]))
+                    #TODO: implement
+                    json_self[item[0]] = ""#getattr(self, item[0])
+                case "string" | "int" | "float":
+                    json_self[item[0]] = getattr(self, item[0])
                 case "color":
-                    writer.writeColor(item[0], getattr(self, item[0]))
-                case "vector2":
-                    writer.writeVector2(item[0], getattr(self, item[0]))
-                case "vector3":
-                    writer.writeVector3(item[0], getattr(self, item[0]))
+                    value = getattr(self, item[0])
+                    json_self[item[0]] = f'{value.r:02x}{value.g:02x}{value.b:02x}{value.a:02x}'
+                case "vector2" | "vector3":
+                    json_self[item[0]] = [*getattr(self, item[0])]
                 case "numberrange":
-                    writer.writeNumberRange(item[0], getattr(self, item[0]))
+                    #TODO: implement
+                    json_self[item[0]] = ""#getattr(self, item[0])
                 case "colorrange":
-                    writer.writeColorRange(item[0], getattr(self, item[0]))
+                    #TODO: implement
+                    json_self[item[0]] = ""#getattr(self, item[0])
                 case _:
                     print("INVALID DATATYPE: " + datatype)
                     exit()
-    def write(self, writer):
-        writer.writeDataOpening(f'<Item class="{self.className}">')
-        writer.writeDataOpening(f'<Properties>')
-        self.serializeNew(writer)
-        writer.writeDataClosing("</Properties>")
+    def json(self):
+        json_self = {
+            "Children": []
+        }
+
+        self.serialize(json_self)
         for obj in self.children:
-            obj.write(writer)
-        writer.writeDataClosing("</Item>")
+            json_self["Children"].append(obj.json())
+        return json_self

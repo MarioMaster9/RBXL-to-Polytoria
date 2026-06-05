@@ -7,8 +7,11 @@ class Game(Instance):
     def findService(self, service):
         return self.findFirstChildOfClass(service)
     def write(self, writer):
-        writer.writeData('<?xml version="1.0" encoding="UTF-8"?>')
-        writer.writeData(f'<game version="{self.Version}">')
+        json_self = {
+            "Version": self.Version,
+            "FileType": 0,
+            "Objects": []
+        }
         for obj in self.children:
-            obj.write(writer)
-        writer.writeDataClosing("</game>")
+            json_self["Objects"].append(obj.json())
+        return json_self

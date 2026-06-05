@@ -32,7 +32,7 @@ def remakeFolder(folder):
 
 parser = argparse.ArgumentParser(
                     prog='RBXL to Polytoria',
-                    description='Converts RBXL files to Polytoria (XML format only)')
+                    description='Converts RBXL files to Polytoria')
 parser.add_argument('filename')
 parser.add_argument('-o', '--outfile', default='final', help='File to output (without extension)')
 parser.add_argument('-n', '--npcs', action='store_true', help='Specify whether to convert NPCs or not')
@@ -60,7 +60,7 @@ remakeFolder('scripts')
 remakeFolder('embedded')
 remakeFolder('out')
 
-game = Game("1.5.2")
+game = Game("2.0.0-beta85")
 
 services = {}
 
