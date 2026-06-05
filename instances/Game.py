@@ -6,7 +6,7 @@ class Game(Instance):
         self.Version = version
     def findService(self, service):
         return self.findFirstChildOfClass(service)
-    def write(self, writer):
+    def json(self):
         json_self = {
             "Version": self.Version,
             "FileType": 0,

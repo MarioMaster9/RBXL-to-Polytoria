@@ -46,31 +46,30 @@ class Instance:
                 continue
             assert not getattr(self, item[0]) is None, f'{item[0]} of {self.className} is None'
             match item[1]:
-                case "boolean":
-                    #TODO: implement
-                    json_self[item[0]] = ""#getattr(self, item[0])
-                case "string" | "int" | "float":
-                    json_self[item[0]] = getattr(self, item[0])
+                case "string" | "int" | "float" | "boolean":
+                    json_self["Properties"][item[0]] = getattr(self, item[0])
                 case "color":
                     value = getattr(self, item[0])
                     r = int(value.r*255)
                     g = int(value.g*255)
                     b = int(value.b*255)
                     a = int(value.a*255)
-                    json_self[item[0]] = f'{r:02x}{g:02x}{b:02x}{a:02x}'
+                    json_self["Properties"][item[0]] = f'{r:02x}{g:02x}{b:02x}{a:02x}'
                 case "vector2" | "vector3":
-                    json_self[item[0]] = [*getattr(self, item[0])]
+                    json_self["Properties"][item[0]] = [*getattr(self, item[0])]
                 case "numberrange":
                     #TODO: implement
-                    json_self[item[0]] = ""#getattr(self, item[0])
+                    json_self["Properties"][item[0]] = ""#getattr(self, item[0])
                 case "colorrange":
                     #TODO: implement
-                    json_self[item[0]] = ""#getattr(self, item[0])
+                    json_self["Properties"][item[0]] = ""#getattr(self, item[0])
                 case _:
                     print("INVALID DATATYPE: " + datatype)
                     exit()
     def json(self):
         json_self = {
+            "ClassName": self.className,
+            "Properties": {},
             "Children": []
         }
 

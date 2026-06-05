@@ -17,7 +17,7 @@ from instances import *
 import util.extmath as extmath
 
 from util.LightingParameters     import LightingParameters
-from util.BufferedXMLWriter      import BufferedXMLWriter
+from util.JSONWriter             import JSONWriter
 from rbxl.util.InstanceTree      import TreeItem
 
 def removeFolder(folder):
@@ -67,7 +67,7 @@ services = {}
 root = rbxl.parse(args.filename)
 for child in root.children:
     services[child.className] = child
-writer = BufferedXMLWriter(f'out/{args.outfile}.poly')
+writer = JSONWriter(f'out/{args.outfile}.poly')
 
 mirrorMul = Vector3(-1, 1, 1)
 
@@ -1018,6 +1018,7 @@ lighting = game.findService('Lighting')
 
 lighting.moveChildren(storageLighting, ['ImageSky', 'SunLight'])
 
-game.write(writer)
+game_json = game.json()
 
+writer.write(game_json)
 writer.close()
