@@ -42,6 +42,8 @@ class Instance:
         for item in self.serializationProperties:
             propName = item[0]
             datatype = item[1]
+            if propName == "Name":
+                continue
             if not hasattr(self, item[0]):
                 continue
             assert not getattr(self, item[0]) is None, f'{item[0]} of {self.className} is None'
@@ -68,9 +70,13 @@ class Instance:
                     exit()
     def json(self):
         json_self = {
+            "Name": self.Name,
             "ClassName": self.className,
+            "ID": "",
             "Properties": {},
-            "Children": []
+            "Children": [],
+            "LinkedModel": None,
+            "IsLinkedChild": False
         }
 
         self.serialize(json_self)
