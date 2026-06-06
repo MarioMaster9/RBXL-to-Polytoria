@@ -1,5 +1,5 @@
 from .Instance import Instance
-from rbxl.data_types import Color4
+from rbxl.data_types import Vector3
 class Environment(Instance):
     ClassName = "Environment"
     Properties = [
