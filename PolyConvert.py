@@ -587,10 +587,6 @@ def HandleAttachment(obj, polyObject):
 
 def HandleWorkspace(obj, polyObject):
     polyObject.addChild(Camera())
-    polyObject.FogEnabled = services['Lighting'].has('FogStart')
-    polyObject.FogStartDistance = services['Lighting'].get('FogStart', 0)
-    polyObject.FogEndDistance = services['Lighting'].get('FogEnd', 0)
-    polyObject.FogColor = Color4.FromColor3(services['Lighting'].get('FogColor', Color3.WHITE))
 
 def HandleScreenGui(obj, polyObject):
     polyObject.Visible = obj.get('Enabled', True)
@@ -742,6 +738,10 @@ def DoSunLight(polyObject):
 
 def HandleLighting(obj, polyObject):
     polyObject.AmbientColor = Color4.FromColor3(obj.get('Ambient'))
+    polyObject.FogEnabled = services['Lighting'].has('FogStart')
+    polyObject.FogStartDistance = services['Lighting'].get('FogStart', 0)
+    polyObject.FogEndDistance = services['Lighting'].get('FogEnd', 0)
+    polyObject.FogColor = Color4.FromColor3(services['Lighting'].get('FogColor', Color3.WHITE))
     polyObject.addChild(DoSunLight(SunLight()))
 
 # used for instances that have no unique properties/don't need properties set
