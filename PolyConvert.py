@@ -61,6 +61,8 @@ remakeFolder('embedded')
 remakeFolder('out')
 
 game = Game("2.0.0-beta85")
+world = World()
+game.addChild(world)
 
 services = {}
 
@@ -966,7 +968,7 @@ limbs = [
 def getConstructor(className):
     return constructors[classNames[className]]
 
-def HandleObject(obj, parent=game):
+def HandleObject(obj, parent=world):
     className = obj.className
     if className in doNotConvert:
         return
@@ -995,26 +997,26 @@ def HandleService(service):
     if service in services:
         HandleObject(services[service])
     else:
-        game.addChild(getConstructor(service)())
+        world.addChild(getConstructor(service)())
 
 HandleService('Workspace')
 HandleService('Lighting')
-game.addChild(Players())
-game.addChild(ScriptService())
-game.addChild(Hidden())
+world.addChild(Players())
+world.addChild(ScriptService())
+world.addChild(Hidden())
 HandleService('ServerStorage')
-game.addChild(PlayerDefaults())
+world.addChild(PlayerDefaults())
 HandleService('StarterPack')
 HandleService('StarterGui')
 
 # lighting storage
-hidden = game.findService('Hidden')
+hidden = world.findService('Hidden')
 
 storageLighting = Folder()
 storageLighting.Name = 'Storage from lighting'
 hidden.addChild(storageLighting)
 
-lighting = game.findService('Lighting')
+lighting = world.findService('Lighting')
 
 lighting.moveChildren(storageLighting, ['ImageSky', 'SunLight'])
 

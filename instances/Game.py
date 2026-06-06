@@ -4,8 +4,6 @@ class Game(Instance):
     def __init__(self, version):
         super().__init__()
         self.Version = version
-    def findService(self, service):
-        return self.findFirstChildOfClass(service)
     def json(self):
         json_self = {
             "Version": self.Version,
