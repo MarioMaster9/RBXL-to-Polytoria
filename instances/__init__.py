@@ -6,6 +6,7 @@ from .CaptureService               import CaptureService
 from .ColorValue                   import ColorValue
 from .CoreUIService                import CoreUIService
 from .Decal                        import Decal
+from .Entity                       import Entity
 from .Environment                  import Environment
 from .Folder                       import Folder
 from .GUI                          import GUI

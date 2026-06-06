@@ -2,7 +2,7 @@ from .DynamicInstance import DynamicInstance
 from enums import ImageType
 from rbxl.data_types import Vector2, Color4
 class Decal(DynamicInstance):
-    ClassName = "Decal"
+    ClassName = "Image3D"
     Properties = [
         ["ImageID", "string"],
         ["ImageType", "int"],

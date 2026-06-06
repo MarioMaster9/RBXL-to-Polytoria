@@ -1,3 +1,5 @@
+import uuid
+
 class Instance:
     ClassName = "Instance"
     Properties = [
@@ -7,6 +9,7 @@ class Instance:
     def __init__(self):
         self.children = []
         self.Tags = []
+        self.uuid = uuid.uuid4()
         self.addProperties(Instance.Properties)
     @property
     def className(self):
@@ -50,7 +53,7 @@ class Instance:
                 continue
             assert not getattr(self, item[0]) is None, f'{item[0]} of {self.className} is None'
             match item[1]:
-                case "string" | "int" | "float" | "boolean" | "array":
+                case "string" | "uint" | "int" | "float" | "boolean" | "array":
                     json_self["Properties"][item[0]] = getattr(self, item[0])
                 case "color":
                     value = getattr(self, item[0])
@@ -71,8 +74,13 @@ class Instance:
                     print("INVALID DATATYPE: " + datatype)
                     exit()
     def json(self):
+        name = self.Name
+        if self.className == "World" or self.parent.className == "World":
+            pass
+        else:
+            name += str(self.uuid)
         json_self = {
-            "Name": self.Name,
+            "Name": name,
             "ClassName": self.className,
             "ID": "",
             "Properties": {},
