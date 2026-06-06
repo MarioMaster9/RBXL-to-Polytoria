@@ -9,7 +9,9 @@ class JSONWriter:
         zstdData = zstd.compress(jsonStr.encode('utf-8'))
         with open(self.fileName, 'w') as f:
             f.write(jsonStr)
-        with open(f'{self.fileName}.zst', 'wb+') as f:
-            f.write(zstdData)
+        if self.fileName != "out/project.ptproj":
+            fileName2 = self.fileName.replace('.poly','2.poly')
+            with open(fileName2, 'wb+') as f:
+                f.write(zstdData)
     def close(self):
         pass

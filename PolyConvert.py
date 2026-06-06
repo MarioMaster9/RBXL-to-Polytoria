@@ -1022,4 +1022,13 @@ lighting.moveChildren(storageLighting, ['ImageSky', 'SunLight'])
 game_json = game.json()
 
 writer.write(game_json)
+projectWriter = JSONWriter("out/project.ptproj")
+projectWriter.write({
+    "ProjectName": "MyProject",
+    "MainWorld": writer.fileName.replace('.poly','2.poly'), # temporary
+    "IconID": None
+})
+
+
 writer.close()
+projectWriter.close()
