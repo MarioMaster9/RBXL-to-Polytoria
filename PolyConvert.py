@@ -71,12 +71,6 @@ for child in root.children:
     services[child.className] = child
 writer = JSONWriter(f'out/{args.outfile}.poly')
 
-mirrorMul = Vector3(-1, 1, 1)
-
-def mirrorVector(v):
-    # positions are mirrored
-    return v * mirrorMul
-
 # convert transparency to opacity
 def alpha(transparency):
     return 1-min(1, transparency)
@@ -190,12 +184,10 @@ def isValidCharacter(mdl):
 def fixRotation(rot):
     rot.orthonormalize() # Orthonormalize the rotation so that getting euler angles doesn't result in weird values
     euler = extmath.degrees(Vector3(*rot.toEulerAnglesYXZ()).yxz())
-    euler.y = -euler.y
-    euler.z = -euler.z
     return euler
 
 def getRotationAndPosition(cf):
-    return fixRotation(cf.rotation), mirrorVector(cf.translation)
+    return fixRotation(cf.rotation), cf.translation
 
 baseParts = [
     "CornerWedgePart",
@@ -226,7 +218,7 @@ def HandleModel(obj, polyObject):
         partCount += 1
     if partCount != 0:
         position /= partCount
-    polyObject.Position = mirrorVector(position)
+    polyObject.Position = position
 
 def HandleNPC(obj, polyObject):
     shirt = obj.findFirstChildOfClass("Shirt")
@@ -474,7 +466,7 @@ def HandlePart(obj, polyObject):
         polyObject.Shape = shape
     
     polyObject.Material = materialLookup.get(obj.get('Material'), Material.Plastic)
-    polyObject.Velocity = mirrorVector(obj.get('Velocity'))
+    polyObject.Velocity = obj.get('Velocity')
     polyObject.Friction = getPartFriction(obj)
     polyObject.Bounciness = getPartElasticity(obj)
         
