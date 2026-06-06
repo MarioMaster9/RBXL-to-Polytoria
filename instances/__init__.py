@@ -5,12 +5,12 @@ from .Camera                       import Camera
 from .CaptureService               import CaptureService
 from .ColorValue                   import ColorValue
 from .CoreUIService                import CoreUIService
-from .Decal                        import Decal
 from .Entity                       import Entity
 from .Environment                  import Environment
 from .Folder                       import Folder
 from .GUI                          import GUI
 from .Hidden                       import Hidden
+from .Image3D                      import Image3D
 from .ImageSky                     import ImageSky
 from .IntValue                     import IntValue
 from .Lighting                     import Lighting
