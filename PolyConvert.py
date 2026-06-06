@@ -497,7 +497,7 @@ faceRotations = {
 def HandleDecal(obj, polyObject):
     if str(obj.get('Texture')) == '':
         polyObject.Color = Color4(0, 0, 0, 0)
-    polyObject.ImageID = getResource(obj.get('Texture'))
+    polyObject.Image = game.newImage(getResource(obj.get('Texture')))
     if not isinstance(polyObject.parent, Part):
         polyObject.Size = Vector3.ZERO
         return
@@ -562,7 +562,7 @@ def isSoundSource(obj, polyObject):
     return isinstance(polyObject, Part) or obj.className == "Attachment"
 
 def HandleSound(obj, polyObject):
-    polyObject.SoundID = getResource(obj.get('SoundId'))
+    polyObject.Audio = game.newAudio(getResource(obj.get('SoundId')))
     polyObject.Pitch = obj.get('PlaybackSpeed', obj.get('Pitch'))
     polyObject.Autoplay = obj.get('Playing', False)
     polyObject.Loop = obj.get('Looped')
@@ -608,7 +608,7 @@ def HandleImageLabel(obj, polyObject):
     opacity = alpha(obj.get('ImageTransparency', 0))
     color = obj.get('ImageColor3', Color3.WHITE)
     polyObject.Color = Color4.FromColor3(color, opacity)
-    polyObject.ImageID = getResource(obj.get('Image'))
+    polyObject.Image = game.newImage(getResource(obj.get('Image')))
     polyObject.Clickable = obj.className == 'ImageButton'
     HandleUIField(obj, polyObject)
 
@@ -697,12 +697,12 @@ def HandleTool(obj, polyObject):
     polyObject.Droppable = obj.get('CanBeDropped', True)
 
 def HandleSky(obj, polyObject):
-    polyObject.TopId = int(getResource(obj.get('SkyboxUp')))
-    polyObject.BottomId = int(getResource(obj.get('SkyboxDn')))
-    polyObject.LeftId = int(getResource(obj.get('SkyboxLf')))
-    polyObject.RightId = int(getResource(obj.get('SkyboxRt')))
-    polyObject.FrontId = int(getResource(obj.get('SkyboxFt')))
-    polyObject.BackId = int(getResource(obj.get('SkyboxBk')))
+    polyObject.TopImage = game.newImage(getResource(obj.get('SkyboxUp')))
+    polyObject.BottomImage = game.newImage(getResource(obj.get('SkyboxDn')))
+    polyObject.LeftImage = game.newImage(getResource(obj.get('SkyboxLf')))
+    polyObject.RightImage = game.newImage(getResource(obj.get('SkyboxRt')))
+    polyObject.FrontImage = game.newImage(getResource(obj.get('SkyboxFt')))
+    polyObject.BackImage = game.newImage(getResource(obj.get('SkyboxBk')))
 
 SECONDS_IN_MINUTE = 60
 

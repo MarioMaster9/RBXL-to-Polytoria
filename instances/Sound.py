@@ -1,15 +1,16 @@
-from .DynamicInstance import DynamicInstance
+from .Dynamic import Dynamic
 from rbxl.data_types import Vector3
-class Sound(DynamicInstance):
+class Sound(Dynamic):
     ClassName = "Sound"
     Properties = [
-        ["SoundID", "string"],
+        ["Audio", "ref"],
+        ["Volume", "float"],
         ["Pitch", "float"],
-        ["MaxDistance", "float"],
         ["Autoplay", "boolean"],
         ["Loop", "boolean"],
         ["PlayInWorld", "boolean"],
-        ["Volume", "float"],
+        ["Paused", "boolean"],
+        ["MaxDistance", "float"],
     ]
     def __init__(self):
         super().__init__()

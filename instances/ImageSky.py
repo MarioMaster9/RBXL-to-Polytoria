@@ -2,12 +2,12 @@ from .Instance import Instance
 class ImageSky(Instance):
     ClassName = "ImageSky"
     Properties = [
-        ["TopId", "int"],
-        ["BottomId", "int"],
-        ["LeftId", "int"],
-        ["RightId", "int"],
-        ["FrontId", "int"],
-        ["BackId", "int"],
+        ["TopImage", "ref"],
+        ["BottomImage", "ref"],
+        ["LeftImage", "ref"],
+        ["RightImage", "ref"],
+        ["FrontImage", "ref"],
+        ["BackImage", "ref"],
     ]
     def __init__(self):
         super().__init__()
