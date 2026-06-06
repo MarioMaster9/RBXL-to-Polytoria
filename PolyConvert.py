@@ -786,51 +786,51 @@ constructors = {
 }
 
 classHandlers = {
-    "Accessory":        HandleModel,
-    "Attachment":       HandleAttachment,
-    "Backpack":         HandleBase,
-    "BoolValue":        HandleValue,
-    "Color3Value":      HandleColorValue,
-    "Configuration":    HandleBase,
-    "CornerWedgePart":  HandlePart,
-    "Decal":            HandleDecal,
-    "Folder":           HandleBase,
-    "Frame":            HandleFrame,
-    "GuiMain":          HandleScreenGui,
-    "ImageButton":      HandleImageLabel,
-    "ImageLabel":       HandleImageLabel,
-    "IntValue":         HandleValue,
+#    "Accessory":        HandleModel,
+#    "Attachment":       HandleAttachment,
+#    "Backpack":         HandleBase,
+#    "BoolValue":        HandleValue,
+#    "Color3Value":      HandleColorValue,
+#    "Configuration":    HandleBase,
+#    "CornerWedgePart":  HandlePart,
+#    "Decal":            HandleDecal,
+#    "Folder":           HandleBase,
+#    "Frame":            HandleFrame,
+#    "GuiMain":          HandleScreenGui,
+#    "ImageButton":      HandleImageLabel,
+#    "ImageLabel":       HandleImageLabel,
+#    "IntValue":         HandleValue,
     "Lighting":         HandleLighting,
-    "LocalScript":      HandleScript,
-    "MeshPart":         HandleMeshPart,
+#    "LocalScript":      HandleScript,
+#    "MeshPart":         HandleMeshPart,
     "Model":            HandleModel,
-    "ModuleScript":     HandleScript,
-    "NumberValue":      HandleValue,
-    "Part":             HandlePart,
-    "PointLight":       HandlePointLight,
-    "RemoteEvent":      HandleBase,
-    "ScreenGui":        HandleScreenGui,
-    "Script":           HandleScript,
-    "Seat":             HandlePart,
-    "ServerStorage":    HandleBase,
-    "Sky":              HandleSky,
-    "Sound":            HandleSound,
-    "SpawnLocation":    HandlePart,
-    "SpotLight":        HandleSpotlight,
-    "StarterGui":       HandleBase,
-    "StarterPack":      HandleBase,
-    "StockSound":       HandleSound,
-    "StringValue":      HandleValue,
-    "TextBox":          HandleTextBox,
-    "TextButton":       HandleTextButton,
-    "TextLabel":        HandleTextLabel,
-    "Texture":          HandleTexture,
-    "Tool":             HandleTool,
-    "TrussPart":        HandleTruss,
-    "UnionOperation":   HandleUnionOperation,
-    "Vector3Value":     HandleValue,
-    "VehicleSeat":      HandlePart,
-    "WedgePart":        HandlePart,
+#    "ModuleScript":     HandleScript,
+#    "NumberValue":      HandleValue,
+#    "Part":             HandlePart,
+#    "PointLight":       HandlePointLight,
+#    "RemoteEvent":      HandleBase,
+#    "ScreenGui":        HandleScreenGui,
+#    "Script":           HandleScript,
+#    "Seat":             HandlePart,
+#    "ServerStorage":    HandleBase,
+#    "Sky":              HandleSky,
+#    "Sound":            HandleSound,
+#    "SpawnLocation":    HandlePart,
+#    "SpotLight":        HandleSpotlight,
+#    "StarterGui":       HandleBase,
+#    "StarterPack":      HandleBase,
+#    "StockSound":       HandleSound,
+#    "StringValue":      HandleValue,
+#    "TextBox":          HandleTextBox,
+#    "TextButton":       HandleTextButton,
+#    "TextLabel":        HandleTextLabel,
+#    "Texture":          HandleTexture,
+#    "Tool":             HandleTool,
+#    "TrussPart":        HandleTruss,
+#    "UnionOperation":   HandleUnionOperation,
+#    "Vector3Value":     HandleValue,
+#    "VehicleSeat":      HandlePart,
+#    "WedgePart":        HandlePart,
     "Workspace":        HandleWorkspace,
 }
 if args.npcs:
@@ -1007,6 +1007,11 @@ HandleService('ServerStorage')
 world.addChild(PlayerDefaults())
 HandleService('StarterPack')
 HandleService('StarterGui')
+world.addChild(AchievementsService())
+world.addChild(CoreUIService())
+world.addChild(Stats())
+world.addChild(Teams())
+world.addChild(CaptureService())
 
 # lighting storage
 hidden = world.findService('Hidden')
@@ -1025,7 +1030,7 @@ writer.write(game_json)
 projectWriter = JSONWriter("out/project.ptproj")
 projectWriter.write({
     "ProjectName": "MyProject",
-    "MainWorld": writer.fileName.replace('.poly','2.poly'), # temporary
+    "MainWorld": args.outfile + '2.poly', # temporary
     "IconID": None
 })
 

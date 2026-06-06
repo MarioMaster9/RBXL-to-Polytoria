@@ -8,7 +8,8 @@ class Game(Instance):
         json_self = {
             "Version": self.Version,
             "FileType": 0,
-            "Objects": []
+            "Objects": [],
+            "NonInstanceObjects": []
         }
         for obj in self.children:
             json_self["Objects"].append(obj.json())

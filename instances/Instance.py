@@ -1,10 +1,12 @@
 class Instance:
     ClassName = "Instance"
     Properties = [
-        ["Name", "string"]
+        ["Name", "string"],
+        ["Tags", "array"]
     ]
     def __init__(self):
         self.children = []
+        self.Tags = []
         self.addProperties(Instance.Properties)
     @property
     def className(self):
@@ -48,7 +50,7 @@ class Instance:
                 continue
             assert not getattr(self, item[0]) is None, f'{item[0]} of {self.className} is None'
             match item[1]:
-                case "string" | "int" | "float" | "boolean":
+                case "string" | "int" | "float" | "boolean" | "array":
                     json_self["Properties"][item[0]] = getattr(self, item[0])
                 case "color":
                     value = getattr(self, item[0])
