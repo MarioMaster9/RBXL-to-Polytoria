@@ -22,7 +22,7 @@ from .PlayerDefaults    import PlayerDefaults
 from .PlayerGUI         import PlayerGUI
 from .Players           import Players
 from .PointLight        import PointLight
-from .ScriptInstance    import ScriptInstance
+from .Script            import Script
 from .ScriptService     import ScriptService
 from .Seat              import Seat
 from .ServerHidden      import ServerHidden
