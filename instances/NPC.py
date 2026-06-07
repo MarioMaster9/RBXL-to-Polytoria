@@ -1,6 +1,6 @@
-from .DynamicInstance import DynamicInstance
+from .Physical import Physical
 from rbxl.data_types import Color4, Vector3
-class NPC(DynamicInstance):
+class NPC(Physical):
     ClassName = "NPC"
     Properties = [
         ["HeadColor", "color"],
@@ -9,7 +9,6 @@ class NPC(DynamicInstance):
         ["RightArmColor", "color"],
         ["LeftLegColor", "color"],
         ["RightLegColor", "color"],
-        ["Anchored", "boolean"],
         ["Health", "float"],
         ["MaxHealth", "float"],
         ["WalkSpeed", "float"],

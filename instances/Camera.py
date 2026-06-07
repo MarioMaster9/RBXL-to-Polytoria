@@ -1,7 +1,7 @@
-from .DynamicInstance import DynamicInstance
+from .Dynamic import Dynamic
 from enums import CameraMode
 from rbxl.data_types import Vector3
-class Camera(DynamicInstance):
+class Camera(Dynamic):
     ClassName = "Camera"
     Properties = [
         ["Mode", "int"],
