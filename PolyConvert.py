@@ -168,7 +168,7 @@ def saveScript(source, sourceHash):
         f.write(source.encode('utf-8'))
 
 def getScriptSource(scriptHash):
-    return scriptSources[config_scriptNames.get(scriptHash)]
+    return ""#scriptSources[config_scriptNames.get(scriptHash)]
 
 def isValidCharacter(mdl):
     if mdl.className != 'Model':
