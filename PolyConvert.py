@@ -221,12 +221,12 @@ def HandleModel(obj, polyObject):
     polyObject.Position = position
 
 def HandleNPC(obj, polyObject):
-    shirt = obj.findFirstChildOfClass("Shirt")
-    if not shirt is None:
-        polyObject.ShirtID = int(getResource(shirt.get('ShirtTemplate')))
-    pants = obj.findFirstChildOfClass("Pants")
-    if not pants is None:
-        polyObject.PantsID = int(getResource(pants.get('PantsTemplate')))
+    #shirt = obj.findFirstChildOfClass("Shirt")
+    #if not shirt is None:
+    #    polyObject.ShirtID = int(getResource(shirt.get('ShirtTemplate')))
+    #pants = obj.findFirstChildOfClass("Pants")
+    #if not pants is None:
+    #    polyObject.PantsID = int(getResource(pants.get('PantsTemplate')))
     humanoid = obj.findFirstChildOfClass("Humanoid")
     head = obj.findFirstChild("Head")
     if not head is None:
@@ -247,13 +247,14 @@ def HandleNPC(obj, polyObject):
     if not rightLeg is None:
         polyObject.RightLegColor = getPartColor4(rightLeg)
     bodyColors = obj.findFirstChildOfClass("BodyColors")
+    character = polyObject.Character
     if not bodyColors is None:
-        polyObject.HeadColor.setColor3(bodyColors.get('HeadColor'))
-        polyObject.TorsoColor.setColor3(bodyColors.get('TorsoColor'))
-        polyObject.LeftArmColor.setColor3(bodyColors.get('LeftArmColor'))
-        polyObject.RightArmColor.setColor3(bodyColors.get('RightArmColor'))
-        polyObject.LeftLegColor.setColor3(bodyColors.get('LeftLegColor'))
-        polyObject.RightLegColor.setColor3(bodyColors.get('RightLegColor'))
+        character.HeadColor.setColor3(bodyColors.get('HeadColor'))
+        character.TorsoColor.setColor3(bodyColors.get('TorsoColor'))
+        character.LeftArmColor.setColor3(bodyColors.get('LeftArmColor'))
+        character.RightArmColor.setColor3(bodyColors.get('RightArmColor'))
+        character.LeftLegColor.setColor3(bodyColors.get('LeftLegColor'))
+        character.RightLegColor.setColor3(bodyColors.get('RightLegColor'))
     
     polyObject.Health = humanoid.get('Health_XML', humanoid.get('Health'))
     polyObject.MaxHealth = humanoid.get('MaxHealth')

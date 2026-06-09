@@ -1,4 +1,5 @@
 from .AchievementsService                 import AchievementsService
+from .Animator                            import Animator
 from .assetObjects.AudioAsset             import AudioAsset
 from .Backpack                            import Backpack
 from .assetObjects.BaseAsset              import BaseAsset

@@ -1,35 +1,29 @@
 from .Physical import Physical
-from rbxl.data_types import Color4, Vector3
+from .PolytorianModel import PolytorianModel
+from rbxl.data_types import Vector3
 class NPC(Physical):
     ClassName = "NPC"
     Properties = [
-        ["HeadColor", "color"],
-        ["TorsoColor", "color"],
-        ["LeftArmColor", "color"],
-        ["RightArmColor", "color"],
-        ["LeftLegColor", "color"],
-        ["RightLegColor", "color"],
+        ["Velocity", "vector3"],
+        ["SeatOffset", "vector3"],
         ["Health", "float"],
         ["MaxHealth", "float"],
-        ["WalkSpeed", "float"],
         ["JumpPower", "float"],
-        ["ShirtID", "int"],
-        ["PantsID", "int"],
-        ["FaceID", "int"],
-        ["Velocity", "vector3"],
+        ["WalkSpeed", "float"],
+        ["UseNametag", "boolean"],
+        ["NametagOffset", "vector3"],
+        ["NametagVisibleRadius", "float"],
+        ["DisplayName", "string"],
+        ["JumpSound", "ref"],
+        ["Character", "ref"],
     ]
     def __init__(self):
         super().__init__()
         self.addProperties(NPC.Properties)
-        self.HeadColor = Color4.WHITE
-        self.TorsoColor = Color4.WHITE
-        self.LeftArmColor = Color4.WHITE
-        self.RightArmColor = Color4.WHITE
-        self.LeftLegColor = Color4.WHITE
-        self.RightLegColor = Color4.WHITE
-        self.Anchored = True
-        self.ShirtID = 0
-        self.PantsID = 0
-        self.FaceID = 0
-        self.Velocity = Vector3.ZERO
-        self.Size = Vector3.ONE
+        ptm = PolytorianModel()
+        self.Character = PolytorianModel()
+        ptm.Name = "Character"
+        self.addChild(ptm)
+        ptm.LocalPosition = Vector3.ZERO
+        ptm.LocalRotation = Vector3.ZERO
+        ptm.LocalSize = Vector3.ONE
