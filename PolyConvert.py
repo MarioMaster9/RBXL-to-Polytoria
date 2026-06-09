@@ -742,7 +742,6 @@ def HandleBase(obj, polyObject):
     pass
 
 constructors = {
-    "Backpack":       Backpack,
     "BoolValue":      BoolValue,
     "ColorValue":     ColorValue,
     "Environment":    Environment,
@@ -751,6 +750,7 @@ constructors = {
     "Image3D":        Image3D,
     "ImageSky":       ImageSky,
     "IntValue":       IntValue,
+    "Inventory":      Inventory,
     "Lighting":       Lighting,
     "LocalScript":    LocalScript,
     "MeshPart":       MeshPart,
@@ -848,7 +848,7 @@ aliases = {
     "SpawnLocation":   "Part",
     "SpotLight":       "Spotlight",
     "StarterGui":      "PlayerGUI",
-    "StarterPack":     "Backpack",
+    "StarterPack":     "Inventory",
     "StockSound":      "Sound",
     "TextBox":         "UITextInput",
     "TextButton":      "UIButton",
@@ -986,11 +986,11 @@ def HandleObject(obj, parent=world):
         for child in obj.children:
             HandleObject(child, polyObject)
 
-def HandleService(service):
+def HandleService(service, parent=world):
     if service in services:
-        HandleObject(services[service])
+        HandleObject(services[service], parent)
     else:
-        world.addChild(getConstructor(service)())
+        parent.addChild(getConstructor(service)())
 
 HandleService('Workspace')
 HandleService('Lighting')
@@ -998,8 +998,9 @@ world.addChild(Players())
 world.addChild(ScriptService())
 world.addChild(Hidden())
 HandleService('ServerStorage')
-world.addChild(PlayerDefaults())
-HandleService('StarterPack')
+playerDefaults = PlayerDefaults()
+world.addChild(playerDefaults)
+HandleService('StarterPack', playerDefaults)
 HandleService('StarterGui')
 world.addChild(AchievementsService())
 world.addChild(CoreUIService())

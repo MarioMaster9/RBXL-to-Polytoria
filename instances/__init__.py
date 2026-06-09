@@ -1,7 +1,6 @@
 from .AchievementsService                 import AchievementsService
 from .Animator                            import Animator
 from .assetObjects.AudioAsset             import AudioAsset
-from .Backpack                            import Backpack
 from .assetObjects.BaseAsset              import BaseAsset
 from .BoolValue                           import BoolValue
 from .assetObjects.BuiltInFontAsset       import BuiltInFontAsset
@@ -19,6 +18,7 @@ from .Image3D                             import Image3D
 from .assetObjects.ImageAsset             import ImageAsset
 from .ImageSky                            import ImageSky
 from .IntValue                            import IntValue
+from .Inventory                           import Inventory
 from .Lighting                            import Lighting
 from .LocalScript                         import LocalScript
 from .MeshPart                            import MeshPart
