@@ -20,7 +20,7 @@ from .ImageSky                            import ImageSky
 from .IntValue                            import IntValue
 from .Inventory                           import Inventory
 from .Lighting                            import Lighting
-from .LocalScript                         import LocalScript
+from .ClientScript                        import ClientScript
 from .MeshPart                            import MeshPart
 from .Model                               import Model
 from .ModuleScript                        import ModuleScript
@@ -40,6 +40,7 @@ from .Script                              import Script
 from .ScriptService                       import ScriptService
 from .Seat                                import Seat
 from .ServerHidden                        import ServerHidden
+from .ServerScript                        import ServerScript
 from .Sound                               import Sound
 from .Spotlight                           import Spotlight
 from .Stats                               import Stats
