@@ -760,6 +760,7 @@ constructors = {
     "GUI":            GUI,
     "Image3D":        Image3D,
     "ImageSky":       ImageSky,
+    "InstanceValue":  InstanceValue,
     "IntValue":       IntValue,
     "Inventory":      Inventory,
     "Lighting":       Lighting,
