@@ -747,6 +747,10 @@ def HandleTeam(obj, polyObject):
 def HandleBase(obj, polyObject):
     pass
 
+def HandleObjectValue(obj, polyObject):
+    # TODO: implement
+    pass
+
 constructors = {
     "BoolValue":      BoolValue,
     "ClientScript":   ClientScript,
@@ -806,6 +810,7 @@ classHandlers = {
     "MeshPart":         HandleMeshPart,
     "Model":            HandleModel,
     "ModuleScript":     HandleScript,
+    "ObjectValue":      HandleObjectValue,
     "NumberValue":      HandleValue,
     "Part":             HandlePart,
     "PointLight":       HandlePointLight,
@@ -853,6 +858,7 @@ aliases = {
     "ImageLabel":      "UIImage",
     "LocalScript":     "ClientScript",
     "MeshPart":        "Mesh",
+    "ObjectValue":     "InstanceValue",
     "RemoteEvent":     "NetworkEvent",
     "ScreenGui":       "GUI",
     "Script":          "ServerScript",
@@ -906,7 +912,6 @@ objectmodifiers = {
 # this list acts sort of like a todo list
 doNotConvert = [
     "Timer",
-    "ObjectValue",                # Do later
     "Geometry",
     "Weld",
     "Snap",
