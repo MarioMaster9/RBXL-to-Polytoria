@@ -50,6 +50,7 @@ from .SpotLight                           import SpotLight
 from .Stats                               import Stats
 from .StringValue                         import StringValue
 from .SunLight                            import SunLight
+from .Team                                import Team
 from .Teams                               import Teams
 from .Tool                                import Tool
 from .Truss                               import Truss

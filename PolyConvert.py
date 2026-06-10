@@ -75,8 +75,11 @@ writer = JSONWriter(f'out/{args.outfile}.poly')
 def alpha(transparency):
     return 1-min(1, transparency)
 
+def getBrickColor3(brickColorValue):
+    return BrickColor.ColorMap[brickColorValue]
+
 def getPartColor(obj):
-    return obj.get('Color3uint8', BrickColor.ColorMap[obj.get('BrickColor')])
+    return obj.get('Color3uint8', getBrickColor3(obj.get('BrickColor')))
 
 def getPhysicalProperties(obj):
     # legacyPhysicalProperties is here so that i don't have to have extra code to handle legacy physics properties separately
@@ -737,6 +740,9 @@ def HandleLighting(obj, polyObject):
     polyObject.FogColor = Color4.FromColor3(services['Lighting'].get('FogColor', Color3.WHITE))
     polyObject.addChild(DoSunLight(SunLight()))
 
+def HandleTeam(obj, polyObject):
+    polyObject.Color = Color4.FromColor3(getBrickColor3(obj.get('TeamColor')))
+
 # used for instances that have no unique properties/don't need properties set
 def HandleBase(obj, polyObject):
     pass
@@ -768,6 +774,8 @@ constructors = {
     "Sound":          Sound,
     "SpotLight":      SpotLight,
     "StringValue":    StringValue,
+    "Team":           Team,
+    "Teams":          Teams,
     "Tool":           Tool,
     "Truss":          Truss,
     "UIButton":       UIButton,
@@ -814,6 +822,8 @@ classHandlers = {
     "StarterPack":      HandleBase,
     "StockSound":       HandleSound,
     "StringValue":      HandleValue,
+    "Team":             HandleTeam,
+    "Teams":            HandleBase,
     "TextBox":          HandleTextBox,
     "TextButton":       HandleTextButton,
     "TextLabel":        HandleTextLabel,
@@ -1007,7 +1017,7 @@ HandleService('StarterGui')
 world.addChild(AchievementsService())
 world.addChild(CoreUIService())
 world.addChild(Stats())
-world.addChild(Teams())
+HandleService('Teams')
 world.addChild(CaptureService())
 
 # lighting storage
