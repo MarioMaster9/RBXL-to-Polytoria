@@ -2,7 +2,8 @@ from .Instance import Instance
 class GUI(Instance):
     ClassName = "GUI"
     Properties = [
-        ["Visible", "boolean"]
+        ["Visible", "boolean"],
+        ["ZIndex", "int"],
     ]
     def __init__(self):
         super().__init__()

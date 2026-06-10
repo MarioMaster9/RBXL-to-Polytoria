@@ -553,9 +553,9 @@ def HandlePointLight(obj, polyObject):
     polyObject.Color = Color4.FromColor3(obj.get('Color'))
     polyObject.Shadows = obj.get('Shadows')
 
-def HandleSpotlight(obj, polyObject):
-    # Spotlight doesn't inherit from PointLight
-    # call HandlePointLight anyways due to Spotlight and PointLight having pretty much the same properties
+def HandleSpotLight(obj, polyObject):
+    # SpotLight doesn't inherit from PointLight
+    # call HandlePointLight anyways due to SpotLight and PointLight having pretty much the same properties
     polyObject.Angle = obj.get('Angle')
     HandlePointLight(obj, polyObject)
 
@@ -753,7 +753,7 @@ constructors = {
     "IntValue":       IntValue,
     "Inventory":      Inventory,
     "Lighting":       Lighting,
-    "MeshPart":       MeshPart,
+    "Mesh":           Mesh,
     "Model":          Model,
     "ModuleScript":   ModuleScript,
     "NetworkEvent":   NetworkEvent,
@@ -766,7 +766,7 @@ constructors = {
     "ServerHidden":   ServerHidden,
     "ServerScript":   ServerScript,
     "Sound":          Sound,
-    "Spotlight":      Spotlight,
+    "SpotLight":      SpotLight,
     "StringValue":    StringValue,
     "Tool":           Tool,
     "Truss":          Truss,
@@ -809,7 +809,7 @@ classHandlers = {
     "Sky":              HandleSky,
     "Sound":            HandleSound,
     "SpawnLocation":    HandlePart,
-    "SpotLight":        HandleSpotlight,
+    "SpotLight":        HandleSpotLight,
     "StarterGui":       HandleBase,
     "StarterPack":      HandleBase,
     "StockSound":       HandleSound,
@@ -842,13 +842,13 @@ aliases = {
     "ImageButton":     "UIImage",
     "ImageLabel":      "UIImage",
     "LocalScript":     "ClientScript",
+    "MeshPart":        "Mesh",
     "RemoteEvent":     "NetworkEvent",
     "ScreenGui":       "GUI",
     "Script":          "ServerScript",
     "ServerStorage":   "ServerHidden",
     "Sky":             "ImageSky",
     "SpawnLocation":   "Part",
-    "SpotLight":       "Spotlight",
     "StarterGui":      "PlayerGUI",
     "StarterPack":     "Inventory",
     "StockSound":      "Sound",
@@ -857,7 +857,7 @@ aliases = {
     "TextLabel":       "UILabel",
     "Texture":         "Image3D",
     "TrussPart":       "Truss",
-    "UnionOperation":  "MeshPart",
+    "UnionOperation":  "Mesh",
     "VehicleSeat":     "Seat",
     "WedgePart":       "Part",
     "Workspace":       "Environment"

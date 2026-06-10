@@ -1,5 +1,5 @@
-from .Instance import Instance
-class ServerHidden(Instance):
+from .HiddenBase import HiddenBase
+class ServerHidden(HiddenBase):
     ClassName = "ServerHidden"
     def __init__(self):
         super().__init__()
