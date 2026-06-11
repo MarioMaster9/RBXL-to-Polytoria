@@ -868,6 +868,7 @@ aliases = {
     "Color3Value":     "ColorValue",
     "Configuration":   "Folder",
     "CornerWedgePart": "Part",
+    "Decal":           "Image3D",
     "Frame":           "UIView",
     "Glue":            "Weld",
     "GuiMain":         "GUI",
