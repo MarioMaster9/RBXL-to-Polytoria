@@ -636,16 +636,28 @@ fontSizes = {
     Enum.FontSize.Size60: 60,
     Enum.FontSize.Size96: 96
 }
-textXAlignToPolytoria = {
+textXAlignMapping = {
     Enum.TextXAlignment.Left:   TextHorizontalAlignmentEnum.Left,
     Enum.TextXAlignment.Center: TextHorizontalAlignmentEnum.Center,
     Enum.TextXAlignment.Right:  TextHorizontalAlignmentEnum.Right,
 }
 
-textYAlignToPolytoria = {
+textYAlignMapping = {
     Enum.TextYAlignment.Top:    TextVerticalAlignmentEnum.Top,
     Enum.TextYAlignment.Center: TextVerticalAlignmentEnum.Middle,
     Enum.TextYAlignment.Bottom: TextVerticalAlignmentEnum.Bottom,
+}
+
+fontWeightMapping = {
+    Enum.FontWeight.Thin:        FontWeightEnum.Thin,
+    Enum.FontWeight.ExtraLight:  FontWeightEnum.ExtraLight,
+    Enum.FontWeight.Light:       FontWeightEnum.Light,
+    Enum.FontWeight.Regular:     FontWeightEnum.Regular,
+    Enum.FontWeight.Medium:      FontWeightEnum.Medium,
+    Enum.FontWeight.SemiBold:    FontWeightEnum.SemiBold,
+    Enum.FontWeight.Bold:        FontWeightEnum.Bold,
+    Enum.FontWeight.ExtraBold:   FontWeightEnum.ExtraBold,
+    Enum.FontWeight.Heavy:       FontWeightEnum.Black,
 }
 
 #
@@ -662,8 +674,8 @@ FONT_SCALE = 1.5 # found this in the polytoria types dump, seems to be correct
 def HandleTextLabel(obj, polyObject):
     polyObject.Text = obj.get('Text')
     polyObject.TextColor = getColor4(obj, 'Text')
-    polyObject.HorizontalAlignment = textXAlignToPolytoria[obj.get('TextXAlignment')]
-    polyObject.VerticalAlignment = textYAlignToPolytoria[obj.get('TextYAlignment')]
+    polyObject.HorizontalAlignment = textXAlignMapping[obj.get('TextXAlignment')]
+    polyObject.VerticalAlignment = textYAlignMapping[obj.get('TextYAlignment')]
     fontSize = obj.get('TextSize', fontSizes.get(obj.get('FontSize')))
     fontSize /= FONT_SCALE
     polyObject.FontSize = fontSize
@@ -671,7 +683,7 @@ def HandleTextLabel(obj, polyObject):
     polyObject.AutoSize = obj.get('TextScaled', False)
     font = obj.get('FontFace', FontFace.FromEnum(obj.get('Font')))
     fontStyle = int(font.style == "Italic")
-    fontPreset = game.newFont(fontMap.get(font.family.url, TextFontPreset.SourceSans), font.weight, fontStyle)
+    fontPreset = game.newFont(fontMap.get(font.family.url, TextFontPreset.SourceSans), fontWeightMapping.get(font.weight), fontStyle)
     polyObject.FontAsset = fontPreset
     polyObject.TextWrapped = obj.get('TextWrap')
     polyObject.OutlineColor = getColor4(obj, 'TextStroke')
