@@ -530,7 +530,7 @@ def HandleFaceObject(obj, polyObject):
 def HandleDecal(obj, polyObject):
     if str(obj.get('Texture')) == '':
         polyObject.Color = Color4(0, 0, 0, 0)
-    polyObject.Image = game.newImage(getResource(obj.get('Texture')))
+    polyObject.Image = ResourceFactory.CreateImage(getResource(obj.get('Texture')))
     HandleFaceObject(obj, polyObject)
 
 
@@ -548,11 +548,11 @@ def HandleTruss(obj, polyObject):
     HandlePart(obj, polyObject)
 
 def HandleMeshPart(obj, polyObject):
-    polyObject.Asset = game.newMesh(getResource(obj.get('MeshId')))
+    polyObject.Asset = ResourceFactory.CreateMesh(getResource(obj.get('MeshId')))
     HandlePart(obj, polyObject)
 
 def HandleUnionOperation(obj, polyObject):
-    polyObject.Asset = game.newMesh(getResource(obj.get('AssetId')))
+    polyObject.Asset = ResourceFactory.CreateMesh(getResource(obj.get('AssetId')))
     HandlePart(obj, polyObject)
 
 RANGE_CONV_CONSTANT = 5.25 # grabbed from RTP plugin
@@ -574,7 +574,7 @@ def isSoundSource(obj, polyObject):
     return isinstance(polyObject, Part) or obj.className == "Attachment"
 
 def HandleSound(obj, polyObject):
-    polyObject.Audio = game.newAudio(getResource(obj.get('SoundId')))
+    polyObject.Audio = ResourceFactory.CreateAudio(getResource(obj.get('SoundId')))
     polyObject.Pitch = obj.get('PlaybackSpeed', obj.get('Pitch'))
     polyObject.Autoplay = obj.get('Playing', False)
     polyObject.Loop = obj.get('Looped')
@@ -629,7 +629,7 @@ def HandleImageLabel(obj, polyObject):
     opacity = alpha(obj.get('ImageTransparency', 0))
     color = obj.get('ImageColor3', Color3.WHITE)
     polyObject.Color = Color4.FromColor3(color, opacity)
-    polyObject.Image = game.newImage(getResource(obj.get('Image')))
+    polyObject.Image = ResourceFactory.CreateImage(getResource(obj.get('Image')))
     polyObject.Clickable = obj.className == 'ImageButton'
     polyObject.TextureScale = Vector2.ONE#obj.get('ImageRectSize', Vector2.ONE)
     polyObject.TextureOffset = Vector2.ZERO#obj.get('ImageRectOffset', Vector2.ZERO)
@@ -700,7 +700,7 @@ def HandleTextLabel(obj, polyObject):
     polyObject.AutoSize = obj.get('TextScaled', False)
     font = obj.get('FontFace', FontFace.FromEnum(obj.get('Font')))
     fontStyle = int(font.style == "Italic")
-    fontPreset = game.newFont(fontMap.get(font.family.url, TextFontPreset.SourceSans), fontWeightMapping.get(font.weight), fontStyle)
+    fontPreset = ResourceFactory.CreateFont(fontMap.get(font.family.url, TextFontPreset.SourceSans), fontWeightMapping.get(font.weight), fontStyle)
     polyObject.FontAsset = fontPreset
     polyObject.TextWrapped = obj.get('TextWrap', obj.get('TextWrapped'))
     polyObject.OutlineColor = getColor4(obj, 'TextStroke')
@@ -721,12 +721,12 @@ def HandleTool(obj, polyObject):
     polyObject.Droppable = obj.get('CanBeDropped', True)
 
 def HandleSky(obj, polyObject):
-    polyObject.TopImage = game.newImage(getResource(obj.get('SkyboxUp')))
-    polyObject.BottomImage = game.newImage(getResource(obj.get('SkyboxDn')))
-    polyObject.LeftImage = game.newImage(getResource(obj.get('SkyboxLf')))
-    polyObject.RightImage = game.newImage(getResource(obj.get('SkyboxRt')))
-    polyObject.FrontImage = game.newImage(getResource(obj.get('SkyboxFt')))
-    polyObject.BackImage = game.newImage(getResource(obj.get('SkyboxBk')))
+    polyObject.TopImage = ResourceFactory.CreateImage(getResource(obj.get('SkyboxUp')))
+    polyObject.BottomImage = ResourceFactory.CreateImage(getResource(obj.get('SkyboxDn')))
+    polyObject.LeftImage = ResourceFactory.CreateImage(getResource(obj.get('SkyboxLf')))
+    polyObject.RightImage = ResourceFactory.CreateImage(getResource(obj.get('SkyboxRt')))
+    polyObject.FrontImage = ResourceFactory.CreateImage(getResource(obj.get('SkyboxFt')))
+    polyObject.BackImage = ResourceFactory.CreateImage(getResource(obj.get('SkyboxBk')))
 
 SECONDS_IN_MINUTE = 60
 

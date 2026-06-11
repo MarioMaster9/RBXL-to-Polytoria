@@ -1,3 +1,5 @@
+from .resources.ResourceFactory           import ResourceFactory
+
 from .services.AchievementsService        import AchievementsService
 from .Animator                            import Animator
 from .resources.AudioAsset                import AudioAsset

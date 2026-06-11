@@ -1,6 +1,9 @@
 from .Physical import Physical
 from .PolytorianModel import PolytorianModel
+from .Sound import Sound
 from rbxl.data_types import Vector3
+from enums import BuiltInAudioPresetEnum
+from .resources.ResourceFactory import ResourceFactory
 class NPC(Physical):
     ClassName = "NPC"
     Properties = [
@@ -14,7 +17,7 @@ class NPC(Physical):
         ["NametagOffset", "vector3"],
         ["NametagVisibleRadius", "float"],
         ["DisplayName", "string"],
-        ["JumpSound", "resourceref"],
+        ["JumpSound", "ref"],
         ["Character", "ref"],
     ]
     def __init__(self):
@@ -27,3 +30,19 @@ class NPC(Physical):
         ptm.LocalPosition = Vector3.ZERO
         ptm.LocalRotation = Vector3.ZERO
         ptm.LocalSize = Vector3.ONE
+
+        jumpSound = Sound()
+        jumpSound.Name = "JumpSound"
+        self.addChild(jumpSound)
+        jumpSound.Volume = 0.5
+        jumpSound.Audio = ResourceFactory.CreateBuiltInAudioAsset(BuiltInAudioPresetEnum.Jump)
+        jumpSound.Autoplay = False
+        jumpSound.Loop = False
+        jumpSound.PlayInWorld = True
+
+        self.JumpSound = jumpSound
+
+        jumpSound.LocalPosition = Vector3.ZERO
+        jumpSound.LocalRotation = Vector3.ZERO
+        jumpSound.LocalSize = Vector3.ONE
+
