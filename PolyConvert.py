@@ -753,8 +753,7 @@ def HandleBase(obj, polyObject):
     pass
 
 def HandleObjectValue(obj, polyObject):
-    # TODO: implement
-    pass
+    polyObject.Value = rbxlFile.getRef(obj.get('Value'))
 
 constructors = {
     "BoolValue":      BoolValue,

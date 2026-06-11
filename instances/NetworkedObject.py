@@ -56,7 +56,10 @@ class NetworkedObject:
                 case "string" | "uint" | "int" | "float" | "boolean" | "array":
                     json_self["Properties"][item[0]] = getattr(self, item[0])
                 case "ref":
-                    json_self["Properties"][item[0]] = str(getattr(self, item[0]).uuid)
+                    if getattr(self, item[0]) is None:
+                        json_self["Properties"][item[0]] = ""
+                    else:
+                        json_self["Properties"][item[0]] = str(getattr(self, item[0]).uuid)
                 case "color":
                     value = getattr(self, item[0])
                     r = int(value.r*255)
