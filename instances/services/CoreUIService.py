@@ -1,4 +1,4 @@
-from .Instance import Instance
+from ..Instance import Instance
 class CoreUIService(Instance):
     ClassName = "CoreUIService"
     Properties = [

@@ -1,4 +1,4 @@
-from .Instance import Instance
+from ..Instance import Instance
 class AchievementsService(Instance):
     ClassName = "AchievementsService"
     Properties = [
