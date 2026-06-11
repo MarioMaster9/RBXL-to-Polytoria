@@ -1,4 +1,4 @@
-from .Dynamic import Dynamic
+from .Light import Light
 from rbxl.data_types import Vector3
 class SunLight(Light):
     ClassName = "SunLight"
