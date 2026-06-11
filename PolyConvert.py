@@ -751,7 +751,7 @@ def HandleTeam(obj, polyObject):
 def HandleWeld(obj, polyObject):
     polyObject.Part0 = rbxlFile.getRef(obj.get('Part0'))
     polyObject.Part1 = rbxlFile.getRef(obj.get('Part1'))
-    polyObject.Enabled = obj.get('Enabled', True)
+    polyObject.Enabled = False#obj.get('Enabled', True)
 
 def HandleObjectValue(obj, polyObject):
     polyObject.Value = rbxlFile.getRef(obj.get('Value'))
