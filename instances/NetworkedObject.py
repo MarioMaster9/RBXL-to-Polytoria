@@ -51,7 +51,12 @@ class NetworkedObject:
                 continue
             if not hasattr(self, item[0]):
                 continue
-            assert not getattr(self, item[0]) is None, f'{item[0]} of {self.className} is None'
+            if item[1] == "ref":
+                # more lenient
+                if getattr(self, item[0]) is None:
+                    print(f'{item[0]} of {self.className} is None')
+            else:
+                assert not getattr(self, item[0]) is None, f'{item[0]} of {self.className} is None'
             match item[1]:
                 case "string" | "uint" | "int" | "float" | "boolean" | "array":
                     json_self["Properties"][item[0]] = getattr(self, item[0])
@@ -60,7 +65,7 @@ class NetworkedObject:
                     if str(type(prop)) == "<class 'rbxl.util.BinaryTreeItem.BinaryTreeItem'>":
                         if not prop.gameObject is None:
                             json_self["Properties"][item[0]] = str(prop.gameObject.uuid)
-                    else:
+                    elif not prop is None:
                         json_self["Properties"][item[0]] = str(getattr(self, item[0]).uuid)
                 case "color":
                     value = getattr(self, item[0])
