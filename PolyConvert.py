@@ -616,6 +616,8 @@ def HandleImageLabel(obj, polyObject):
     polyObject.Color = Color4.FromColor3(color, opacity)
     polyObject.Image = game.newImage(getResource(obj.get('Image')))
     polyObject.Clickable = obj.className == 'ImageButton'
+    polyObject.TextureScale = Vector2.ONE#obj.get('ImageRectSize', Vector2.ONE)
+    polyObject.TextureOffset = Vector2.ZERO#obj.get('ImageRectOffset', Vector2.ZERO)
     HandleUIField(obj, polyObject)
 
 # font size enum to actual sizes

@@ -2,6 +2,7 @@ from .AmbientSource                      import AmbientSource
 from .CameraMode                         import CameraMode
 from .CollisionType                      import CollisionType
 from .FontWeightEnum                     import FontWeightEnum
+from .ImageStretchModeEnum               import ImageStretchModeEnum
 from .ImageType                          import ImageType
 from .Material                           import Material
 from .PartShape                          import PartShape
@@ -9,4 +10,5 @@ from .PhysicsMaterialCombine             import PhysicsMaterialCombine
 from .SkyboxPreset                       import SkyboxPreset
 from .TextFontPreset                     import TextFontPreset
 from .TextHorizontalAlignmentEnum        import TextHorizontalAlignmentEnum
+from .TextureFilterEnum                  import TextureFilterEnum
 from .TextVerticalAlignmentEnum          import TextVerticalAlignmentEnum
