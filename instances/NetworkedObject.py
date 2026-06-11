@@ -1,4 +1,5 @@
 import uuid
+from rbxl.util.InstanceTree import TreeItem
 
 class NetworkedObject:
     ClassName = "NetworkedObject"
@@ -62,7 +63,7 @@ class NetworkedObject:
                     json_self["Properties"][item[0]] = getattr(self, item[0])
                 case "ref":
                     prop = getattr(self, item[0])
-                    if str(type(prop)) == "<class 'rbxl.util.BinaryTreeItem.BinaryTreeItem'>":
+                    if isinstance(prop, TreeItem):
                         if not prop.gameObject is None:
                             json_self["Properties"][item[0]] = str(prop.gameObject.uuid)
                     elif not prop is None:
