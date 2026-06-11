@@ -14,7 +14,7 @@ class UITextInput(UIView):
         ["PlaceholderColor", "color"],
         ["ReadOnlyColor", "color"],
         ["ReadOnly", "boolean"],
-        ["FontAsset", "ref"],
+        ["FontAsset", "resourceref"],
     ]
     @property
     def HorizontalAlignment(self):

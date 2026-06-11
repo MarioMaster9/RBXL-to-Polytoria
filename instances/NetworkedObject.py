@@ -44,7 +44,7 @@ class NetworkedObject:
     def move(self, newParent):
         self.parent.children.remove(self)
         newParent.addChild(self)
-    def serialize(self, json_self):
+    def serialize(self, json_self, root):
         for item in self.serializationProperties:
             propName = item[0]
             datatype = item[1]
@@ -52,7 +52,7 @@ class NetworkedObject:
                 continue
             if not hasattr(self, item[0]):
                 continue
-            if item[1] == "ref":
+            if item[1] == "ref" or item[1] == "resourceref":
                 # more lenient
                 if getattr(self, item[0]) is None:
                     print(f'{item[0]} of {self.className} is None')
@@ -68,6 +68,15 @@ class NetworkedObject:
                             json_self["Properties"][item[0]] = str(prop.gameObject.uuid)
                     elif not prop is None:
                         json_self["Properties"][item[0]] = str(getattr(self, item[0]).uuid)
+                case "resourceref":
+                    prop = getattr(self, item[0])
+                    if prop is None:
+                        json_self["Properties"][item[0]] = ""
+                    else:
+                        json_self["Properties"][item[0]] = str(prop.uuid)
+                        if not prop.included:
+                            prop.included = True
+                            root.nonInstanceObjects.append(prop)
                 case "color":
                     value = getattr(self, item[0])
                     r = int(value.r*255)
@@ -86,7 +95,7 @@ class NetworkedObject:
                 case _:
                     print("INVALID DATATYPE: " + datatype)
                     exit()
-    def json(self):
+    def json(self, root):
         name = self.Name
         if self.parent is None:
             pass
@@ -102,7 +111,7 @@ class NetworkedObject:
             "IsLinkedChild": False
         }
 
-        self.serialize(json_self)
+        self.serialize(json_self, root)
         for obj in self.children:
-            json_self["Children"].append(obj.json())
+            json_self["Children"].append(obj.json(root))
         return json_self

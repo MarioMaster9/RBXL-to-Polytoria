@@ -6,3 +6,4 @@ class BaseAsset(NetworkedObject):
         super().__init__()
         self.setRandomName()
         self.parent = None
+        self.included = False

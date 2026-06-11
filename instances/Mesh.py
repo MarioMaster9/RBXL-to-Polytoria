@@ -3,7 +3,7 @@ from enums import CollisionType
 class Mesh(Entity):
     ClassName = "Mesh"
     Properties = [
-        ["Asset", "ref"],
+        ["Asset", "resourceref"],
         ["IncludeOffset", "boolean"],
         ["CollisionType", "int"],
         ["TextureFilter", "int"],

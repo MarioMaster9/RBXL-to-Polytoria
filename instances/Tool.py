@@ -3,7 +3,7 @@ class Tool(RigidBody):
     ClassName = "Tool"
     Properties = [
         ["Droppable", "boolean"],
-        ["IconImage", "ref"],
+        ["IconImage", "resourceref"],
         ["DropEquipCooldown", "float"],
     ]
     def __init__(self):

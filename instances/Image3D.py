@@ -3,7 +3,7 @@ from rbxl.data_types import Vector2, Color4
 class Image3D(Dynamic):
     ClassName = "Image3D"
     Properties = [
-        ["Image", "ref"],
+        ["Image", "resourceref"],
         ["TextureScale", "vector2"],
         ["TextureOffset", "vector2"],
         ["Color", "color"],

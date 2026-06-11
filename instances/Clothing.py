@@ -2,7 +2,7 @@ from .Instance import Instance
 class Clothing(Instance):
     ClassName = "Clothing"
     Properties = [
-        ["Image", "ref"]
+        ["Image", "resourceref"]
     ]
     def __init__(self):
         super().__init__()

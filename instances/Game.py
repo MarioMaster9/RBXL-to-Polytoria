@@ -14,24 +14,20 @@ class Game(Instance):
     def newImage(self, imageID):
         newAsset = PTImageAsset()
         newAsset.ImageID = int(imageID)
-        self.nonInstanceObjects.append(newAsset)
         return newAsset
     def newAudio(self, audioID):
         newAsset = PTAudioAsset()
         newAsset.AudioID = int(audioID)
-        self.nonInstanceObjects.append(newAsset)
         return newAsset
     def newMesh(self, assetID):
         newAsset = PTMeshAsset()
         newAsset.AssetID = int(assetID)
-        self.nonInstanceObjects.append(newAsset)
         return newAsset
     def newFont(self, fontPreset, fontWeight, fontStyle):
         newAsset = BuiltInFontAsset()
         newAsset.FontPreset = fontPreset
         newAsset.FontWeight = fontWeight
         newAsset.FontStyle = fontStyle
-        self.nonInstanceObjects.append(newAsset)
         return newAsset
     def json(self):
         json_self = {
@@ -41,7 +37,7 @@ class Game(Instance):
             "NonInstanceObjects": []
         }
         for obj in self.children:
-            json_self["Objects"].append(obj.json())
+            json_self["Objects"].append(obj.json(self))
         for obj in self.nonInstanceObjects:
-            json_self["NonInstanceObjects"].append(obj.json())
+            json_self["NonInstanceObjects"].append(obj.json(self))
         return json_self

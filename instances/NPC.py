@@ -14,7 +14,7 @@ class NPC(Physical):
         ["NametagOffset", "vector3"],
         ["NametagVisibleRadius", "float"],
         ["DisplayName", "string"],
-        ["JumpSound", "ref"],
+        ["JumpSound", "resourceref"],
         ["Character", "ref"],
     ]
     def __init__(self):

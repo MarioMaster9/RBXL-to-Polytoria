@@ -10,7 +10,7 @@ class Text3D(Dynamic):
         ["FaceCamera", "boolean"],
         ["HorizontalAlignment", "int"],
         ["VerticalAlignment", "int"],
-        ["FontAsset", "ref"],
+        ["FontAsset", "resourceref"],
         ["UseRichText", "boolean"],
         ["Shaded", "boolean"],
     ]

@@ -9,8 +9,8 @@ class PolytorianModel(CharacterModel):
         ["RightArmColor", "color"],
         ["LeftLegColor", "color"],
         ["RightLegColor", "color"],
-        ["FaceImage", "ref"],
-        ["BodyMesh", "ref"]
+        ["FaceImage", "resourceref"],
+        ["BodyMesh", "resourceref"]
     ]
     def __init__(self):
         super().__init__()

@@ -13,7 +13,7 @@ class UILabel(UIView):
         ["AutoSize", "boolean"],
         ["MaxAutoSize", "float"],
         ["UseRichText", "boolean"],
-        ["FontAsset", "ref"],
+        ["FontAsset", "resourceref"],
         ["TextTrimming", "int"],
         ["TextWrapped", "boolean"],
     ]
@@ -24,5 +24,4 @@ class UILabel(UIView):
         self.VerticalAlignment = TextVerticalAlignmentEnum.Middle
         self.FontSize = 16
         self.MaxAutoSize = 16
-        #self.Font = TextFontPreset.SourceSans
         self.OutlineWidth = 0.2

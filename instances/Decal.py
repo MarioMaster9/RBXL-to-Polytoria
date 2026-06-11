@@ -2,7 +2,7 @@ from .Dynamic import Dynamic
 class Decal(Dynamic):
     ClassName = "Decal"
     Properties = [
-        ["Image", "ref"],
+        ["Image", "resourceref"],
         ["Energy", "float"],
         ["Color", "color"],
     ]

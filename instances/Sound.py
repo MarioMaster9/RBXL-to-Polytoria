@@ -3,7 +3,7 @@ from rbxl.data_types import Vector3
 class Sound(Dynamic):
     ClassName = "Sound"
     Properties = [
-        ["Audio", "ref"],
+        ["Audio", "resourceref"],
         ["Volume", "float"],
         ["Pitch", "float"],
         ["Autoplay", "boolean"],

@@ -3,7 +3,7 @@ from enums import ImageStretchModeEnum
 class UIImage(UIField):
     ClassName = "UIImage"
     Properties = [
-        ["Image", "ref"],
+        ["Image", "resourceref"],
         ["TextureScale", "vector2"],
         ["TextureOffset", "vector2"],
         ["Color", "color"],

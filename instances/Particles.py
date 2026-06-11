@@ -4,7 +4,7 @@ class Particles(Dynamic):
     Properties = [
         ["Playing", "boolean"],
         ["SpeedScale", "float"],
-        ["Image", "ref"],
+        ["Image", "resourceref"],
         ["TextureFilter", "int"],
         ["Color", "colorseries"],
         ["Lifetime", "numberrange"],
