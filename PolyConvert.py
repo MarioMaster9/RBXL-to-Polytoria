@@ -687,7 +687,7 @@ def HandleTextLabel(obj, polyObject):
     fontStyle = int(font.style == "Italic")
     fontPreset = game.newFont(fontMap.get(font.family.url, TextFontPreset.SourceSans), fontWeightMapping.get(font.weight), fontStyle)
     polyObject.FontAsset = fontPreset
-    polyObject.TextWrapped = obj.get('TextWrap')
+    polyObject.TextWrapped = obj.get('TextWrap', obj.get('TextWrapped'))
     polyObject.OutlineColor = getColor4(obj, 'TextStroke')
     HandleFrame(obj, polyObject)
 

@@ -56,7 +56,12 @@ class NetworkedObject:
                 case "string" | "uint" | "int" | "float" | "boolean" | "array":
                     json_self["Properties"][item[0]] = getattr(self, item[0])
                 case "ref":
-                    json_self["Properties"][item[0]] = str(getattr(self, item[0]).uuid)
+                    prop = getattr(self, item[0])
+                    if str(type(prop)) == "<class 'rbxl.util.BinaryTreeItem.BinaryTreeItem'>":
+                        if not prop.gameObject is None:
+                            json_self["Properties"][item[0]] = str(prop.gameObject.uuid)
+                    else:
+                        json_self["Properties"][item[0]] = str(getattr(self, item[0]).uuid)
                 case "color":
                     value = getattr(self, item[0])
                     r = int(value.r*255)
