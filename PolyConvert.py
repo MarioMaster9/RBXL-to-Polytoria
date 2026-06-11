@@ -66,8 +66,8 @@ game.addChild(world)
 
 services = {}
 
-rbxl = rbxl.parse(args.filename)
-for child in rbxl.root.children:
+rbxlFile = rbxl.parse(args.filename)
+for child in rbxlFile.root.children:
     services[child.className] = child
 writer = JSONWriter(f'out/{args.outfile}.poly')
 
