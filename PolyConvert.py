@@ -696,7 +696,7 @@ def HandleTextButton(obj, polyObject):
 def HandleTextBox(obj, polyObject):
     polyObject.Placeholder = obj.get('PlaceholderText', '')
     polyObject.PlaceholderColor = Color4.FromColor3(obj.get('PlaceholderColor3', Color3.BLACK))
-    polyObject.Multiline = obj.get('MultiLine')
+    polyObject.MultiLine = obj.get('MultiLine')
     polyObject.ReadOnly = not obj.get('TextEditable', True)
     HandleTextLabel(obj, polyObject)
 
