@@ -7,5 +7,7 @@ from .PartShape                          import PartShape
 from .PhysicsMaterialCombine             import PhysicsMaterialCombine
 from .SkyboxPreset                       import SkyboxPreset
 from .TextFontPreset                     import TextFontPreset
+from .TextHorizontalAlignmentEnum        import TextHorizontalAlignmentEnum
 from .TextJustify                        import TextJustify
 from .TextVerticalAlign                  import TextVerticalAlign
+from .TextVerticalAlignmentEnum          import TextVerticalAlignmentEnum

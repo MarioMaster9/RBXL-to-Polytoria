@@ -1,25 +1,30 @@
 from .UIView import UIView
-from enums import TextJustify, TextFontPreset
+from enums import TextHorizontalAlignmentEnum
 class UITextInput(UIView):
     ClassName = "UITextInput"
     Properties = [
         ["Text", "string"],
         ["TextColor", "color"],
         ["JustifyText", "int"],
-        ["VerticalAlign", "int"],
         ["FontSize", "float"],
-        ["MaxFontSize", "float"],
         ["AutoSize", "boolean"],
-        ["Font", "int"],
+        ["MaxAutoSize", "float"],
+        ["MultiLine", "boolean"],
         ["Placeholder", "string"],
         ["PlaceholderColor", "color"],
-        ["IsMultiline", "boolean"],
-        ["IsReadOnly", "boolean"],
+        ["ReadOnlyColor", "color"],
+        ["ReadOnly", "boolean"],
+        ["FontAsset", "ref"],
     ]
+    @property
+    def HorizontalAlignment(self):
+        return self.JustifyText
+    @HorizontalAlignment.setter
+    def HorizontalAlignment(self, value):
+        self.JustifyText = value
     def __init__(self):
         super().__init__()
         self.addProperties(UITextInput.Properties)
-        self.JustifyText = TextJustify.Center
+        self.JustifyText = TextHorizontalAlignmentEnum.Center
         self.FontSize = 16
-        self.MaxFontSize = 16
-        self.Font = TextFontPreset.SourceSans
+        self.MaxAutoSize = 16

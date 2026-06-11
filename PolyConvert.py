@@ -637,23 +637,17 @@ fontSizes = {
     Enum.FontSize.Size96: 96
 }
 textXAlignToPolytoria = {
-    Enum.TextXAlignment.Left:   TextJustify.Left,
-    Enum.TextXAlignment.Right:  TextJustify.Right,
-    Enum.TextXAlignment.Center: TextJustify.Center,
+    Enum.TextXAlignment.Left:   TextHorizontalAlignmentEnum.Left,
+    Enum.TextXAlignment.Center: TextHorizontalAlignmentEnum.Center,
+    Enum.TextXAlignment.Right:  TextHorizontalAlignmentEnum.Right,
 }
 
 textYAlignToPolytoria = {
-    Enum.TextYAlignment.Top:    TextVerticalAlign.Top,
-    Enum.TextYAlignment.Center: TextVerticalAlign.Middle,
-    Enum.TextYAlignment.Bottom: TextVerticalAlign.Bottom,
+    Enum.TextYAlignment.Top:    TextVerticalAlignmentEnum.Top,
+    Enum.TextYAlignment.Center: TextVerticalAlignmentEnum.Middle,
+    Enum.TextYAlignment.Bottom: TextVerticalAlignmentEnum.Bottom,
 }
 
-def nobr(text):
-    return f'<nobr>{text}</nobr>'
-def bold(text):
-    return f'<b>{text}</b>'
-def italic(text):
-    return f'<i>{text}</i>'
 #
 fontMap = {
     "rbxasset://fonts/families/SourceSansPro.json":    TextFontPreset.SourceSans,
@@ -668,23 +662,18 @@ FONT_SCALE = 1.5 # found this in the polytoria types dump, seems to be correct
 def HandleTextLabel(obj, polyObject):
     polyObject.Text = obj.get('Text')
     polyObject.TextColor = getColor4(obj, 'Text')
-    polyObject.JustifyText = textXAlignToPolytoria[obj.get('TextXAlignment')]
-    polyObject.VerticalAlign = textYAlignToPolytoria[obj.get('TextYAlignment')]
+    polyObject.HorizontalAlignment = textXAlignToPolytoria[obj.get('TextXAlignment')]
+    polyObject.VerticalAlignment = textYAlignToPolytoria[obj.get('TextYAlignment')]
     fontSize = obj.get('TextSize', fontSizes.get(obj.get('FontSize')))
     fontSize /= FONT_SCALE
     polyObject.FontSize = fontSize
-    polyObject.MaxFontSize = fontSize
+    polyObject.MaxAutoSize = fontSize
     polyObject.AutoSize = obj.get('TextScaled', False)
     font = obj.get('FontFace', FontFace.FromEnum(obj.get('Font')))
-    match font.weight:
-        case Enum.FontWeight.Bold:
-            polyObject.Text = bold(polyObject.Text)
-    if font.style == "Italic":
-        polyObject.Text = italic(polyObject.Text)
-    fontPreset = fontMap.get(font.family.url, TextFontPreset.SourceSans)
-    polyObject.Font = fontPreset
-    if not obj.get('TextWrap'):
-        polyObject.Text = nobr(polyObject.Text)
+    fontStyle = int(font.style == "Italic")
+    fontPreset = game.newFont(fontMap.get(font.family.url, TextFontPreset.SourceSans), font.weight, fontStyle)
+    polyObject.FontAsset = fontPreset
+    polyObject.TextWrapped = obj.get('TextWrap')
     polyObject.OutlineColor = getColor4(obj, 'TextStroke')
     HandleFrame(obj, polyObject)
 
@@ -695,8 +684,8 @@ def HandleTextButton(obj, polyObject):
 def HandleTextBox(obj, polyObject):
     polyObject.Placeholder = obj.get('PlaceholderText', '')
     polyObject.PlaceholderColor = Color4.FromColor3(obj.get('PlaceholderColor3', Color3.BLACK))
-    polyObject.IsMultiline = obj.get('MultiLine')
-    polyObject.IsReadOnly = not obj.get('TextEditable', True)
+    polyObject.Multiline = obj.get('MultiLine')
+    polyObject.ReadOnly = not obj.get('TextEditable', True)
     HandleTextLabel(obj, polyObject)
 
 def HandleTool(obj, polyObject):
