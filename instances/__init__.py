@@ -15,6 +15,7 @@ from .Explosion                           import Explosion
 from .Folder                              import Folder
 from .resources.FontAsset                 import FontAsset
 from .GUI                                 import GUI
+from .GUI3D                               import GUI3D
 from .Hidden                              import Hidden
 from .HiddenBase                          import HiddenBase
 from .Image3D                             import Image3D

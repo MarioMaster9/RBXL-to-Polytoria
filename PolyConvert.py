@@ -274,6 +274,10 @@ def HandleValue(obj, polyObject):
 def HandleColorValue(obj, polyObject):
     polyObject.Value = Color4.FromColor3(obj.get('Value'))
 
+def HandleObjectValue(obj, polyObject):
+    polyObject.Value = rbxlFile.getRef(obj.get('Value'))
+
+
 cylinderEuler    = Vector3(  0, 0, 90) # Regular cylinders in polytoria face up
 wedgeEuler       = Vector3( 90, 0,  0) # Wedges are mirrored i think
 cornerWedgeEuler = Vector3(-90, 0,  0)
@@ -498,10 +502,7 @@ faceRotations = {
     Enum.NormalId.Front:   Vector3(0,      0,      0),
 }
 
-def HandleDecal(obj, polyObject):
-    if str(obj.get('Texture')) == '':
-        polyObject.Color = Color4(0, 0, 0, 0)
-    polyObject.Image = game.newImage(getResource(obj.get('Texture')))
+def HandleFaceObject(obj, polyObject):
     if not isinstance(polyObject.parent, Part):
         polyObject.Size = Vector3.ZERO
         return
@@ -525,6 +526,13 @@ def HandleDecal(obj, polyObject):
     polyObject.Position = position
     polyObject.Rotation = rotation
     polyObject.Size = size
+
+def HandleDecal(obj, polyObject):
+    if str(obj.get('Texture')) == '':
+        polyObject.Color = Color4(0, 0, 0, 0)
+    polyObject.Image = game.newImage(getResource(obj.get('Texture')))
+    HandleFaceObject(obj, polyObject)
+
 
 def HandleTexture(obj, polyObject):
     HandleDecal(obj, polyObject)
@@ -579,7 +587,14 @@ def HandleAttachment(obj, polyObject):
     rotation, position = getRotationAndPosition(partCF * obj.get('CFrame'))
     polyObject.Position = position
     polyObject.Rotation = rotation
-    
+
+def HandleTeam(obj, polyObject):
+    polyObject.Color = Color4.FromColor3(getBrickColor3(obj.get('TeamColor')))
+
+def HandleWeld(obj, polyObject):
+    polyObject.Part0 = rbxlFile.getRef(obj.get('Part0'))
+    polyObject.Part1 = rbxlFile.getRef(obj.get('Part1'))
+    polyObject.Enabled = False#obj.get('Enabled', True)
 
 def HandleWorkspace(obj, polyObject):
     polyObject.addChild(Camera())
@@ -745,17 +760,6 @@ def HandleLighting(obj, polyObject):
     polyObject.FogColor = Color4.FromColor3(services['Lighting'].get('FogColor', Color3.WHITE))
     polyObject.addChild(DoSunLight(SunLight()))
 
-def HandleTeam(obj, polyObject):
-    polyObject.Color = Color4.FromColor3(getBrickColor3(obj.get('TeamColor')))
-
-def HandleWeld(obj, polyObject):
-    polyObject.Part0 = rbxlFile.getRef(obj.get('Part0'))
-    polyObject.Part1 = rbxlFile.getRef(obj.get('Part1'))
-    polyObject.Enabled = False#obj.get('Enabled', True)
-
-def HandleObjectValue(obj, polyObject):
-    polyObject.Value = rbxlFile.getRef(obj.get('Value'))
-
 
 # used for instances that have no unique properties/don't need properties set
 def HandleBase(obj, polyObject):
@@ -769,6 +773,7 @@ constructors = {
     "Environment":    Environment,
     "Folder":         Folder,
     "GUI":            GUI,
+    "GUI3D":          GUI3D,
     "Image3D":        Image3D,
     "ImageSky":       ImageSky,
     "InstanceValue":  InstanceValue,
