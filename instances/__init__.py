@@ -8,6 +8,7 @@ from .Camera                              import Camera
 from .services.CaptureService             import CaptureService
 from .ColorValue                          import ColorValue
 from .services.CoreUIService              import CoreUIService
+from .Decal                               import Decal
 from .Entity                              import Entity
 from .Environment                         import Environment
 from .Explosion                           import Explosion
