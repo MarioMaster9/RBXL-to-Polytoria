@@ -1,7 +1,8 @@
 from .Instance import Instance
-from .assetObjects.PTImageAsset import PTImageAsset
-from .assetObjects.PTAudioAsset import PTAudioAsset
-from .assetObjects.BuiltInFontAsset import BuiltInFontAsset
+from .resources.PTImageAsset import PTImageAsset
+from .resources.PTAudioAsset import PTAudioAsset
+from .resources.PTMeshAsset import PTMeshAsset
+from .resources.BuiltInFontAsset import BuiltInFontAsset
 
 
 class Game(Instance):
@@ -18,6 +19,11 @@ class Game(Instance):
     def newAudio(self, audioID):
         newAsset = PTAudioAsset()
         newAsset.AudioID = int(audioID)
+        self.nonInstanceObjects.append(newAsset)
+        return newAsset
+    def newMesh(self, assetID):
+        newAsset = PTMeshAsset()
+        newAsset.AssetID = int(assetID)
         self.nonInstanceObjects.append(newAsset)
         return newAsset
     def newFont(self, fontPreset, fontWeight, fontStyle):

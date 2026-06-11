@@ -540,11 +540,11 @@ def HandleTruss(obj, polyObject):
     HandlePart(obj, polyObject)
 
 def HandleMeshPart(obj, polyObject):
-    polyObject.AssetId = int(getResource(obj.get('MeshId')))
+    polyObject.Asset = game.newMesh(getResource(obj.get('MeshId')))
     HandlePart(obj, polyObject)
 
 def HandleUnionOperation(obj, polyObject):
-    polyObject.AssetId = int(getResource(obj.get('AssetId')))
+    polyObject.Asset = game.newMesh(getResource(obj.get('AssetId')))
     HandlePart(obj, polyObject)
 
 RANGE_CONV_CONSTANT = 5.25 # grabbed from RTP plugin
