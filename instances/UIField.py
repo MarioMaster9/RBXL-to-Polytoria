@@ -8,12 +8,17 @@ class UIField(Instance):
         ["Rotation", "float"],
         ["SizeOffset", "vector2"],
         ["SizeRelative", "vector2"],
-        ["PivotPoint", "vector2"],
-        ["Visible", "boolean"],
         ["ClipDescendants", "boolean"],
+        ["PivotPoint", "vector2"],
+        ["Scale", "vector2"],
+        ["Visible", "boolean"],
+        ["MaskMode", "int"], # TODO
+        ["IgnoreMouse", "boolean"],
+        ["ZIndex", "int"],
     ]
     def __init__(self):
         super().__init__()
         self.addProperties(UIField.Properties)
         self.Rotation = 0
         self.PivotPoint = Vector2(0, 1)
+        self.Scale = Vector2(1, 1)
