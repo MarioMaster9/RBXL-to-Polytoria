@@ -3,6 +3,8 @@ class Script(Instance):
     ClassName = "Script"
     Properties = [
         ["Source", "string"],
+        ["IsEnabled", "boolean"],
+        ["LinkedScript", "resourceref"]
     ]
     def __init__(self):
         super().__init__()

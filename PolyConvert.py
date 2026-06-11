@@ -483,6 +483,10 @@ def HandlePart(obj, polyObject):
     polyObject.Size = size
 
 def HandleScript(obj, polyObject):
+    if obj.get('Enabled') is None:
+        polyObject.IsEnabled = not obj.get('Disabled', False)
+    else:
+        polyObject.IsEnabled = obj.get('Enabled')
     source = obj.get('Source')
     sourceHash = hashfuncs.md5(source)
     saveScript(source, sourceHash)
@@ -719,6 +723,7 @@ def HandleTextBox(obj, polyObject):
 
 def HandleTool(obj, polyObject):
     polyObject.Droppable = obj.get('CanBeDropped', True)
+    polyObject.IconImage = ResourceFactory.CreateImage(getResource(obj.get('TextureId')))
 
 def HandleSky(obj, polyObject):
     polyObject.TopImage = ResourceFactory.CreateImage(getResource(obj.get('SkyboxUp')))
@@ -727,10 +732,6 @@ def HandleSky(obj, polyObject):
     polyObject.RightImage = ResourceFactory.CreateImage(getResource(obj.get('SkyboxRt')))
     polyObject.FrontImage = ResourceFactory.CreateImage(getResource(obj.get('SkyboxFt')))
     polyObject.BackImage = ResourceFactory.CreateImage(getResource(obj.get('SkyboxBk')))
-
-SECONDS_IN_MINUTE = 60
-
-SECONDS_IN_HOUR = SECONDS_IN_MINUTE * 60
 
 def getgametime():
     timeofday = services['Lighting'].get('TimeOfDay')
