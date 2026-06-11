@@ -1,14 +1,18 @@
-from .DynamicInstance import DynamicInstance
-class Text3D(DynamicInstance):
+from .Dynamic import Dynamic
+class Text3D(Dynamic):
     ClassName = "Text3D"
     Properties = [
         ["Text", "string"],
-        ["Color", "color"],
         ["FontSize", "float"],
+        ["Color", "color"],
+        ["OutlineWidth", "int"],
+        ["OutlineColor", "color"],
         ["FaceCamera", "boolean"],
         ["HorizontalAlignment", "int"],
         ["VerticalAlignment", "int"],
-        ["Font", "int"],
+        ["FontAsset", "ref"],
+        ["UseRichText", "boolean"],
+        ["Shaded", "boolean"],
     ]
     def __init__(self):
         super().__init__()
