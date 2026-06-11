@@ -748,12 +748,18 @@ def HandleLighting(obj, polyObject):
 def HandleTeam(obj, polyObject):
     polyObject.Color = Color4.FromColor3(getBrickColor3(obj.get('TeamColor')))
 
-# used for instances that have no unique properties/don't need properties set
-def HandleBase(obj, polyObject):
-    pass
+def HandleWeld(obj, polyObject):
+    polyObject.Part0 = rbxlFile.getRef(obj.get('Part0'))
+    polyObject.Part1 = rbxlFile.getRef(obj.get('Part1'))
+    polyObject.Enabled = obj.get('Enabled', True)
 
 def HandleObjectValue(obj, polyObject):
     polyObject.Value = rbxlFile.getRef(obj.get('Value'))
+
+
+# used for instances that have no unique properties/don't need properties set
+def HandleBase(obj, polyObject):
+    pass
 
 constructors = {
     "BoolValue":      BoolValue,
@@ -792,7 +798,8 @@ constructors = {
     "UILabel":        UILabel,
     "UITextInput":    UITextInput,
     "UIView":         UIView,
-    "Vector3Value":   Vector3Value
+    "Vector3Value":   Vector3Value,
+    "Weld":           Weld
 }
 
 classHandlers = {
@@ -806,12 +813,14 @@ classHandlers = {
     "Decal":            HandleDecal,
     "Folder":           HandleBase,
     "Frame":            HandleFrame,
+    "Glue":             HandleWeld,
     "GuiMain":          HandleScreenGui,
     "ImageButton":      HandleImageLabel,
     "ImageLabel":       HandleImageLabel,
     "IntValue":         HandleValue,
     "Lighting":         HandleLighting,
     "LocalScript":      HandleScript,
+    "ManualWeld":       HandleWeld,
     "MeshPart":         HandleMeshPart,
     "Model":            HandleModel,
     "ModuleScript":     HandleScript,
@@ -825,6 +834,7 @@ classHandlers = {
     "Seat":             HandlePart,
     "ServerStorage":    HandleBase,
     "Sky":              HandleSky,
+    "Snap":             HandleWeld,
     "Sound":            HandleSound,
     "SpawnLocation":    HandlePart,
     "SpotLight":        HandleSpotLight,
@@ -844,6 +854,7 @@ classHandlers = {
     "Vector3Value":     HandleValue,
     "VehicleSeat":      HandlePart,
     "WedgePart":        HandlePart,
+    "Weld":             HandleWeld,
     "Workspace":        HandleWorkspace,
 }
 if args.npcs:
@@ -858,10 +869,12 @@ aliases = {
     "CornerWedgePart": "Part",
     "Decal":           "Image3D",
     "Frame":           "UIView",
+    "Glue":            "Weld",
     "GuiMain":         "GUI",
     "ImageButton":     "UIImage",
     "ImageLabel":      "UIImage",
     "LocalScript":     "ClientScript",
+    "ManualWeld":      "Weld",
     "MeshPart":        "Mesh",
     "ObjectValue":     "InstanceValue",
     "RemoteEvent":     "NetworkEvent",
@@ -869,6 +882,7 @@ aliases = {
     "Script":          "ServerScript",
     "ServerStorage":   "ServerHidden",
     "Sky":             "ImageSky",
+    "Snap":            "Weld",
     "SpawnLocation":   "Part",
     "StarterGui":      "PlayerGUI",
     "StarterPack":     "Inventory",
@@ -918,11 +932,7 @@ objectmodifiers = {
 doNotConvert = [
     "Timer",
     "Geometry",
-    "Weld",
-    "Snap",
     "Motor",
-    "ManualWeld",
-    "Glue",
     "Camera",
     "Hint",
     "Terrain",

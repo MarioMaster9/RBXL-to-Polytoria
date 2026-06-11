@@ -62,5 +62,6 @@ from .UILabel                             import UILabel
 from .UITextInput                         import UITextInput
 from .UIView                              import UIView
 from .Vector3Value                        import Vector3Value
+from .Weld                                import Weld
 from .World                               import World
 from .Game                                import Game
