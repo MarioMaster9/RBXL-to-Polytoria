@@ -66,8 +66,8 @@ game.addChild(world)
 
 services = {}
 
-root = rbxl.parse(args.filename)
-for child in root.children:
+rbxl = rbxl.parse(args.filename)
+for child in rbxl.root.children:
     services[child.className] = child
 writer = JSONWriter(f'out/{args.outfile}.poly')
 
@@ -994,6 +994,7 @@ def HandleObject(obj, parent=world):
         handler = classHandlers[className]        
         polyObject = getConstructor(className)()
         polyObject.Name = polyObject.get('Name', obj.get('Name'))
+        obj.gameObject = polyObject
         parent.addChild(polyObject)
         handler(obj, polyObject)
     else:
