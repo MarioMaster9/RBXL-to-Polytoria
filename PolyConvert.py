@@ -563,6 +563,7 @@ def HandleMeshPart(obj, polyObject):
 
 def HandleUnionOperation(obj, polyObject):
     polyObject.Asset = ResourceFactory.CreateMesh(getResource(obj.get('AssetId')))
+    polyObject.UsePartColor = obj.get('UsePartColor')
     HandlePart(obj, polyObject)
 
 RANGE_CONV_CONSTANT = 5.25 # grabbed from RTP plugin
