@@ -23,6 +23,7 @@ from .HiddenBase                          import HiddenBase
 from .Image3D                             import Image3D
 from .resources.ImageAsset                import ImageAsset
 from .ImageSky                            import ImageSky
+from .Instance                            import Instance
 from .InstanceValue                       import InstanceValue
 from .IntValue                            import IntValue
 from .Inventory                           import Inventory

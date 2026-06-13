@@ -1,4 +1,5 @@
 from .NetworkedObject import NetworkedObject
+import instances as module_self
 
 class Instance(NetworkedObject):
     ClassName = "Instance"
@@ -9,3 +10,6 @@ class Instance(NetworkedObject):
         super().__init__()
         self.Tags = []
         self.addProperties(Instance.Properties)
+    @staticmethod
+    def New(classType):
+        return getattr(module_self, classType)()

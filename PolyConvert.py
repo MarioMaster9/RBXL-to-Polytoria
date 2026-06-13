@@ -772,49 +772,6 @@ def HandleLighting(obj, polyObject):
 def HandleBase(obj, polyObject):
     pass
 
-constructors = {
-    "BoolValue":      BoolValue,
-    "ClientScript":   ClientScript,
-    "ColorValue":     ColorValue,
-    "Decal":          Decal,
-    "Environment":    Environment,
-    "Folder":         Folder,
-    "GUI":            GUI,
-    "GUI3D":          GUI3D,
-    "Image3D":        Image3D,
-    "ImageSky":       ImageSky,
-    "InstanceValue":  InstanceValue,
-    "IntValue":       IntValue,
-    "Inventory":      Inventory,
-    "Lighting":       Lighting,
-    "Mesh":           Mesh,
-    "Model":          Model,
-    "ModuleScript":   ModuleScript,
-    "NetworkEvent":   NetworkEvent,
-    "NPC":            NPC,
-    "NumberValue":    NumberValue,
-    "Part":           Part,
-    "PlayerGUI":      PlayerGUI,
-    "PointLight":     PointLight,
-    "Seat":           Seat,
-    "ServerHidden":   ServerHidden,
-    "ServerScript":   ServerScript,
-    "Sound":          Sound,
-    "SpotLight":      SpotLight,
-    "StringValue":    StringValue,
-    "Team":           Team,
-    "Teams":          Teams,
-    "Tool":           Tool,
-    "Truss":          Truss,
-    "UIButton":       UIButton,
-    "UIImage":        UIImage,
-    "UILabel":        UILabel,
-    "UITextInput":    UITextInput,
-    "UIView":         UIView,
-    "Vector3Value":   Vector3Value,
-    "Weld":           Weld
-}
-
 classHandlers = {
     "Accessory":        HandleModel,
     "Attachment":       HandleAttachment,
@@ -873,6 +830,8 @@ classHandlers = {
 if args.npcs:
     classHandlers["NPC"] = HandleNPC
 
+with open('converter_configuration/aliases.json', 'r') as f:
+    aliases = json.load(f)
 aliases = {
     "Accessory":       "Model",
     "Attachment":      "Model",
@@ -1003,9 +962,6 @@ limbs = [
     "Right Leg"
 ]
 
-def getConstructor(className):
-    return constructors[classNames[className]]
-
 def HandleObject(obj, parent=world):
     className = obj.className
     if className in doNotConvert:
@@ -1014,7 +970,7 @@ def HandleObject(obj, parent=world):
     if className in classHandlers:
         className = objectmodifiers.get(className, lambda x: x.className)(obj)
         handler = classHandlers[className]        
-        polyObject = getConstructor(className)()
+        polyObject = Instance.New(classNames[className])
         polyObject.Name = polyObject.get('Name', obj.get('Name'))
         obj.gameObject = polyObject
         parent.addChild(polyObject)
@@ -1036,7 +992,7 @@ def HandleService(service, parent=world):
     if service in services:
         HandleObject(services[service], parent)
     else:
-        parent.addChild(getConstructor(service)())
+        parent.addChild(Instance.New(classNames[service]))
 
 HandleService('Workspace')
 HandleService('Lighting')
