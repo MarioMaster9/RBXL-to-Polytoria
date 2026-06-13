@@ -1,5 +1,5 @@
 from .Dynamic import Dynamic
-from enums import CameraMode
+from enums import CameraModeEnum
 from rbxl.data_types import Vector3
 class Camera(Dynamic):
     ClassName = "Camera"
@@ -18,7 +18,7 @@ class Camera(Dynamic):
     def __init__(self):
         super().__init__()
         self.addProperties(Camera.Properties)
-        self.Mode = CameraMode.FollowPlayer
+        self.Mode = CameraModeEnum.Follow
         self.FOV = 60
         self.Orthographic = False
         self.OrthographicSize = 5

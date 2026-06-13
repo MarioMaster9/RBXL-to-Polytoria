@@ -1,5 +1,5 @@
 from .ImageAsset import ImageAsset
-from enums import ImageType
+from enums import ImageTypeEnum
 
 class PTImageAsset(ImageAsset):
     ClassName = "PTImageAsset"
@@ -10,4 +10,4 @@ class PTImageAsset(ImageAsset):
     def __init__(self):
         super().__init__()
         self.addProperties(PTImageAsset.Properties)
-        self.ImageType = ImageType.Asset
+        self.ImageType = ImageTypeEnum.Asset

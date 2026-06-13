@@ -115,27 +115,27 @@ def getPartColor4(obj):
     return Color4.FromColor3(getPartColor(obj), alpha(obj.get('Transparency')))
 
 materialLookup = {
-    Enum.Material.SmoothPlastic: Material.SmoothPlastic,
-    Enum.Material.Wood:          Material.Wood,
-    Enum.Material.Concrete:      Material.Concrete,
-    Enum.Material.Neon:          Material.Neon,
-    Enum.Material.Metal:         Material.Metal, # Darker
-    Enum.Material.Brick:         Material.Brick,
-    Enum.Material.Grass:         Material.Grass,
-    Enum.Material.Ground:        Material.Dirt,
-    Enum.Material.Slate:         Material.Stone,
-    Enum.Material.Snow:          Material.Snow,
-    Enum.Material.Ice:           Material.Ice,
-    Enum.Material.CorrodedMetal: Material.RustyIron,
-    Enum.Material.Sand:          Material.Sand,
-    Enum.Material.Sandstone:     Material.Sandstone,
-    Enum.Material.Plastic:       Material.Plastic,
-#   "?":                         Material.Plywood,
-    Enum.Material.WoodPlanks:    Material.Planks,
-#   "?2":                        Material.MetalGrid,
-    Enum.Material.DiamondPlate:  Material.MetalPlate,
-    Enum.Material.Fabric:        Material.Fabric,
-    Enum.Material.Marble:        Material.Marble
+    Enum.Material.SmoothPlastic: PartMaterialEnum.SmoothPlastic,
+    Enum.Material.Wood:          PartMaterialEnum.Wood,
+    Enum.Material.Concrete:      PartMaterialEnum.Concrete,
+    Enum.Material.Neon:          PartMaterialEnum.Neon,
+    Enum.Material.Metal:         PartMaterialEnum.Metal, # Darker
+    Enum.Material.Brick:         PartMaterialEnum.Brick,
+    Enum.Material.Grass:         PartMaterialEnum.Grass,
+    Enum.Material.Ground:        PartMaterialEnum.Dirt,
+    Enum.Material.Slate:         PartMaterialEnum.Stone,
+    Enum.Material.Snow:          PartMaterialEnum.Snow,
+    Enum.Material.Ice:           PartMaterialEnum.Ice,
+    Enum.Material.CorrodedMetal: PartMaterialEnum.RustyIron,
+    Enum.Material.Sand:          PartMaterialEnum.Sand,
+    Enum.Material.Sandstone:     PartMaterialEnum.Sandstone,
+    Enum.Material.Plastic:       PartMaterialEnum.Plastic,
+#   "?":                         PartMaterialEnum.Plywood,
+    Enum.Material.WoodPlanks:    PartMaterialEnum.Planks,
+#   "?2":                        PartMaterialEnum.MetalGrid,
+    Enum.Material.DiamondPlate:  PartMaterialEnum.MetalPlate,
+    Enum.Material.Fabric:        PartMaterialEnum.Fabric,
+    Enum.Material.Marble:        PartMaterialEnum.Marble
 }
 
 # list containing missing assets, used so that the console isn't flooded by duplicates
@@ -396,24 +396,24 @@ def PartModifier(obj):
     return "MeshPart"
 
 meshIdMap = {
-    "1033714": {"shape": PartShape.Cone, "scale": Vector3(2, 0.75, 2)}
+    "1033714": {"shape": ShapeEnum.Cone, "scale": Vector3(2, 0.75, 2)}
 }
 
 typeShapes = {
-    "UpCylinder": PartShape.Cylinder,
-    "Cylinder": PartShape.Cylinder,
-    "Block": PartShape.Brick,
-    "SphereMesh": PartShape.Ball,
-    "Ball": PartShape.Ball,
-    "Wedge": PartShape.Wedge,
-    "CornerWedge": PartShape.CornerWedge,
-    "FileMesh": PartShape.Brick
+    "UpCylinder": ShapeEnum.Cylinder,
+    "Cylinder": ShapeEnum.Cylinder,
+    "Block": ShapeEnum.Brick,
+    "SphereMesh": ShapeEnum.Sphere,
+    "Ball": ShapeEnum.Sphere,
+    "Wedge": ShapeEnum.Wedge,
+    "CornerWedge": ShapeEnum.Corner,
+    "FileMesh": ShapeEnum.Brick
 }
 
 trussShapes = {
-    Enum.Style.AlternatingSupports: PartShape.Truss,
-    Enum.Style.BridgeStyleSupports: PartShape.Truss,
-    Enum.Style.NoSupports: PartShape.TrussFrame
+    Enum.Style.AlternatingSupports: ShapeEnum.Truss,
+    Enum.Style.BridgeStyleSupports: ShapeEnum.Truss,
+    Enum.Style.NoSupports: ShapeEnum.Frame
 }
 
 def getExtraPartInfo(obj):
@@ -425,7 +425,7 @@ def getExtraPartInfo(obj):
     elif meshInfo.type == 'Truss':
         trussStyle = obj.get('style')
         return trussShapes[trussStyle], Vector3.ONE
-    return typeShapes.get(meshInfo.type, PartShape.Brick), Vector3.ONE
+    return typeShapes.get(meshInfo.type, ShapeEnum.Brick), Vector3.ONE
 
 def HandlePart(obj, polyObject):
     size = Vector3.ONE
@@ -479,7 +479,7 @@ def HandlePart(obj, polyObject):
         # MeshPart class doesn't have Shape property afaik
         polyObject.Shape = shape
     
-    polyObject.Material = materialLookup.get(obj.get('Material'), Material.Plastic)
+    polyObject.Material = materialLookup.get(obj.get('Material'), PartMaterialEnum.Plastic)
     polyObject.Velocity = obj.get('Velocity')
     polyObject.Friction = getPartFriction(obj)
     polyObject.Bounciness = getPartElasticity(obj)
@@ -689,12 +689,12 @@ fontWeightMapping = {
 
 #
 fontMap = {
-    "rbxasset://fonts/families/SourceSansPro.json":    TextFontPreset.SourceSans,
-    "rbxasset://fonts/families/PressStart2P.json":     TextFontPreset.PressStart2P,
-    "rbxasset://fonts/families/Montserrat.json":       TextFontPreset.Montserrat,
-    "rbxasset://fonts/families/RobotoMono.json":       TextFontPreset.RobotoMono,
-    "rbxasset://fonts/families/Michroma.json":         TextFontPreset.Orbitron,
-    "rbxasset://fonts/families/ComicNeueAngular.json": TextFontPreset.ComicSansMS
+    "rbxasset://fonts/families/SourceSansPro.json":    BuiltInTextFontPresetEnum.SourceSans,
+    "rbxasset://fonts/families/PressStart2P.json":     BuiltInTextFontPresetEnum.PressStart2P,
+    "rbxasset://fonts/families/Montserrat.json":       BuiltInTextFontPresetEnum.Montserrat,
+    "rbxasset://fonts/families/RobotoMono.json":       BuiltInTextFontPresetEnum.RobotoMono,
+    "rbxasset://fonts/families/Michroma.json":         BuiltInTextFontPresetEnum.Orbitron,
+    "rbxasset://fonts/families/ComicNeueAngular.json": BuiltInTextFontPresetEnum.ComicSansMS
 }
 
 FONT_SCALE = 1.5 # found this in the polytoria types dump, seems to be correct
@@ -710,7 +710,7 @@ def HandleTextLabel(obj, polyObject):
     polyObject.AutoSize = obj.get('TextScaled', False)
     font = obj.get('FontFace', FontFace.FromEnum(obj.get('Font')))
     fontStyle = int(font.style == "Italic")
-    fontPreset = ResourceFactory.CreateFont(fontMap.get(font.family.url, TextFontPreset.SourceSans), fontWeightMapping.get(font.weight), fontStyle)
+    fontPreset = ResourceFactory.CreateFont(fontMap.get(font.family.url, BuiltInTextFontPresetEnum.SourceSans), fontWeightMapping.get(font.weight), fontStyle)
     polyObject.FontAsset = fontPreset
     polyObject.TextWrapped = obj.get('TextWrap', obj.get('TextWrapped'))
     polyObject.OutlineColor = getColor4(obj, 'TextStroke')

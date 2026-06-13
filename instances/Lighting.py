@@ -1,5 +1,5 @@
 from .Instance import Instance
-from enums import AmbientSource, SkyboxPreset
+from enums import AmbientSourceEnum, SkyboxEnum
 from rbxl.data_types import Color4
 class Lighting(Instance):
     ClassName = "Lighting"
@@ -15,8 +15,8 @@ class Lighting(Instance):
     def __init__(self):
         super().__init__()
         self.addProperties(Lighting.Properties)
-        self.Skybox = SkyboxPreset.Day1
-        self.AmbientSource = AmbientSource.AmbientColor
+        self.Skybox = SkyboxEnum.Day1
+        self.AmbientSource = AmbientSourceEnum.Color
         self.FogEnabled = False
         self.FogStartDistance = 0
         self.FogEndDistance = 0

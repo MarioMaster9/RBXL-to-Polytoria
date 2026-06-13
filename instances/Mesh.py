@@ -1,5 +1,5 @@
 from .Entity import Entity
-from enums import CollisionType
+from enums import CollisionTypeEnum
 class Mesh(Entity):
     ClassName = "Mesh"
     Properties = [
@@ -15,5 +15,5 @@ class Mesh(Entity):
     def __init__(self):
         super().__init__()
         self.addProperties(Mesh.Properties)
-        self.CollisionType = CollisionType.Bounds
+        self.CollisionType = CollisionTypeEnum.Bounds
         self.PlayAnimationOnStart = False
