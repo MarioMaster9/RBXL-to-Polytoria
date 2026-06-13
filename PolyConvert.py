@@ -1,3 +1,5 @@
+USE_WELDS = False
+
 import json
 from multimethod import multimethod
 from json.decoder import JSONDecodeError
@@ -947,6 +949,9 @@ doNotConvert = [
     "ColorCorrectionEffect",
     "BloomEffect",
 ]
+
+if not USE_WELDS:
+    doNotConvert += ["Weld", "Glue", "ManualWeld", "Snap"]
 
 if not args.npcs:
     doNotConvert += charItems
