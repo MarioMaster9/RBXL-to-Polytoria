@@ -835,43 +835,6 @@ if args.npcs:
 
 with open('converter_configuration/aliases.json', 'r') as f:
     aliases = json.load(f)
-aliases = {
-    "Accessory":       "Model",
-    "Attachment":      "Model",
-    "Backpack":        "Folder",
-    "Color3Value":     "ColorValue",
-    "Configuration":   "Folder",
-    "CornerWedgePart": "Part",
-    "Decal":           "Image3D",
-    "Frame":           "UIView",
-    "Glue":            "Weld",
-    "GuiMain":         "GUI",
-    "ImageButton":     "UIImage",
-    "ImageLabel":      "UIImage",
-    "LocalScript":     "ClientScript",
-    "ManualWeld":      "Weld",
-    "MeshPart":        "Mesh",
-    "ObjectValue":     "InstanceValue",
-    "RemoteEvent":     "NetworkEvent",
-    "ScreenGui":       "GUI",
-    "Script":          "ServerScript",
-    "ServerStorage":   "ServerHidden",
-    "Sky":             "ImageSky",
-    "Snap":            "Weld",
-    "SpawnLocation":   "Part",
-    "StarterGui":      "PlayerGUI",
-    "StarterPack":     "Inventory",
-    "StockSound":      "Sound",
-    "TextBox":         "UITextInput",
-    "TextButton":      "UIButton",
-    "TextLabel":       "UILabel",
-    "Texture":         "Image3D",
-    "TrussPart":       "Truss",
-    "UnionOperation":  "Mesh",
-    "VehicleSeat":     "Seat",
-    "WedgePart":       "Part",
-    "Workspace":       "Environment"
-}
 
 classNames = {}
 for className, handler in classHandlers.items():
