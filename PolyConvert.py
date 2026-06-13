@@ -224,12 +224,18 @@ def HandleModel(obj, polyObject):
     polyObject.Position = position
 
 def HandleNPC(obj, polyObject):
-    #shirt = obj.findFirstChildOfClass("Shirt")
-    #if not shirt is None:
-    #    polyObject.ShirtID = int(getResource(shirt.get('ShirtTemplate')))
-    #pants = obj.findFirstChildOfClass("Pants")
-    #if not pants is None:
-    #    polyObject.PantsID = int(getResource(pants.get('PantsTemplate')))
+    shirt = obj.findFirstChildOfClass("Shirt")
+    if not shirt is None:
+        shirtInstance = Clothing()
+        shirtInstance.Name = shirt.get('Name')
+        shirtInstance.Image = ResourceFactory.CreateImage(getResource(shirt.get('ShirtTemplate')))
+        polyObject.Character.addChild(shirtInstance)
+    pants = obj.findFirstChildOfClass("Pants")
+    if not pants is None:
+        pantsInstance = Clothing()
+        pantsInstance.Name = pants.get('Name')
+        pantsInstance.Image = ResourceFactory.CreateImage(getResource(pants.get('PantsTemplate')))
+        polyObject.Character.addChild(pantsInstance)
     humanoid = obj.findFirstChildOfClass("Humanoid")
     head = obj.findFirstChild("Head")
     if not head is None:
