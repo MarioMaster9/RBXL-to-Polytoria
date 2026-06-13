@@ -4,6 +4,7 @@ from .services.AchievementsService        import AchievementsService
 from .Animator                            import Animator
 from .resources.AudioAsset                import AudioAsset
 from .resources.BaseAsset                 import BaseAsset
+from .BodyPosition                        import BodyPosition
 from .BoolValue                           import BoolValue
 from .resources.BuiltInFontAsset          import BuiltInFontAsset
 from .Camera                              import Camera
