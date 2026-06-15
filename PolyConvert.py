@@ -471,6 +471,51 @@ def HandleScript(obj, polyObject):
     saveScript(source, sourceHash)
     polyObject.Source = getScriptSource(sourceHash)
 
+def HandleParticleEmitter(obj, polyObject):
+    #Acceleration
+    #Brightness
+    #Color
+    #Drag
+    #EmissionDirection
+    polyObject.Playing = obj.get('Enabled')
+    #FlipbookBlendFrames
+    #FlipbookFramerate
+    #FlipbookIncompatible
+    #FlipbookLayout
+    #FlipbookMode
+    #FlipbookSizeX
+    #FlipbookSizeY
+    #FlipbookStartRandom
+    lifetime = obj.get('Lifetime')
+    polyObject.Lifetime = PTNumberRange(lifetime.min, lifetime.max)
+    #LightEmission
+    #LightInfluence
+    polyObject.SimulationSpace = int(obj.get('LockedToPart'))
+    #ParticleOrientation
+    polyObject.Amount = obj.get('Rate')
+    rotation = obj.get('Rotation')
+    polyObject.StartRotation = PTNumberRange(rotation.min, rotation.max)
+    rotSpeed = obj.get('RotSpeed')
+    polyObject.AngularVelocity = PTNumberRange(rotSpeed.min, rotSpeed.max)
+    #Shape
+    #ShapeInOut
+    #ShapePartial
+    #ShapeStyle
+    #Size
+    speed = obj.get('Speed')
+    polyObject.InitialVelocity = PTNumberRange(speed.min, speed.max)
+    #SpreadAngle
+    #Squash
+    polyObject.Image = ResourceFactory.CreateImage(getResource(obj.get('Texture')))
+    polyObject.SpeedScale = obj.get('TimeScale')
+    #Transparency
+    #VelocityInheritance
+    #WindAffectsDrag
+    #ZOffset
+
+
+
+
 decalDist = 0.0015
 decalOffset = 0.5
 
