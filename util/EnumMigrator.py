@@ -57,6 +57,11 @@ conversionTable[Enum.FontWeight] = {
     Enum.FontWeight.Heavy:       FontWeightEnum.Black,
 }
 
+conversionTable[Enum.ResamplerMode] = {
+    Enum.ResamplerMode.Default: TextureFilterEnum.Linear,
+    Enum.ResamplerMode.Pixelated: TextureFilterEnum.Nearest,
+}
+
 class EnumMigrator:
     @staticmethod
     def ToPolytoria(enum, enumValue, defaultValue=0):

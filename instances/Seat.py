@@ -11,4 +11,4 @@ class Seat(Part):
         self.addProperties(Seat.Properties)
         self.CanPlayerSit = True
         self.CanNPCSit = True
-        self.SitDirectionLocked = False
+        self.SitDirectionLocked = True

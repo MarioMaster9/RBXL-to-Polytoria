@@ -1,5 +1,6 @@
 from .UIField import UIField
 from enums import ImageStretchModeEnum
+from enums import TextureFilterEnum
 class UIImage(UIField):
     ClassName = "UIImage"
     Properties = [
@@ -8,7 +9,7 @@ class UIImage(UIField):
         ["TextureOffset", "vector2"],
         ["Color", "color"],
         ["StretchMode", "int"],
-        ["TextureFilter", "int"], # TODO
+        ["TextureFilter", "int"],
         ["FlipHorizontal", "boolean"],
         ["FlipVertical", "boolean"],
     ]
@@ -18,3 +19,6 @@ class UIImage(UIField):
         self.FlipHorizontal = False
         self.FlipVertical = False
         self.StretchMode = ImageStretchModeEnum.Stretch
+        self.TextureFilter = TextureFilterEnum.Linear
+        self.FlipHorizontal = False
+        self.FlipVertical = False

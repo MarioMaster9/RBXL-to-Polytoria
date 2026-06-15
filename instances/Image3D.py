@@ -1,5 +1,6 @@
 from .Dynamic import Dynamic
 from rbxl.data_types import Vector2, Color4
+from enums import TextureFilterEnum
 class Image3D(Dynamic):
     ClassName = "Image3D"
     Properties = [
@@ -8,6 +9,10 @@ class Image3D(Dynamic):
         ["TextureOffset", "vector2"],
         ["Color", "color"],
         ["CastShadows", "boolean"],
+        ["Shaded", "boolean"],
+        ["FaceCamera", "boolean"],
+        ["DoubleSided", "boolean"],
+        ["TextureFilter", "int"],
     ]
     def __init__(self):
         super().__init__()
@@ -16,3 +21,7 @@ class Image3D(Dynamic):
         self.TextureOffset = Vector2.ZERO
         self.Color = Color4.WHITE
         self.CastShadows = False
+        self.Shaded = True
+        self.FaceCamera = False
+        self.DoubleSided = False
+        self.TextureFilter = TextureFilterEnum.Linear

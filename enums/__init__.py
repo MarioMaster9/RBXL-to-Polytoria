@@ -7,8 +7,10 @@ from .FontWeightEnum                     import FontWeightEnum
 from .ImageStretchModeEnum               import ImageStretchModeEnum
 from .ImageTypeEnum                      import ImageTypeEnum
 from .PartMaterialEnum                   import PartMaterialEnum
+from .PlayerMovementModeEnum             import PlayerMovementModeEnum
 from .ShapeEnum                          import ShapeEnum
 from .SkyboxEnum                         import SkyboxEnum
+from .SoundAttenuationModeEnum           import SoundAttenuationModeEnum
 from .TextHorizontalAlignmentEnum        import TextHorizontalAlignmentEnum
 from .TextureFilterEnum                  import TextureFilterEnum
 from .TextVerticalAlignmentEnum          import TextVerticalAlignmentEnum

@@ -666,6 +666,7 @@ def HandleImageLabel(obj, polyObject):
     polyObject.Clickable = obj.className == 'ImageButton'
     polyObject.TextureScale = Vector2.ONE#obj.get('ImageRectSize', Vector2.ONE)
     polyObject.TextureOffset = Vector2.ZERO#obj.get('ImageRectOffset', Vector2.ZERO)
+    polyObject.TextureFilter = EnumMigrator.ToPolytoria(Enum.ResamplerMode, obj.get('ResampleMode', 0))
     HandleUIField(obj, polyObject)
 
 # font size enum to actual sizes
@@ -720,7 +721,7 @@ def HandleTextLabel(obj, polyObject):
     HandleFrame(obj, polyObject)
 
 def HandleTextButton(obj, polyObject):
-    polyObject.Interactable = obj.get('Active')
+    #polyObject.Interactable = obj.get('Active')
     HandleTextLabel(obj, polyObject)
 
 def HandleTextBox(obj, polyObject):
