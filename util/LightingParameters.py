@@ -65,55 +65,55 @@ MOON = 1
 dayAmbient = Color3.WHITE * 0.40
 dayDiffuse = Color3.WHITE * 0.75
 
-lightColorSeq = ColorSequence([
-    ColorSequenceKeypoint(MIDNIGHT,                        Color3(0.2, 0.2, 0.2)),
-    ColorSequenceKeypoint(SUNRISE - HOUR,                  Color3(0.1, 0.1, 0.1)),
-    ColorSequenceKeypoint(SUNRISE,                         Color3.BLACK),
-    ColorSequenceKeypoint(SUNRISE + sunRiseAndSetTime / 4, Color3(0.6, 0.6, 0)),
-    ColorSequenceKeypoint(SUNRISE + sunRiseAndSetTime,     dayDiffuse),
-    ColorSequenceKeypoint(SUNSET - sunRiseAndSetTime,      dayDiffuse),
-    ColorSequenceKeypoint(SUNSET - sunRiseAndSetTime / 2,  Color3(0.1, 0.1, 0.075)),
-    ColorSequenceKeypoint(SUNSET,                          Color3(0.1, 0.05, 0.05)),
-    ColorSequenceKeypoint(SUNSET + HOUR / 2,               Color3(0.1, 0.1, 0.1)),
-    ColorSequenceKeypoint(DAY,                             Color3(0.2, 0.2, 0.2))
+lightColorSeq = RbxColorSequence([
+    RbxColorSequenceKeypoint(MIDNIGHT,                        Color3(0.2, 0.2, 0.2)),
+    RbxColorSequenceKeypoint(SUNRISE - HOUR,                  Color3(0.1, 0.1, 0.1)),
+    RbxColorSequenceKeypoint(SUNRISE,                         Color3.BLACK),
+    RbxColorSequenceKeypoint(SUNRISE + sunRiseAndSetTime / 4, Color3(0.6, 0.6, 0)),
+    RbxColorSequenceKeypoint(SUNRISE + sunRiseAndSetTime,     dayDiffuse),
+    RbxColorSequenceKeypoint(SUNSET - sunRiseAndSetTime,      dayDiffuse),
+    RbxColorSequenceKeypoint(SUNSET - sunRiseAndSetTime / 2,  Color3(0.1, 0.1, 0.075)),
+    RbxColorSequenceKeypoint(SUNSET,                          Color3(0.1, 0.05, 0.05)),
+    RbxColorSequenceKeypoint(SUNSET + HOUR / 2,               Color3(0.1, 0.1, 0.1)),
+    RbxColorSequenceKeypoint(DAY,                             Color3(0.2, 0.2, 0.2))
 ])
 
-ambientSeq = ColorSequence([
-    ColorSequenceKeypoint(MIDNIGHT,                        Color3(0, 0.1, 0.3)),
-    ColorSequenceKeypoint(SUNRISE - HOUR,                  Color3(0, 0, 0.1)),
-    ColorSequenceKeypoint(SUNRISE,                         Color3.BLACK),
-    ColorSequenceKeypoint(SUNRISE + sunRiseAndSetTime / 4, Color3.BLACK),
-    ColorSequenceKeypoint(SUNRISE + sunRiseAndSetTime,     dayAmbient),
-    ColorSequenceKeypoint(SUNSET - sunRiseAndSetTime,      dayAmbient),
-    ColorSequenceKeypoint(SUNSET - sunRiseAndSetTime / 2,  Color3(0.5, 0.2, 0.2)),
-    ColorSequenceKeypoint(SUNSET,                          Color3(0.05, 0.05, 0.1)),
-    ColorSequenceKeypoint(SUNSET + HOUR / 2,               Color3(0, 0, 0.1)),
-    ColorSequenceKeypoint(DAY,                             Color3(0, 0.1, 0.3))
+ambientSeq = RbxColorSequence([
+    RbxColorSequenceKeypoint(MIDNIGHT,                        Color3(0, 0.1, 0.3)),
+    RbxColorSequenceKeypoint(SUNRISE - HOUR,                  Color3(0, 0, 0.1)),
+    RbxColorSequenceKeypoint(SUNRISE,                         Color3.BLACK),
+    RbxColorSequenceKeypoint(SUNRISE + sunRiseAndSetTime / 4, Color3.BLACK),
+    RbxColorSequenceKeypoint(SUNRISE + sunRiseAndSetTime,     dayAmbient),
+    RbxColorSequenceKeypoint(SUNSET - sunRiseAndSetTime,      dayAmbient),
+    RbxColorSequenceKeypoint(SUNSET - sunRiseAndSetTime / 2,  Color3(0.5, 0.2, 0.2)),
+    RbxColorSequenceKeypoint(SUNSET,                          Color3(0.05, 0.05, 0.1)),
+    RbxColorSequenceKeypoint(SUNSET + HOUR / 2,               Color3(0, 0, 0.1)),
+    RbxColorSequenceKeypoint(DAY,                             Color3(0, 0.1, 0.3))
 ])
 
-diffuseAmbientSeq = ColorSequence([
-    ColorSequenceKeypoint(MIDNIGHT,                        Color3(0.2, 0.2, 0.3)),
-    ColorSequenceKeypoint(SUNRISE - HOUR,                  Color3(0.05, 0.06, 0.07)),
-    ColorSequenceKeypoint(SUNRISE,                         Color3(0.08, 0.08, 0.01)),
-    ColorSequenceKeypoint(SUNRISE + sunRiseAndSetTime / 2, Color3.WHITE * 0.75),
-    ColorSequenceKeypoint(SUNRISE + sunRiseAndSetTime,     Color3.WHITE * 0.75),
-    ColorSequenceKeypoint(SUNSET - sunRiseAndSetTime,      Color3.WHITE * 0.35),
-    ColorSequenceKeypoint(SUNSET - sunRiseAndSetTime / 2,  Color3(0.5, 0.2, 0.2)),
-    ColorSequenceKeypoint(SUNSET,                          Color3(0.05, 0.05, 0.1)),
-    ColorSequenceKeypoint(SUNSET + HOUR / 2,               Color3(0.06, 0.06, 0.07)),
-    ColorSequenceKeypoint(DAY,                             Color3(0.1, 0.1, 0.17))
+diffuseAmbientSeq = RbxColorSequence([
+    RbxColorSequenceKeypoint(MIDNIGHT,                        Color3(0.2, 0.2, 0.3)),
+    RbxColorSequenceKeypoint(SUNRISE - HOUR,                  Color3(0.05, 0.06, 0.07)),
+    RbxColorSequenceKeypoint(SUNRISE,                         Color3(0.08, 0.08, 0.01)),
+    RbxColorSequenceKeypoint(SUNRISE + sunRiseAndSetTime / 2, Color3.WHITE * 0.75),
+    RbxColorSequenceKeypoint(SUNRISE + sunRiseAndSetTime,     Color3.WHITE * 0.75),
+    RbxColorSequenceKeypoint(SUNSET - sunRiseAndSetTime,      Color3.WHITE * 0.35),
+    RbxColorSequenceKeypoint(SUNSET - sunRiseAndSetTime / 2,  Color3(0.5, 0.2, 0.2)),
+    RbxColorSequenceKeypoint(SUNSET,                          Color3(0.05, 0.05, 0.1)),
+    RbxColorSequenceKeypoint(SUNSET + HOUR / 2,               Color3(0.06, 0.06, 0.07)),
+    RbxColorSequenceKeypoint(DAY,                             Color3(0.1, 0.1, 0.17))
 ])
 
-skyAmbientSeq = ColorSequence([
-    ColorSequenceKeypoint(MIDNIGHT,                     Color3.BLACK),
-    ColorSequenceKeypoint(SUNRISE - HOUR,               Color3.BLACK),
-    ColorSequenceKeypoint(SUNRISE - HOUR / 2,           Color3(0.2, 0.15, 0.01)),
-    ColorSequenceKeypoint(SUNRISE,                      Color3(0.2, 0.15, 0.01)),
-    ColorSequenceKeypoint(SUNRISE + sunRiseAndSetTime,  Color3.WHITE),
-    ColorSequenceKeypoint(SUNSET - sunRiseAndSetTime,   Color3.WHITE),
-    ColorSequenceKeypoint(SUNSET,                       Color3(0.4, 0.2, 0.05)),
-    ColorSequenceKeypoint(SUNSET + HOUR / 3,            Color3.BLACK),
-#    ColorSequenceKeypoint(DAY,                          Color3(0, 0, 0))
+skyAmbientSeq = RbxColorSequence([
+    RbxColorSequenceKeypoint(MIDNIGHT,                     Color3.BLACK),
+    RbxColorSequenceKeypoint(SUNRISE - HOUR,               Color3.BLACK),
+    RbxColorSequenceKeypoint(SUNRISE - HOUR / 2,           Color3(0.2, 0.15, 0.01)),
+    RbxColorSequenceKeypoint(SUNRISE,                      Color3(0.2, 0.15, 0.01)),
+    RbxColorSequenceKeypoint(SUNRISE + sunRiseAndSetTime,  Color3.WHITE),
+    RbxColorSequenceKeypoint(SUNSET - sunRiseAndSetTime,   Color3.WHITE),
+    RbxColorSequenceKeypoint(SUNSET,                       Color3(0.4, 0.2, 0.05)),
+    RbxColorSequenceKeypoint(SUNSET + HOUR / 3,            Color3.BLACK),
+#    RbxColorSequenceKeypoint(DAY,                          Color3(0, 0, 0))
 ])
 
 class LightingParameters:
