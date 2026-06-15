@@ -18,6 +18,7 @@ from instances import *
 
 import util.extmath as extmath
 
+from util.EnumMigrator           import EnumMigrator
 from util.LightingParameters     import LightingParameters
 from util.JSONWriter             import JSONWriter
 from rbxl.util.InstanceTree      import TreeItem
@@ -115,30 +116,6 @@ def getColor4(obj: TreeItem, color3: str, transparency: str):
 def getPartColor4(obj):
     # color4 method for parts, due to part color property name and datatype changes in various versions
     return Color4.FromColor3(getPartColor(obj), alpha(obj.get('Transparency')))
-
-materialLookup = {
-    Enum.Material.SmoothPlastic: PartMaterialEnum.SmoothPlastic,
-    Enum.Material.Wood:          PartMaterialEnum.Wood,
-    Enum.Material.Concrete:      PartMaterialEnum.Concrete,
-    Enum.Material.Neon:          PartMaterialEnum.Neon,
-    Enum.Material.Metal:         PartMaterialEnum.Metal, # Darker
-    Enum.Material.Brick:         PartMaterialEnum.Brick,
-    Enum.Material.Grass:         PartMaterialEnum.Grass,
-    Enum.Material.Ground:        PartMaterialEnum.Dirt,
-    Enum.Material.Slate:         PartMaterialEnum.Stone,
-    Enum.Material.Snow:          PartMaterialEnum.Snow,
-    Enum.Material.Ice:           PartMaterialEnum.Ice,
-    Enum.Material.CorrodedMetal: PartMaterialEnum.RustyIron,
-    Enum.Material.Sand:          PartMaterialEnum.Sand,
-    Enum.Material.Sandstone:     PartMaterialEnum.Sandstone,
-    Enum.Material.Plastic:       PartMaterialEnum.Plastic,
-#   "?":                         PartMaterialEnum.Plywood,
-    Enum.Material.WoodPlanks:    PartMaterialEnum.Planks,
-#   "?2":                        PartMaterialEnum.MetalGrid,
-    Enum.Material.DiamondPlate:  PartMaterialEnum.MetalPlate,
-    Enum.Material.Fabric:        PartMaterialEnum.Fabric,
-    Enum.Material.Marble:        PartMaterialEnum.Marble
-}
 
 # list containing missing assets, used so that the console isn't flooded by duplicates
 missingAssets = []
@@ -412,12 +389,6 @@ typeShapes = {
     "FileMesh": ShapeEnum.Brick
 }
 
-trussShapes = {
-    Enum.Style.AlternatingSupports: ShapeEnum.Truss,
-    Enum.Style.BridgeStyleSupports: ShapeEnum.Truss,
-    Enum.Style.NoSupports: ShapeEnum.Frame
-}
-
 def getExtraPartInfo(obj):
     meshInfo = obj.getcustom('meshInfo')
     if meshInfo.type == 'FileMesh':
@@ -426,7 +397,7 @@ def getExtraPartInfo(obj):
             return info['shape'], info['scale']
     elif meshInfo.type == 'Truss':
         trussStyle = obj.get('style')
-        return trussShapes[trussStyle], Vector3.ONE
+        return EnumMigrator.ToPolytoria(Enum.Style, trussStyle), Vector3.ONE
     return typeShapes.get(meshInfo.type, ShapeEnum.Brick), Vector3.ONE
 
 def HandlePart(obj, polyObject):
@@ -481,7 +452,7 @@ def HandlePart(obj, polyObject):
         # MeshPart class doesn't have Shape property afaik
         polyObject.Shape = shape
     
-    polyObject.Material = materialLookup.get(obj.get('Material'), PartMaterialEnum.Plastic)
+    polyObject.Material = EnumMigrator.ToPolytoria(Enum.Material, obj.get('Material'), PartMaterialEnum.Plastic)
     polyObject.Velocity = obj.get('Velocity')
     polyObject.Friction = getPartFriction(obj)
     polyObject.Bounciness = getPartElasticity(obj)
@@ -670,29 +641,6 @@ fontSizes = {
     Enum.FontSize.Size60: 60,
     Enum.FontSize.Size96: 96
 }
-textXAlignMapping = {
-    Enum.TextXAlignment.Left:   TextHorizontalAlignmentEnum.Left,
-    Enum.TextXAlignment.Center: TextHorizontalAlignmentEnum.Center,
-    Enum.TextXAlignment.Right:  TextHorizontalAlignmentEnum.Right,
-}
-
-textYAlignMapping = {
-    Enum.TextYAlignment.Top:    TextVerticalAlignmentEnum.Top,
-    Enum.TextYAlignment.Center: TextVerticalAlignmentEnum.Middle,
-    Enum.TextYAlignment.Bottom: TextVerticalAlignmentEnum.Bottom,
-}
-
-fontWeightMapping = {
-    Enum.FontWeight.Thin:        FontWeightEnum.Thin,
-    Enum.FontWeight.ExtraLight:  FontWeightEnum.ExtraLight,
-    Enum.FontWeight.Light:       FontWeightEnum.Light,
-    Enum.FontWeight.Regular:     FontWeightEnum.Regular,
-    Enum.FontWeight.Medium:      FontWeightEnum.Medium,
-    Enum.FontWeight.SemiBold:    FontWeightEnum.SemiBold,
-    Enum.FontWeight.Bold:        FontWeightEnum.Bold,
-    Enum.FontWeight.ExtraBold:   FontWeightEnum.ExtraBold,
-    Enum.FontWeight.Heavy:       FontWeightEnum.Black,
-}
 
 #
 fontMap = {
@@ -708,17 +656,20 @@ FONT_SCALE = 1.5 # found this in the polytoria types dump, seems to be correct
 def HandleTextLabel(obj, polyObject):
     polyObject.Text = obj.get('Text')
     polyObject.TextColor = getColor4(obj, 'Text')
-    polyObject.HorizontalAlignment = textXAlignMapping[obj.get('TextXAlignment')]
-    polyObject.VerticalAlignment = textYAlignMapping[obj.get('TextYAlignment')]
+    polyObject.HorizontalAlignment = EnumMigrator.ToPolytoria(Enum.TextXAlignment, obj.get('TextXAlignment'))
+    polyObject.VerticalAlignment = EnumMigrator.ToPolytoria(Enum.TextYAlignment, obj.get('TextYAlignment'))
     fontSize = obj.get('TextSize', fontSizes.get(obj.get('FontSize')))
     fontSize /= FONT_SCALE
     polyObject.FontSize = fontSize
     polyObject.MaxAutoSize = fontSize
     polyObject.AutoSize = obj.get('TextScaled', False)
     font = obj.get('FontFace', FontFace.FromEnum(obj.get('Font')))
+    fontPreset = fontMap.get(font.family.url, BuiltInTextFontPresetEnum.SourceSans)
+    fontWeight = EnumMigrator.ToPolytoria(Enum.FontWeight, font.weight)
     fontStyle = int(font.style == "Italic")
-    fontPreset = ResourceFactory.CreateFont(fontMap.get(font.family.url, BuiltInTextFontPresetEnum.SourceSans), fontWeightMapping.get(font.weight), fontStyle)
-    polyObject.FontAsset = fontPreset
+
+    fontAsset = ResourceFactory.CreateFont(fontPreset, fontWeight, fontStyle)
+    polyObject.FontAsset = fontAsset
     polyObject.TextWrapped = obj.get('TextWrap', obj.get('TextWrapped'))
     polyObject.OutlineColor = getColor4(obj, 'TextStroke')
     HandleFrame(obj, polyObject)
