@@ -1,5 +1,5 @@
 from .Light import Light
-from rbxl.data_types import Vector3
+from data_types import Vector3
 class SunLight(Light):
     ClassName = "SunLight"
     def __init__(self):

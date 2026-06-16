@@ -1,5 +1,5 @@
 from .CharacterModel import CharacterModel
-from rbxl.data_types import Color4
+from data_types import Color
 class PolytorianModel(CharacterModel):
     ClassName = "PolytorianModel"
     Properties = [
@@ -15,9 +15,9 @@ class PolytorianModel(CharacterModel):
     def __init__(self):
         super().__init__()
         self.addProperties(PolytorianModel.Properties)
-        self.HeadColor = Color4.WHITE
-        self.TorsoColor = Color4.WHITE
-        self.LeftArmColor = Color4.WHITE
-        self.RightArmColor = Color4.WHITE
-        self.LeftLegColor = Color4.WHITE
-        self.RightLegColor = Color4.WHITE
+        self.HeadColor = Color(1, 1, 1)
+        self.TorsoColor = Color(1, 1, 1)
+        self.LeftArmColor = Color(1, 1, 1)
+        self.RightArmColor = Color(1, 1, 1)
+        self.LeftLegColor = Color(1, 1, 1)
+        self.RightLegColor = Color(1, 1, 1)

@@ -1,7 +1,7 @@
 from .Physical import Physical
 from .PolytorianModel import PolytorianModel
 from .Sound import Sound
-from rbxl.data_types import Vector3
+from data_types import Vector3
 from enums import BuiltInAudioPresetEnum
 from .resources.ResourceFactory import ResourceFactory
 class NPC(Physical):

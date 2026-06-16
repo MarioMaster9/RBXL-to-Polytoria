@@ -1,5 +1,5 @@
 from .Dynamic import Dynamic
-from rbxl.data_types import Vector3
+from data_types import Vector3
 class Model(Dynamic):
     ClassName = "Model"
     def __init__(self):

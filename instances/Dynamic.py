@@ -1,5 +1,5 @@
 from .Instance import Instance
-from rbxl.data_types import Vector3
+from data_types import Vector3
 class Dynamic(Instance):
     ClassName = "Dynamic"
     Properties = [

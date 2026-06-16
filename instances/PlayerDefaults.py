@@ -1,5 +1,5 @@
 from .Instance import Instance
-from rbxl.data_types import Color4
+from data_types import Color
 from enums import PlayerMovementModeEnum
 class PlayerDefaults(Instance):
     ClassName = "PlayerDefaults"
@@ -29,7 +29,7 @@ class PlayerDefaults(Instance):
         self.MaxHealth = 100
         self.WalkSpeed = 16
         self.JumpPower = 36
-        self.ChatColor = Color4.WHITE
+        self.ChatColor = Color(1, 1, 1)
         self.ChatColorsEnabled = True
         self.RespawnTime = 5
         self.CanMove = True

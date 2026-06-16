@@ -1,5 +1,5 @@
 from .Dynamic import Dynamic
-from rbxl.data_types import Vector3
+from data_types import Vector3
 class Physical(Dynamic):
     ClassName = "Physical"
     Properties = [
@@ -7,7 +7,6 @@ class Physical(Dynamic):
         ["CanCollide", "boolean"],
         ["CollisionLayers", "uint"],
         ["CollisionMask", "uint"],
-
     ]
     def __init__(self):
         super().__init__()

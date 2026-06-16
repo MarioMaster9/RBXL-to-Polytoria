@@ -1,5 +1,5 @@
 from .Dynamic import Dynamic
-from rbxl.data_types import Vector2, Color4
+from data_types import Vector2, Color
 from enums import TextureFilterEnum
 class Image3D(Dynamic):
     ClassName = "Image3D"
@@ -19,7 +19,7 @@ class Image3D(Dynamic):
         self.addProperties(Image3D.Properties)
         self.TextureScale = Vector2.ONE
         self.TextureOffset = Vector2.ZERO
-        self.Color = Color4.WHITE
+        self.Color = Color(1, 1, 1)
         self.CastShadows = False
         self.Shaded = True
         self.FaceCamera = False

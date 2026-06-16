@@ -12,9 +12,18 @@ import util.hashfuncs as hashfuncs
 import argparse
 import os
 
-from rbxl.data_types import *
+#from rbxl.data_types import *
+from data_types import *
 from enums import *
 from instances import *
+
+from rbxl.data_types import Matrix3
+from rbxl.data_types import Enum
+from rbxl.data_types import Content
+from rbxl.data_types import MeshInfo
+from rbxl.data_types import CoordinateFrame
+from rbxl.data_types import BrickColor
+from rbxl.data_types import Color3
 
 import util.extmath as extmath
 
@@ -81,7 +90,7 @@ def alpha(transparency):
 def getBrickColor3(brickColorValue):
     return BrickColor.ColorMap[brickColorValue]
 
-def getPartColor(obj):
+def getPartColor3(obj):
     return obj.get('Color3uint8', getBrickColor3(obj.get('BrickColor')))
 
 def getPhysicalProperties(obj):
@@ -106,16 +115,16 @@ def getPartElasticity(obj):
 def getColor4(obj: TreeItem, propType: str):
     # color4 method, assuming that the format will always be propType followed by "Color3" for color, or propType followed by "Transparency" for transparency
     # Mainly used for GUI objects
-    return Color4.FromColor3(obj.get(propType + "Color3", Color3.BLACK), alpha(obj.get(propType + "Transparency", 1)))
+    return Color(*obj.get(propType + "Color3", Color3.BLACK), alpha(obj.get(propType + "Transparency", 1)))
 
 @multimethod
 def getColor4(obj: TreeItem, color3: str, transparency: str):
     # color4 method, separating property names. safer, but it may look messier
-    return Color4.FromColor3(obj.get(color3), alpha(obj.get(transparency)))
+    return Color(*obj.get(color3), alpha(obj.get(transparency)))
 
 def getPartColor4(obj):
     # color4 method for parts, due to part color property name and datatype changes in various versions
-    return Color4.FromColor3(getPartColor(obj), alpha(obj.get('Transparency')))
+    return Color(*getPartColor3(obj), alpha(obj.get('Transparency')))
 
 # list containing missing assets, used so that the console isn't flooded by duplicates
 missingAssets = []
@@ -257,7 +266,7 @@ def HandleValue(obj, polyObject):
     polyObject.Value = obj.get('Value')
 
 def HandleColorValue(obj, polyObject):
-    polyObject.Value = Color4.FromColor3(obj.get('Value'))
+    polyObject.Value = Color(*obj.get('Value'))
 
 def HandleObjectValue(obj, polyObject):
     polyObject.Value = rbxlFile.getRef(obj.get('Value'))
@@ -441,7 +450,7 @@ def HandlePart(obj, polyObject):
     vertexColor.clamp(-Vector3.ONE, Vector3.ONE) # clamp vertexColor so that colors don't end up weird
     partColor = getPartColor4(obj)
     if str(meshInfo.textureId) != '':
-        partColor = Color4.FromColor3(Color3(*vertexColor), partColor.a)
+        partColor = Color(*vertexColor, partColor.a)
     polyObject.Color = partColor
     
     # commented out due to objects not being welded together
@@ -557,7 +566,7 @@ def HandleFaceObject(obj, polyObject):
 
 def HandleDecal(obj, polyObject):
     if str(obj.get('Texture')) == '':
-        polyObject.Color = Color4(0, 0, 0, 0)
+        polyObject.Color = Color(0, 0, 0, 0)
     polyObject.Image = ResourceFactory.CreateImage(getResource(obj.get('Texture')))
     HandleFaceObject(obj, polyObject)
 
@@ -590,7 +599,7 @@ BRIGHTNESS_CONV_CONSTANT = 2.5 # grabbed from RTP plugin
 def HandlePointLight(obj, polyObject):
     polyObject.Range = obj.get('Range')*RANGE_CONV_CONSTANT
     polyObject.Brightness = obj.get('Brightness')*BRIGHTNESS_CONV_CONSTANT
-    polyObject.Color = Color4.FromColor3(obj.get('Color'))
+    polyObject.Color = Color(*obj.get('Color'))
     polyObject.Shadows = obj.get('Shadows')
 
 def HandleSpotLight(obj, polyObject):
@@ -618,7 +627,7 @@ def HandleAttachment(obj, polyObject):
     polyObject.Rotation = rotation
 
 def HandleTeam(obj, polyObject):
-    polyObject.Color = Color4.FromColor3(getBrickColor3(obj.get('TeamColor')))
+    polyObject.Color = Color(*getBrickColor3(obj.get('TeamColor')))
 
 def HandleWeld(obj, polyObject):
     polyObject.Part0 = rbxlFile.getRef(obj.get('Part0'))
@@ -636,7 +645,7 @@ def HandleScreenGui(obj, polyObject):
     polyObject.Visible = obj.get('Enabled', True)
 def HandleFrame(obj, polyObject):
     polyObject.Color = getColor4(obj, 'Background')
-    polyObject.BorderColor = Color4.FromColor3(obj.get('BorderColor3'))
+    polyObject.BorderColor = Color(*obj.get('BorderColor3'))
     polyObject.BorderWidth = obj.get('BorderSizePixel')
     HandleUIField(obj, polyObject)
 
@@ -661,7 +670,7 @@ def HandleUIField(obj, polyObject):
 def HandleImageLabel(obj, polyObject):
     opacity = alpha(obj.get('ImageTransparency', 0))
     color = obj.get('ImageColor3', Color3.WHITE)
-    polyObject.Color = Color4.FromColor3(color, opacity)
+    polyObject.Color = Color(*color, opacity)
     polyObject.Image = ResourceFactory.CreateImage(getResource(obj.get('Image')))
     polyObject.Clickable = obj.className == 'ImageButton'
     polyObject.TextureScale = Vector2.ONE#obj.get('ImageRectSize', Vector2.ONE)
@@ -726,7 +735,7 @@ def HandleTextButton(obj, polyObject):
 
 def HandleTextBox(obj, polyObject):
     polyObject.Placeholder = obj.get('PlaceholderText', '')
-    polyObject.PlaceholderColor = Color4.FromColor3(obj.get('PlaceholderColor3', Color3.BLACK))
+    polyObject.PlaceholderColor = Color(*obj.get('PlaceholderColor3', Color3.BLACK))
     polyObject.MultiLine = obj.get('MultiLine')
     polyObject.ReadOnly = not obj.get('TextEditable', True)
     HandleTextLabel(obj, polyObject)
@@ -759,16 +768,16 @@ defaultSunColor = Color3(255/255, 244/255, 214/255)
 
 def DoSunLight(polyObject):
     polyObject.Brightness = services['Lighting'].get('Brightness')
-    polyObject.Color = Color4.FromColor3(services['Lighting'].get('OutdoorAmbient', defaultSunColor))
+    polyObject.Color = Color(*services['Lighting'].get('OutdoorAmbient', defaultSunColor))
     polyObject.Rotation = fixRotation(getSunRotation())
     return polyObject
 
 def HandleLighting(obj, polyObject):
-    polyObject.AmbientColor = Color4.FromColor3(obj.get('Ambient'))
+    polyObject.AmbientColor = Color(*obj.get('Ambient'))
     polyObject.FogEnabled = services['Lighting'].has('FogStart')
     polyObject.FogStartDistance = services['Lighting'].get('FogStart', 0)
     polyObject.FogEndDistance = services['Lighting'].get('FogEnd', 0)
-    polyObject.FogColor = Color4.FromColor3(services['Lighting'].get('FogColor', Color3.WHITE))
+    polyObject.FogColor = Color(*services['Lighting'].get('FogColor', Color3.WHITE))
     polyObject.addChild(DoSunLight(SunLight()))
 
 

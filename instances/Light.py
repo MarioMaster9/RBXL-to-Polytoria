@@ -1,5 +1,5 @@
 from .Dynamic import Dynamic
-from rbxl.data_types import Vector3
+from data_types import Vector3
 
 class Light(Dynamic):
     ClassName = "Light"

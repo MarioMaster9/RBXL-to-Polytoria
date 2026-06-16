@@ -1,6 +1,6 @@
 from .Dynamic import Dynamic
 from enums import CameraModeEnum
-from rbxl.data_types import Vector3
+from data_types import Vector3
 
 DefaultScrollSensitivity = 15
 

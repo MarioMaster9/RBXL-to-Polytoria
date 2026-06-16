@@ -1,5 +1,5 @@
 from .Physical import Physical
-from rbxl.data_types import Vector3
+from data_types import Vector3
 class RigidBody(Physical):
     ClassName = "RigidBody"
     Properties = [

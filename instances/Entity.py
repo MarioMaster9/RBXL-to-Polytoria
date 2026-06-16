@@ -1,5 +1,5 @@
 from .RigidBody import RigidBody
-from rbxl.data_types import Color4
+from data_types import Color
 class Entity(RigidBody):
     ClassName = "Entity"
     Properties = [
@@ -10,5 +10,6 @@ class Entity(RigidBody):
     def __init__(self):
         super().__init__()
         self.addProperties(Entity.Properties)
-        self.Color = Color4.WHITE
+        self.Color = Color(1, 1, 1)
+        self.CastShadows = True
         self.IsSpawn = False

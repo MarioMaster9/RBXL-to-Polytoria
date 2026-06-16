@@ -1,5 +1,5 @@
 from .Dynamic import Dynamic
-from rbxl.data_types import Vector3
+from data_types import Vector3
 from enums import SoundAttenuationModeEnum
 class Sound(Dynamic):
     ClassName = "Sound"
