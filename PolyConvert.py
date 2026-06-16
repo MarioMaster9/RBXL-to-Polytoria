@@ -958,6 +958,26 @@ def HandleObject(obj, parent=world):
         for child in obj.children:
             HandleObject(child, polyObject)
 
+def ReferencesPass(obj):
+    if hasattr(obj, "serializationProperties"):
+        for item in obj.serializationProperties:
+            propName = item[0]
+            datatype = item[1]
+            if propName != "ref":
+                continue
+            if not hasattr(obj, propName):
+                continue
+            prop = getattr(obj, propName)
+            if prop is None:
+                continue
+            if not isinstance(prop, TreeItem):
+                continue
+            setattr(obj, propName, prop.gameObject)
+    for obj2 in obj.children:
+        ReferencesPass(obj2)
+
+
+
 def HandleService(service, parent=world):
     if service in services:
         HandleObject(services[service], parent)
@@ -991,6 +1011,7 @@ lighting = world.findService('Lighting')
 
 lighting.moveChildren(storageLighting, ['ImageSky', 'SunLight'])
 
+ReferencesPass(game)
 game_json = game.json()
 
 writer.write(game_json)

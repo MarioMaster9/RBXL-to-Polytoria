@@ -15,7 +15,9 @@ class Game(Instance):
             "NonInstanceObjects": []
         }
         for obj in self.children:
-            json_self["Objects"].append(obj.json(self))
+            obj.resourcePass(self)
+        for obj in self.children:
+            json_self["Objects"].append(obj.json())
         for obj in self.nonInstanceObjects:
-            json_self["NonInstanceObjects"].append(obj.json(self))
+            json_self["NonInstanceObjects"].append(obj.json())
         return json_self

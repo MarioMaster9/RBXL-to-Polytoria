@@ -1,5 +1,4 @@
 import uuid
-from rbxl.util.InstanceTree import TreeItem
 
 class NetworkedObject:
     ClassName = "NetworkedObject"
@@ -44,58 +43,47 @@ class NetworkedObject:
     def move(self, newParent):
         self.parent.children.remove(self)
         newParent.addChild(self)
-    def serialize(self, json_self, root):
+    def serialize(self, json_self):
         for item in self.serializationProperties:
             propName = item[0]
             datatype = item[1]
             if propName == "Name":
                 continue
-            if not hasattr(self, item[0]):
+            if not hasattr(self, propName):
                 continue
-            if item[1] == "ref" or item[1] == "resourceref":
+            prop = getattr(self, propName)
+            if datatype == "ref" or datatype == "resourceref":
                 # more lenient
-                if getattr(self, item[0]) is None:
-                    print(f'{item[0]} of {self.className} is None')
+                if prop is None:
+                    print(f'{propName} of {self.className} is None')
             else:
-                assert not getattr(self, item[0]) is None, f'{item[0]} of {self.className} is None'
-            match item[1]:
+                assert not prop is None, f'{propName} of {self.className} is None'
+            match datatype:
                 case "string" | "uint" | "int" | "float" | "boolean" | "array":
-                    json_self["Properties"][item[0]] = getattr(self, item[0])
-                case "ref":
-                    prop = getattr(self, item[0])
-                    if isinstance(prop, TreeItem):
-                        if not prop.gameObject is None:
-                            json_self["Properties"][item[0]] = str(prop.gameObject.uuid)
-                    elif not prop is None:
-                        json_self["Properties"][item[0]] = str(getattr(self, item[0]).uuid)
-                case "resourceref":
-                    prop = getattr(self, item[0])
+                    json_self["Properties"][propName] = prop
+                case "ref" | "resourceref":
                     if prop is None:
-                        json_self["Properties"][item[0]] = ""
+                        json_self["Properties"][propName] = ""
                     else:
-                        json_self["Properties"][item[0]] = str(prop.uuid)
-                        if not prop.included:
-                            prop.included = True
-                            root.nonInstanceObjects.append(prop)
+                        json_self["Properties"][propName] = str(prop.uuid)
                 case "color":
-                    value = getattr(self, item[0])
-                    r = int(value.r*255)
-                    g = int(value.g*255)
-                    b = int(value.b*255)
-                    a = int(value.a*255)
-                    json_self["Properties"][item[0]] = f'{r:02x}{g:02x}{b:02x}{a:02x}'
+                    r = int(prop.r*255)
+                    g = int(prop.g*255)
+                    b = int(prop.b*255)
+                    a = int(prop.a*255)
+                    json_self["Properties"][propName] = f'{r:02x}{g:02x}{b:02x}{a:02x}'
                 case "vector2" | "vector3":
-                    json_self["Properties"][item[0]] = [*getattr(self, item[0])]
+                    json_self["Properties"][propName] = [*prop]
                 case "numberrange":
                     #TODO: implement
-                    json_self["Properties"][item[0]] = ""#getattr(self, item[0])
+                    json_self["Properties"][propName] = ""#prop
                 case "colorrange":
                     #TODO: implement
-                    json_self["Properties"][item[0]] = ""#getattr(self, item[0])
+                    json_self["Properties"][propName] = ""#prop
                 case _:
                     print("INVALID DATATYPE: " + datatype)
                     exit()
-    def json(self, root):
+    def json(self):
         name = self.Name
         if self.parent is None:
             pass
@@ -111,7 +99,24 @@ class NetworkedObject:
             "IsLinkedChild": False
         }
 
-        self.serialize(json_self, root)
+        self.serialize(json_self)
         for obj in self.children:
-            json_self["Children"].append(obj.json(root))
+            json_self["Children"].append(obj.json())
         return json_self
+    def resourcePass(self, root):
+        # serialization pass that goes through all resource references
+        for item in self.serializationProperties:
+            propName = item[0]
+            datatype = item[1]
+            if datatype != "resourceref":
+                continue
+            if not hasattr(self, propName):
+                continue
+            prop = getattr(self, propName)
+            if prop is None:
+                continue
+            if not prop.included:
+                prop.included = True
+                root.nonInstanceObjects.append(prop)
+        for obj in self.children:
+            obj.resourcePass(root)
