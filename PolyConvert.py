@@ -225,33 +225,33 @@ def HandleNPC(obj, polyObject):
         pantsInstance.Image = ResourceFactory.CreateImage(getResource(pants.get('PantsTemplate')))
         polyObject.Character.addChild(pantsInstance)
     humanoid = obj.findFirstChildOfClass("Humanoid")
+    chara = polyObject.Character
     head = obj.findFirstChild("Head")
     if not head is None:
-        polyObject.HeadColor = getPartColor4(head)
+        chara.HeadColor = getPartColor4(head)
     torso = obj.findFirstChild("Torso")
     if not torso is None:
-        polyObject.TorsoColor = getPartColor4(torso)
+        chara.TorsoColor = getPartColor4(torso)
     leftArm = obj.findFirstChild("Left Arm")
     if not leftArm is None:
-        polyObject.LeftArmColor = getPartColor4(leftArm)
+        chara.LeftArmColor = getPartColor4(leftArm)
     rightArm = obj.findFirstChild("Right Arm")
     if not rightArm is None:
-        polyObject.RightArmColor = getPartColor4(rightArm)
+        chara.RightArmColor = getPartColor4(rightArm)
     leftLeg = obj.findFirstChild("Left Leg")
     if not leftLeg is None:
-        polyObject.LeftLegColor = getPartColor4(leftLeg)
+        chara.LeftLegColor = getPartColor4(leftLeg)
     rightLeg = obj.findFirstChild("Right Leg")
     if not rightLeg is None:
-        polyObject.RightLegColor = getPartColor4(rightLeg)
+        chara.RightLegColor = getPartColor4(rightLeg)
     bodyColors = obj.findFirstChildOfClass("BodyColors")
-    character = polyObject.Character
     if not bodyColors is None:
-        character.HeadColor.setColor3(bodyColors.get('HeadColor'))
-        character.TorsoColor.setColor3(bodyColors.get('TorsoColor'))
-        character.LeftArmColor.setColor3(bodyColors.get('LeftArmColor'))
-        character.RightArmColor.setColor3(bodyColors.get('RightArmColor'))
-        character.LeftLegColor.setColor3(bodyColors.get('LeftLegColor'))
-        character.RightLegColor.setColor3(bodyColors.get('RightLegColor'))
+        chara.HeadColor     = Color(*bodyColors.get('HeadColor'), chara.HeadColor.a)
+        chara.TorsoColor    = Color(*bodyColors.get('TorsoColor'), chara.TorsoColor.a)
+        chara.LeftArmColor  = Color(*bodyColors.get('LeftArmColor'), chara.LeftArmColor.a)
+        chara.RightArmColor = Color(*bodyColors.get('RightArmColor'), chara.RightArmColor.a)
+        chara.LeftLegColor  = Color(*bodyColors.get('LeftLegColor'), chara.LeftLegColor.a)
+        chara.RightLegColor = Color(*bodyColors.get('RightLegColor'), chara.RightLegColor.a)
     
     polyObject.Health = humanoid.get('Health_XML', humanoid.get('Health'))
     polyObject.MaxHealth = humanoid.get('MaxHealth')
