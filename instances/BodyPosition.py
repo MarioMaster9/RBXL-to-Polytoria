@@ -9,4 +9,4 @@ class BodyPosition(Instance):
     def __init__(self):
         super().__init__()
         self.addProperties(BodyPosition.Properties)
-        self.AcceptanceDistance = 2
+        self.AcceptanceDistance = 2.0

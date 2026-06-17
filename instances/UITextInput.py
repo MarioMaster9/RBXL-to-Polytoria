@@ -26,5 +26,5 @@ class UITextInput(UIView):
         super().__init__()
         self.addProperties(UITextInput.Properties)
         self.JustifyText = TextHorizontalAlignmentEnum.Center
-        self.FontSize = 16
-        self.MaxAutoSize = 16
+        self.FontSize = 16.0
+        self.MaxAutoSize = 16.0

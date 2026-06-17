@@ -7,4 +7,4 @@ class Truss(Part):
     def __init__(self):
         super().__init__()
         self.addProperties(Truss.Properties)
-        self.ClimbSpeed = 1
+        self.ClimbSpeed = 1.0

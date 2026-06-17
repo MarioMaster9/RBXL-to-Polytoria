@@ -9,4 +9,4 @@ class Decal(Dynamic):
     def __init__(self):
         super().__init__()
         self.addProperties(Decal.Properties)
-        self.Energy = 1
+        self.Energy = 1.0

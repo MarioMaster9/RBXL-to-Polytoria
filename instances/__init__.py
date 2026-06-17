@@ -18,9 +18,9 @@ from .services.ScriptService              import ScriptService
 
 #Accessory
 from .Animator                            import Animator
-#BindableEvent
+from .BindableEvent                       import BindableEvent
 from .BodyPosition                        import BodyPosition
-#BodyRotation
+from .BodyRotation                        import BodyRotation
 from .BoolValue                           import BoolValue
 from .Camera                              import Camera
 from .CharacterModel                      import CharacterModel

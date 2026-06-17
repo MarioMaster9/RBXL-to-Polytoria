@@ -19,6 +19,6 @@ class UIField(Instance):
     def __init__(self):
         super().__init__()
         self.addProperties(UIField.Properties)
-        self.Rotation = 0
+        self.Rotation = 0.0
         self.PivotPoint = Vector2(0, 1)
         self.Scale = Vector2(1, 1)

@@ -178,7 +178,7 @@ def fixRotation(rot):
     return euler
 
 def getRotationAndPosition(cf):
-    return fixRotation(cf.rotation), cf.translation
+    return fixRotation(cf.rotation), Vector3(*cf.translation)
 
 baseParts = [
     "CornerWedgePart",
@@ -466,7 +466,7 @@ def HandlePart(obj, polyObject):
     polyObject.Friction = getPartFriction(obj)
     polyObject.Bounciness = getPartElasticity(obj)
         
-    polyObject.Position = Vector3(*position)
+    polyObject.Position = position
     polyObject.Rotation = rotation
     polyObject.Size = Vector3(*size)
 
@@ -560,7 +560,7 @@ def HandleFaceObject(obj, polyObject):
     localRotation = Matrix3.fromEulerAnglesYXZ(*faceRotations[face].yxz())
     localSpace = CoordinateFrame(localRotation, localPosition)
     rotation, position = getRotationAndPosition(worldTransform * localSpace)
-    polyObject.Position = Vector3(*position)
+    polyObject.Position = position
     polyObject.Rotation = rotation
     polyObject.Size = Vector3(*size)
 
@@ -789,6 +789,7 @@ classHandlers = {
     "Accessory":        HandleModel,
     "Attachment":       HandleAttachment,
     "Backpack":         HandleBase,
+    "BindableEvent":    HandleBase,
     "BodyPosition":     HandleBodyPosition,
     "BoolValue":        HandleValue,
     "Color3Value":      HandleColorValue,

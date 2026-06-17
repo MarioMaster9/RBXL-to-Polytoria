@@ -18,9 +18,9 @@ class Sound(Dynamic):
     def __init__(self):
         super().__init__()
         self.addProperties(Sound.Properties)
-        self.MaxDistance = 60
+        self.MaxDistance = 60.0
         self.Autoplay = False
-        self.LoopStart = 0
+        self.LoopStart = 0.0
         self.AttenuationMode = SoundAttenuationModeEnum.Disabled
         self.LocalPosition = Vector3.ZERO
         self.LocalRotation = Vector3.ZERO

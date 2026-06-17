@@ -22,6 +22,6 @@ class UILabel(UIView):
         self.addProperties(UILabel.Properties)
         self.HorizontalAlignment = TextHorizontalAlignmentEnum.Center
         self.VerticalAlignment = TextVerticalAlignmentEnum.Middle
-        self.FontSize = 16
-        self.MaxAutoSize = 16
+        self.FontSize = 16.0
+        self.MaxAutoSize = 16.0
         self.OutlineWidth = 0.2

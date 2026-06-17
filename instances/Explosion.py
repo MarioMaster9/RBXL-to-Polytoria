@@ -11,8 +11,8 @@ class Explosion(Dynamic):
     def __init__(self):
         super().__init__()
         self.addProperties(Explosion.Properties)
-        self.Radius = 10
-        self.Force = 5000
+        self.Radius = 10.0
+        self.Force = 5000.0
         self.AffectAnchored = False
-        self.Damage = 100000
+        self.Damage = 100000.0
         self.AffectWelds = True
