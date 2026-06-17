@@ -638,9 +638,13 @@ def HandleWeld(obj, polyObject):
     polyObject.Part1 = rbxlFile.getRef(obj.get('Part1'))
     polyObject.Enabled = False#obj.get('Enabled', True)
 
+def HandleBodyGyro(obj, polyObject):
+    polyObject.Force = obj.get('p', obj.get('P'))
+    polyObject.TargetRotation = fixRotation(obj.get('cframe', obj.get('CFrame')).rotation)
+
 def HandleBodyPosition(obj, polyObject):
     polyObject.Force = obj.get('p', obj.get('P'))
-    polyObject.TargetPosition = Vector3(*obj.get('position', obj.get('Position')))
+    polyObject.TargetRotation = Vector3(*obj.get('position', obj.get('Position')))
 
 def HandleWorkspace(obj, polyObject):
     polyObject.addChild(Camera())
@@ -801,6 +805,7 @@ classHandlers = {
     "Attachment":       HandleAttachment,
     "Backpack":         HandleBase,
     "BindableEvent":    HandleBase,
+    "BodyGyro":         HandleBodyGyro,
     "BodyPosition":     HandleBodyPosition,
     "BoolValue":        HandleValue,
     "Color3Value":      HandleColorValue,
@@ -913,7 +918,6 @@ doNotConvert = [
     "PitchShiftSoundEffect",
     "ReverbSoundEffect",
     "BodyVelocity",               # Do later
-    "BodyGyro",                   # Do later
     "BodyAngularVelocity",        # Do later
     "VelocityMotor",
     "RotateP",

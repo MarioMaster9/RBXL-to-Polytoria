@@ -2,6 +2,7 @@
     "Accessory":       "Model",
     "Attachment":      "Model",
     "Backpack":        "Folder",
+    "BodyGyro":        "BodyRotation",
     "Color3Value":     "ColorValue",
     "Configuration":   "Folder",
     "CornerWedgePart": "Part",
