@@ -2,7 +2,7 @@ from .Dynamic import Dynamic
 from enums import CameraModeEnum
 from data_types import Vector3
 
-DefaultScrollSensitivity = 15
+DefaultScrollSensitivity = 15.0
 
 class Camera(Dynamic):
     ClassName = "Camera"
@@ -29,22 +29,22 @@ class Camera(Dynamic):
         super().__init__()
         self.addProperties(Camera.Properties)
         self.Mode = CameraModeEnum.Follow
-        self.FOV = 60
+        self.FOV = 60.0
         self.ClipThroughWalls = False
-        self.MinDistance = 0
-        self.MaxDistance = 20#150
+        self.MinDistance = 0.0
+        self.MaxDistance = 20.0
         self.ScrollSensitivity = DefaultScrollSensitivity
         self.Orthographic = False
         self.FollowLerp = False
-        self.LerpSpeed = 15
-        self.OrthographicSize = 1
+        self.LerpSpeed = 15.0
+        self.OrthographicSize = 1.0
         self.Near = 0.05
-        self.Far = 4000
+        self.Far = 4000.0
         self.PositionOffset = Vector3.ZERO
         self.RotationOffset = Vector3.ZERO
         self.CanLock = True
-        self.SensitivityMultiplier = 1
-        self.ScrollLerpSpeed = 15
+        self.SensitivityMultiplier = 1.0
+        self.ScrollLerpSpeed = 15.0
 
         self.Position = Vector3(0, 8, 0)
         self.Rotation = Vector3.ZERO

@@ -462,13 +462,13 @@ def HandlePart(obj, polyObject):
         polyObject.Shape = shape
     
     polyObject.Material = EnumMigrator.ToPolytoria(Enum.Material, obj.get('Material'), PartMaterialEnum.Plastic)
-    polyObject.Velocity = obj.get('Velocity')
+    polyObject.Velocity = Vector3(*obj.get('Velocity'))
     polyObject.Friction = getPartFriction(obj)
     polyObject.Bounciness = getPartElasticity(obj)
         
-    polyObject.Position = position
+    polyObject.Position = Vector3(*position)
     polyObject.Rotation = rotation
-    polyObject.Size = size
+    polyObject.Size = Vector3(*size)
 
 def HandleScript(obj, polyObject):
     if obj.get('Enabled') is None:
@@ -560,9 +560,9 @@ def HandleFaceObject(obj, polyObject):
     localRotation = Matrix3.fromEulerAnglesYXZ(*faceRotations[face].yxz())
     localSpace = CoordinateFrame(localRotation, localPosition)
     rotation, position = getRotationAndPosition(worldTransform * localSpace)
-    polyObject.Position = position
+    polyObject.Position = Vector3(*position)
     polyObject.Rotation = rotation
-    polyObject.Size = size
+    polyObject.Size = Vector3(*size)
 
 def HandleDecal(obj, polyObject):
     if str(obj.get('Texture')) == '':
@@ -968,8 +968,8 @@ def HandleObject(obj, parent=world):
             HandleObject(child, polyObject)
 
 def ReferencesPass(obj):
-    if hasattr(obj, "serializationProperties"):
-        for propName, datatype in obj.serializationProperties.items():
+    if hasattr(obj, "classProperties"):
+        for propName, datatype in obj.classProperties.items():
             if propName != "ref":
                 continue
             if not hasattr(obj, propName):

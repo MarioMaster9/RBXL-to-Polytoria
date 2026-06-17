@@ -1,4 +1,26 @@
 import uuid
+from data_types import Color
+from data_types import NumberRange
+from data_types import NumberSeries
+from data_types import Vector2
+from data_types import Vector3
+
+expectedTypes = {
+    "array":           list,
+    "boolean":         bool,
+    "color":           Color,
+#    "colorseries":     ColorSeries,
+    "float":           float,
+    "int":             int,
+    "numberrange":     NumberRange,
+    "numberseries":    NumberSeries,
+    "ref":             object,
+    "resourceref":     object,
+    "string":          str,
+    "uint":            int,
+    "vector2":         Vector2,
+    "vector3":         Vector3,
+}
 
 class NetworkedObject:
     ClassName = "NetworkedObject"
@@ -11,14 +33,25 @@ class NetworkedObject:
         self.addProperties(NetworkedObject.Properties)
     def setRandomName(self):
         self.Name = str(self.uuid)
+    def __setattr__(self, name, value):
+        if hasattr(self, "classProperties"):
+            if name in self.classProperties:
+                datatype = self.classProperties[name]
+                if datatype != "ref" and datatype != "resourceref":
+                    if not datatype in expectedTypes:
+                        print(f"MISSING TYPE: {datatype}")
+                        exit()
+                    _type = expectedTypes[datatype]
+                    assert type(value) is _type, f'type mismatch! expected {_type}, got {type(value)}'
+        super().__setattr__(name, value)
     @property
     def className(self):
         return self.__class__.ClassName
     def addProperties(self, properties):
-        if hasattr(self, "serializationProperties"):
-            self.serializationProperties = properties | self.serializationProperties
+        if hasattr(self, "classProperties"):
+            self.classProperties = properties | self.classProperties
         else:
-            self.serializationProperties = properties
+            self.classProperties = properties
     def get(self, prop, default=None):
         if not hasattr(self, prop):
             return default
@@ -44,7 +77,7 @@ class NetworkedObject:
         self.parent.children.remove(self)
         newParent.addChild(self)
     def serialize(self, json_self):
-        for propName, datatype in self.serializationProperties.items():
+        for propName, datatype in self.classProperties.items():
             if propName == "Name":
                 continue
             if not hasattr(self, propName):
@@ -103,7 +136,7 @@ class NetworkedObject:
         return json_self
     def resourcePass(self, root):
         # serialization pass that goes through all resource references
-        for propName, datatype in self.serializationProperties.items():
+        for propName, datatype in self.classProperties.items():
             if datatype != "resourceref":
                 continue
             if not hasattr(self, propName):

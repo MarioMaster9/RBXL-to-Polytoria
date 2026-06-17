@@ -1,12 +1,11 @@
-from .Instance import Instance
-
-
-class Game(Instance):
-    ClassName = "Game"
+class Game:
     def __init__(self, version):
-        super().__init__()
         self.Version = version
         self.nonInstanceObjects = []
+        self.children = []
+    def addChild(self, obj):
+        obj.parent = self
+        self.children.append(obj)
     def json(self):
         json_self = {
             "Version": self.Version,

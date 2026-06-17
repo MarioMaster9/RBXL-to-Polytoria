@@ -26,16 +26,16 @@ class PlayerDefaults(Instance):
     def __init__(self):
         super().__init__()
         self.addProperties(PlayerDefaults.Properties)
-        self.MaxHealth = 100
-        self.WalkSpeed = 16
-        self.JumpPower = 36
+        self.MaxHealth = 100.0
+        self.WalkSpeed = 16.0
+        self.JumpPower = 36.0
         self.ChatColor = Color(1, 1, 1)
         self.ChatColorsEnabled = True
-        self.RespawnTime = 5
+        self.RespawnTime = 5.0
         self.CanMove = True
-        self.SprintSpeed = 25
-        self.Stamina = 0
-        self.MaxStamina = 3
+        self.SprintSpeed = 25.0
+        self.Stamina = 0.0
+        self.MaxStamina = 3.0
         self.UseStamina = True
         self.StaminaRegen = 1.2
         self.StaminaBurn = 1.2

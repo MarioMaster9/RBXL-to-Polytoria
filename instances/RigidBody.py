@@ -21,9 +21,9 @@ class RigidBody(Physical):
         self.Velocity = Vector3.ZERO
         self.AngularVelocity = Vector3.ZERO
         self.UseGravity = True
-        self.Mass = 1
+        self.Mass = 1.0
         self.Friction = 0.6
-        self.Drag = 0
-        self.AngularDrag = 0
-        self.Bounciness = 0
+        self.Drag = 0.0
+        self.AngularDrag = 0.0
+        self.Bounciness = 0.0
         self.LockRotation = False

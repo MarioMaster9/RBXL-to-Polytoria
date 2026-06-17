@@ -11,6 +11,6 @@ class Environment(Instance):
         super().__init__()
         self.addProperties(Environment.Properties)
         self.Gravity = Vector3(0, -85, 0)
-        self.PartDestroyHeight = -2000
+        self.PartDestroyHeight = -2000.0
         self.AutoGenerateNavMesh = False
         self.Name = "Environment"

@@ -19,6 +19,6 @@ class Lighting(Instance):
         self.AmbientSource = AmbientSourceEnum.Color
         self.FogEnabled = False
         self.FogColor = Color(1, 1, 1)
-        self.FogStartDistance = 0
-        self.FogEndDistance = 0
+        self.FogStartDistance = 0.0
+        self.FogEndDistance = 0.0
         self.Name = "Lighting"
