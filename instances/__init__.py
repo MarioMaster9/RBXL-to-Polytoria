@@ -91,7 +91,7 @@ from .Tool                                import Tool
 from .Truss                               import Truss
 #UIAspectRatioRestraint
 from .UIButton                            import UIButton
-#UIContainer
+from .UIContainer                         import UIContainer
 #UICorner
 from .UIField                             import UIField
 #UIFlowLayout
@@ -102,15 +102,15 @@ from .UIField                             import UIField
 from .UIImage                             import UIImage
 from .UILabel                             import UILabel
 #UIScrollView
-#UIShadow
-#UIStroke
+from .UIShadow                            import UIShadow
+from .UIStroke                            import UIStroke
 from .UITextInput                         import UITextInput
 #UIVFlow
 from .UIView                              import UIView
 #UIViewport
 #UIVLayout
 from .ValueBase                           import ValueBase
-#Vector2Value
+from .Vector2Value                        import Vector2Value
 from .Vector3Value                        import Vector3Value
 #VoiceBox
 from .Weld                                import Weld

@@ -2,8 +2,14 @@ import uuid
 from data_types import Color
 from data_types import NumberRange
 from data_types import NumberSeries
+from data_types import UIScale
 from data_types import Vector2
 from data_types import Vector3
+
+primitives = (bool, str, int, float, type(None))
+
+def is_primitive(obj):
+    return type(obj) in primitives
 
 expectedTypes = {
     "array":           list,
@@ -18,6 +24,7 @@ expectedTypes = {
     "resourceref":     object,
     "string":          str,
     "uint":            int,
+    "uiscale":         UIScale,
     "vector2":         Vector2,
     "vector3":         Vector3,
 }
@@ -90,8 +97,16 @@ class NetworkedObject:
             else:
                 assert not prop is None, f'{propName} of {self.className} is None'
             match datatype:
-                case "string" | "uint" | "int" | "float" | "boolean" | "array":
+                case "string" | "uint" | "int" | "float" | "boolean":
                     json_self["Properties"][propName] = prop
+                case "array":
+                    if len(prop) > 0:
+                        if not is_primitive(prop[0]):
+                            json_self["Properties"][propName] = [x.json for x in prop]
+                        else:
+                            json_self["Properties"][propName] = prop
+                    else:
+                        json_self["Properties"][propName] = prop
                 case "ref" | "resourceref":
                     if prop is None:
                         json_self["Properties"][propName] = ""
