@@ -3,14 +3,14 @@ from data_types import Vector3
 
 class Light(Dynamic):
     ClassName = "Light"
-    Properties = [
-        ["Enabled", "boolean"],
-        ["Color", "color"],
-        ["Brightness", "float"],
-        ["LightSize", "float"],
-        ["Specular", "float"],
-        ["Shadows", "boolean"],
-    ]
+    Properties = {
+        "Enabled": "boolean",
+        "Color": "color",
+        "Brightness": "float",
+        "LightSize": "float",
+        "Specular": "float",
+        "Shadows": "boolean",
+    }
     def __init__(self):
         super().__init__()
         self.addProperties(Light.Properties)

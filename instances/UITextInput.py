@@ -2,20 +2,20 @@ from .UIView import UIView
 from enums import TextHorizontalAlignmentEnum
 class UITextInput(UIView):
     ClassName = "UITextInput"
-    Properties = [
-        ["Text", "string"],
-        ["TextColor", "color"],
-        ["JustifyText", "int"],
-        ["FontSize", "float"],
-        ["AutoSize", "boolean"],
-        ["MaxAutoSize", "float"],
-        ["MultiLine", "boolean"],
-        ["Placeholder", "string"],
-        ["PlaceholderColor", "color"],
-        ["ReadOnlyColor", "color"],
-        ["ReadOnly", "boolean"],
-        ["FontAsset", "resourceref"],
-    ]
+    Properties = {
+        "Text": "string",
+        "TextColor": "color",
+        "JustifyText": "int",
+        "FontSize": "float",
+        "AutoSize": "boolean",
+        "MaxAutoSize": "float",
+        "MultiLine": "boolean",
+        "Placeholder": "string",
+        "PlaceholderColor": "color",
+        "ReadOnlyColor": "color",
+        "ReadOnly": "boolean",
+        "FontAsset": "resourceref",
+    }
     @property
     def HorizontalAlignment(self):
         return self.JustifyText

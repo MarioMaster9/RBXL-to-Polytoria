@@ -6,20 +6,20 @@ from enums import BuiltInAudioPresetEnum
 from .resources.ResourceFactory import ResourceFactory
 class NPC(Physical):
     ClassName = "NPC"
-    Properties = [
-        ["Velocity", "vector3"],
-        ["SeatOffset", "vector3"],
-        ["Health", "float"],
-        ["MaxHealth", "float"],
-        ["JumpPower", "float"],
-        ["WalkSpeed", "float"],
-        ["UseNametag", "boolean"],
-        ["NametagOffset", "vector3"],
-        ["NametagVisibleRadius", "float"],
-        ["DisplayName", "string"],
-        ["JumpSound", "ref"],
-        ["Character", "ref"],
-    ]
+    Properties = {
+        "Velocity": "vector3",
+        "SeatOffset": "vector3",
+        "Health": "float",
+        "MaxHealth": "float",
+        "JumpPower": "float",
+        "WalkSpeed": "float",
+        "UseNametag": "boolean",
+        "NametagOffset": "vector3",
+        "NametagVisibleRadius": "float",
+        "DisplayName": "string",
+        "JumpSound": "ref",
+        "Character": "ref",
+    }
     def __init__(self):
         super().__init__()
         self.addProperties(NPC.Properties)

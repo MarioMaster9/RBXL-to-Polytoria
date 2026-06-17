@@ -1,11 +1,11 @@
 from .Dynamic import Dynamic
 class GUI3D(Dynamic):
     ClassName = "GUI3D"
-    Properties = [
-        ["Shaded", "boolean"],
-        ["FaceCamera", "boolean"],
-        ["Transparent", "boolean"],
-    ]
+    Properties = {
+        "Shaded": "boolean",
+        "FaceCamera": "boolean",
+        "Transparent": "boolean",
+    }
     def __init__(self):
         super().__init__()
         self.addProperties(GUI3D.Properties)

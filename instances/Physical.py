@@ -2,12 +2,12 @@ from .Dynamic import Dynamic
 from data_types import Vector3
 class Physical(Dynamic):
     ClassName = "Physical"
-    Properties = [
-        ["Anchored", "boolean"],
-        ["CanCollide", "boolean"],
-        ["CollisionLayers", "uint"],
-        ["CollisionMask", "uint"],
-    ]
+    Properties = {
+        "Anchored": "boolean",
+        "CanCollide": "boolean",
+        "CollisionLayers": "uint",
+        "CollisionMask": "uint",
+    }
     def __init__(self):
         super().__init__()
         self.addProperties(Physical.Properties)

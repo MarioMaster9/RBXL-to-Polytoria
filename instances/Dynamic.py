@@ -2,14 +2,14 @@ from .Instance import Instance
 from data_types import Vector3
 class Dynamic(Instance):
     ClassName = "Dynamic"
-    Properties = [
-        ["Position", "vector3"],
-        ["Rotation", "vector3"],
-        ["Size", "vector3"],
-        ["LocalPosition", "vector3"],
-        ["LocalRotation", "vector3"],
-        ["LocalSize", "vector3"]
-    ]
+    Properties = {
+        "Position": "vector3",
+        "Rotation": "vector3",
+        "Size": "vector3",
+        "LocalPosition": "vector3",
+        "LocalRotation": "vector3",
+        "LocalSize": "vector3"
+    }
     def __init__(self):
         super().__init__()
         self.addProperties(Dynamic.Properties)

@@ -1,5 +1,11 @@
 import math
-from rbxl.data_types import *
+from rbxl.data_types import RbxColorSequenceKeypoint
+from rbxl.data_types import RbxColorSequence
+from rbxl.data_types import CoordinateFrame
+from rbxl.data_types import Matrix3
+from rbxl.data_types import Color3
+from rbxl.data_types import Vector3
+
 
 def linearSpline(x, controlX, controlY, numControl):
     assert numControl >= 1

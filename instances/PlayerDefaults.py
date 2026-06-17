@@ -3,26 +3,26 @@ from data_types import Color
 from enums import PlayerMovementModeEnum
 class PlayerDefaults(Instance):
     ClassName = "PlayerDefaults"
-    Properties = [
-        ["MaxHealth", "float"],
-        ["WalkSpeed", "float"],
-        ["SprintSpeed", "float"],
-        ["JumpPower", "float"],
-        ["RespawnTime", "float"],
-        ["ChatColor", "color"],
-        ["ChatColorsEnabled", "boolean"],
-        ["CanMove", "boolean"],
-        ["StaminaBurn", "float"],
-        ["UseStamina", "boolean"],
-        ["Stamina", "float"],
-        ["MaxStamina", "float"],
-        ["StaminaRegen", "float"],
-        ["UseHeadTurning", "boolean"],
-        ["UseBubbleChat", "boolean"],
-        ["AutoLoadAppearance", "boolean"],
-        ["LoadAppearanceTools", "boolean"],
-        ["MovementMode", "int"],
-    ]
+    Properties = {
+        "MaxHealth": "float",
+        "WalkSpeed": "float",
+        "SprintSpeed": "float",
+        "JumpPower": "float",
+        "RespawnTime": "float",
+        "ChatColor": "color",
+        "ChatColorsEnabled": "boolean",
+        "CanMove": "boolean",
+        "StaminaBurn": "float",
+        "UseStamina": "boolean",
+        "Stamina": "float",
+        "MaxStamina": "float",
+        "StaminaRegen": "float",
+        "UseHeadTurning": "boolean",
+        "UseBubbleChat": "boolean",
+        "AutoLoadAppearance": "boolean",
+        "LoadAppearanceTools": "boolean",
+        "MovementMode": "int",
+    }
     def __init__(self):
         super().__init__()
         self.addProperties(PlayerDefaults.Properties)

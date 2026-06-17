@@ -2,9 +2,9 @@ import uuid
 
 class NetworkedObject:
     ClassName = "NetworkedObject"
-    Properties = [
-        ["Name", "string"]
-    ]
+    Properties = {
+        "Name": "string"
+    }
     def __init__(self):
         self.children = []
         self.uuid = uuid.uuid4()
@@ -16,7 +16,7 @@ class NetworkedObject:
         return self.__class__.ClassName
     def addProperties(self, properties):
         if hasattr(self, "serializationProperties"):
-            self.serializationProperties = properties + self.serializationProperties
+            self.serializationProperties = properties | self.serializationProperties
         else:
             self.serializationProperties = properties
     def get(self, prop, default=None):
@@ -44,9 +44,7 @@ class NetworkedObject:
         self.parent.children.remove(self)
         newParent.addChild(self)
     def serialize(self, json_self):
-        for item in self.serializationProperties:
-            propName = item[0]
-            datatype = item[1]
+        for propName, datatype in self.serializationProperties.items():
             if propName == "Name":
                 continue
             if not hasattr(self, propName):
@@ -105,9 +103,7 @@ class NetworkedObject:
         return json_self
     def resourcePass(self, root):
         # serialization pass that goes through all resource references
-        for item in self.serializationProperties:
-            propName = item[0]
-            datatype = item[1]
+        for propName, datatype in self.serializationProperties.items():
             if datatype != "resourceref":
                 continue
             if not hasattr(self, propName):

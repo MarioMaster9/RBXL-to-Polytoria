@@ -1,10 +1,10 @@
 from ..Instance import Instance
 class AchievementsService(Instance):
     ClassName = "AchievementsService"
-    Properties = [
-        ["UseAchievementSound", "boolean"],
-        ["NotifyAchievements", "boolean"],
-    ]
+    Properties = {
+        "UseAchievementSound": "boolean",
+        "NotifyAchievements": "boolean",
+    }
     def __init__(self):
         super().__init__()
         self.addProperties(AchievementsService.Properties)

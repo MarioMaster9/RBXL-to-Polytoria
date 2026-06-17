@@ -112,13 +112,13 @@ def getPartElasticity(obj):
     return getPhysicalProperties(obj).get('Elasticity')
 
 @multimethod
-def getColor4(obj: TreeItem, propType: str):
+def getColor(obj: TreeItem, propType: str):
     # color4 method, assuming that the format will always be propType followed by "Color3" for color, or propType followed by "Transparency" for transparency
     # Mainly used for GUI objects
     return Color(*obj.get(propType + "Color3", Color3.BLACK), alpha(obj.get(propType + "Transparency", 1)))
 
 @multimethod
-def getColor4(obj: TreeItem, color3: str, transparency: str):
+def getColor(obj: TreeItem, color3: str, transparency: str):
     # color4 method, separating property names. safer, but it may look messier
     return Color(*obj.get(color3), alpha(obj.get(transparency)))
 
@@ -209,7 +209,7 @@ def HandleModel(obj, polyObject):
         partCount += 1
     if partCount != 0:
         position /= partCount
-    polyObject.Position = position
+    polyObject.Position = Vector3(*position)
 
 def HandleNPC(obj, polyObject):
     shirt = obj.findFirstChildOfClass("Shirt")
@@ -644,7 +644,7 @@ def HandleWorkspace(obj, polyObject):
 def HandleScreenGui(obj, polyObject):
     polyObject.Visible = obj.get('Enabled', True)
 def HandleFrame(obj, polyObject):
-    polyObject.Color = getColor4(obj, 'Background')
+    polyObject.Color = getColor(obj, 'Background')
     polyObject.BorderColor = Color(*obj.get('BorderColor3'))
     polyObject.BorderWidth = obj.get('BorderSizePixel')
     HandleUIField(obj, polyObject)
@@ -710,7 +710,7 @@ fontMap = {
 FONT_SCALE = 1.5 # found this in the polytoria types dump, seems to be correct
 def HandleTextLabel(obj, polyObject):
     polyObject.Text = obj.get('Text')
-    polyObject.TextColor = getColor4(obj, 'Text')
+    polyObject.TextColor = getColor(obj, 'Text')
     polyObject.HorizontalAlignment = EnumMigrator.ToPolytoria(Enum.TextXAlignment, obj.get('TextXAlignment'))
     polyObject.VerticalAlignment = EnumMigrator.ToPolytoria(Enum.TextYAlignment, obj.get('TextYAlignment'))
     fontSize = obj.get('TextSize', fontSizes.get(obj.get('FontSize')))
@@ -726,7 +726,7 @@ def HandleTextLabel(obj, polyObject):
     fontAsset = ResourceFactory.CreateFont(fontPreset, fontWeight, fontStyle)
     polyObject.FontAsset = fontAsset
     polyObject.TextWrapped = obj.get('TextWrap', obj.get('TextWrapped'))
-    polyObject.OutlineColor = getColor4(obj, 'TextStroke')
+    polyObject.OutlineColor = getColor(obj, 'TextStroke')
     HandleFrame(obj, polyObject)
 
 def HandleTextButton(obj, polyObject):
@@ -969,9 +969,7 @@ def HandleObject(obj, parent=world):
 
 def ReferencesPass(obj):
     if hasattr(obj, "serializationProperties"):
-        for item in obj.serializationProperties:
-            propName = item[0]
-            datatype = item[1]
+        for propName, datatype in obj.serializationProperties.items():
             if propName != "ref":
                 continue
             if not hasattr(obj, propName):

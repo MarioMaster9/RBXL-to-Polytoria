@@ -3,16 +3,16 @@ from enums import ImageStretchModeEnum
 from enums import TextureFilterEnum
 class UIImage(UIField):
     ClassName = "UIImage"
-    Properties = [
-        ["Image", "resourceref"],
-        ["TextureScale", "vector2"],
-        ["TextureOffset", "vector2"],
-        ["Color", "color"],
-        ["StretchMode", "int"],
-        ["TextureFilter", "int"],
-        ["FlipHorizontal", "boolean"],
-        ["FlipVertical", "boolean"],
-    ]
+    Properties = {
+        "Image": "resourceref",
+        "TextureScale": "vector2",
+        "TextureOffset": "vector2",
+        "Color": "color",
+        "StretchMode": "int",
+        "TextureFilter": "int",
+        "FlipHorizontal": "boolean",
+        "FlipVertical": "boolean",
+    }
     def __init__(self):
         super().__init__()
         self.addProperties(UIImage.Properties)

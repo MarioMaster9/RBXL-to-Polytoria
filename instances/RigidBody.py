@@ -2,19 +2,19 @@ from .Physical import Physical
 from data_types import Vector3
 class RigidBody(Physical):
     ClassName = "RigidBody"
-    Properties = [
-        ["Velocity", "vector3"],
-        ["AngularVelocity", "vector3"],
-        ["UseGravity", "boolean"],
-        ["Mass", "float"],
-        ["Friction", "float"],
-        ["Drag", "float"],
-        ["AngularDrag", "float"],
-        ["Bounciness", "float"],
-        ["LockRotation", "boolean"],
-        ["CollisionLayers", "uint"],
-        ["CollisionMask", "uint"],
-    ]
+    Properties = {
+        "Velocity": "vector3",
+        "AngularVelocity": "vector3",
+        "UseGravity": "boolean",
+        "Mass": "float",
+        "Friction": "float",
+        "Drag": "float",
+        "AngularDrag": "float",
+        "Bounciness": "float",
+        "LockRotation": "boolean",
+        "CollisionLayers": "uint",
+        "CollisionMask": "uint",
+    }
     def __init__(self):
         super().__init__()
         self.addProperties(RigidBody.Properties)

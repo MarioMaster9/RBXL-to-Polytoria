@@ -1,13 +1,13 @@
 from .Dynamic import Dynamic
 class Explosion(Dynamic):
     ClassName = "Explosion"
-    Properties = [
-        ["Radius", "float"],
-        ["Force", "float"],
-        ["AffectAnchored", "boolean"],
-        ["Damage", "float"],
-        ["AffectWelds", "boolean"],
-    ]
+    Properties = {
+        "Radius": "float",
+        "Force": "float",
+        "AffectAnchored": "boolean",
+        "Damage": "float",
+        "AffectWelds": "boolean",
+    }
     def __init__(self):
         super().__init__()
         self.addProperties(Explosion.Properties)

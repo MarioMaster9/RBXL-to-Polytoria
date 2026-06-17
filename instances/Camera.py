@@ -6,25 +6,25 @@ DefaultScrollSensitivity = 15
 
 class Camera(Dynamic):
     ClassName = "Camera"
-    Properties = [
-        ["Mode", "int"],
-        ["FOV", "float"],
-        ["ClipThroughWalls", "boolean"],
-        ["MinDistance", "float"],
-        ["MaxDistance", "float"],
-        ["ScrollSensitivity", "float"],
-        ["Orthographic", "boolean"],
-        ["FollowLerp", "boolean"],
-        ["LerpSpeed", "float"],
-        ["OrthographicSize", "float"],
-        ["Near", "float"],
-        ["Far", "float"],
-        ["PositionOffset", "vector3"],
-        ["RotationOffset", "vector3"],
-        ["CanLock", "boolean"],
-        ["SensitivityMultiplier", "float"],
-        ["ScrollLerpSpeed", "float"],
-    ]
+    Properties = {
+        "Mode": "int",
+        "FOV": "float",
+        "ClipThroughWalls": "boolean",
+        "MinDistance": "float",
+        "MaxDistance": "float",
+        "ScrollSensitivity": "float",
+        "Orthographic": "boolean",
+        "FollowLerp": "boolean",
+        "LerpSpeed": "float",
+        "OrthographicSize": "float",
+        "Near": "float",
+        "Far": "float",
+        "PositionOffset": "vector3",
+        "RotationOffset": "vector3",
+        "CanLock": "boolean",
+        "SensitivityMultiplier": "float",
+        "ScrollLerpSpeed": "float",
+    }
     def __init__(self):
         super().__init__()
         self.addProperties(Camera.Properties)

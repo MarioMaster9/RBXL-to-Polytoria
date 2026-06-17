@@ -3,9 +3,9 @@ import instances as module_self
 
 class Instance(NetworkedObject):
     ClassName = "Instance"
-    Properties = [
-        ["Tags", "array"]
-    ]
+    Properties = {
+        "Tags": "array"
+    }
     def __init__(self):
         super().__init__()
         self.Tags = []

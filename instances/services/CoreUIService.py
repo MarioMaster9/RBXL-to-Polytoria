@@ -1,17 +1,17 @@
 from ..Instance import Instance
 class CoreUIService(Instance):
     ClassName = "CoreUIService"
-    Properties = [
-        ["UseUserCard", "boolean"],
-        ["UseChat", "boolean"],
-        ["UseHealthBar", "boolean"],
-        ["UseLeaderboard", "boolean"],
-        ["UseHotbar", "boolean"],
-        ["UseBackpack", "boolean"],
-        ["UseMenuButton", "boolean"],
-        ["UseEmoteWheel", "boolean"],
-        ["CanRespawn", "boolean"],
-    ]
+    Properties = {
+        "UseUserCard": "boolean",
+        "UseChat": "boolean",
+        "UseHealthBar": "boolean",
+        "UseLeaderboard": "boolean",
+        "UseHotbar": "boolean",
+        "UseBackpack": "boolean",
+        "UseMenuButton": "boolean",
+        "UseEmoteWheel": "boolean",
+        "CanRespawn": "boolean",
+    }
     def __init__(self):
         super().__init__()
         self.addProperties(CoreUIService.Properties)
