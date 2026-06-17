@@ -112,7 +112,7 @@ from .UIView                              import UIView
 from .ValueBase                           import ValueBase
 from .Vector2Value                        import Vector2Value
 from .Vector3Value                        import Vector3Value
-#VoiceBox
+from .VoiceBox                            import VoiceBox
 from .Weld                                import Weld
 from .World                               import World
 from .Game                                import Game
