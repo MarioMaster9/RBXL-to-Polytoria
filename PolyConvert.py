@@ -266,6 +266,9 @@ def HandleNPC(obj, polyObject):
 def HandleValue(obj, polyObject):
     polyObject.Value = obj.get('Value')
 
+def HandleVector3Value(obj, polyObject):
+    polyObject.Value = Vector3(*obj.get('Value'))
+
 def HandleColorValue(obj, polyObject):
     polyObject.Value = Color(*obj.get('Value'))
 
@@ -637,7 +640,7 @@ def HandleWeld(obj, polyObject):
 
 def HandleBodyPosition(obj, polyObject):
     polyObject.Force = obj.get('p', obj.get('P'))
-    polyObject.TargetPosition = obj.get('position', obj.get('Position'))
+    polyObject.TargetPosition = Vector3(*obj.get('position', obj.get('Position')))
 
 def HandleWorkspace(obj, polyObject):
     polyObject.addChild(Camera())
@@ -754,12 +757,12 @@ def HandleSky(obj, polyObject):
     polyObject.BackImage = ResourceFactory.CreateImage(getResource(obj.get('SkyboxBk')))
 
 def getgametime():
-    timeofday = services['Lighting'].get('TimeOfDay')
+    timeofday = services['Lighting'].get('TimeOfDay', "14:00:00")
     timestamp = datetime.strptime(timeofday, '%H:%M:%S').replace(tzinfo=timezone.utc)
     return int(timestamp.timestamp())
 
 def getSunRotation():
-    para = LightingParameters(getgametime(), True, services['Lighting'].get('GeographicLatitude'))    
+    para = LightingParameters(getgametime(), True, services['Lighting'].get('GeographicLatitude', 41.7332993))    
     cf = CoordinateFrame.CreateEmpty()
     cf.lookAt(para.lightDirection, Vector3.unitY)
     
@@ -768,16 +771,23 @@ def getSunRotation():
 defaultSunColor = Color3(255/255, 244/255, 214/255)
 
 def DoSunLight(polyObject):
-    polyObject.Brightness = services['Lighting'].get('Brightness')
+    polyObject.Brightness = services['Lighting'].get('Brightness', 1.0)
+    # maybe SpotLightV9 if OutdoorAmbient isn't present
     polyObject.Color = Color(*services['Lighting'].get('OutdoorAmbient', defaultSunColor))
     polyObject.Rotation = fixRotation(getSunRotation())
     return polyObject
 
 def HandleLighting(obj, polyObject):
-    polyObject.AmbientColor = Color(*obj.get('Ambient'))
+    if hasattr(obj, 'Ambient'):
+        polyObject.AmbientColor = Color(*obj.get('Ambient'))
+    else:
+        #BottomAmbientV#
+        #TopAmbientV#
+        #SpotLightV#
+        pass
     polyObject.FogEnabled = services['Lighting'].has('FogStart')
-    polyObject.FogStartDistance = services['Lighting'].get('FogStart', 0)
-    polyObject.FogEndDistance = services['Lighting'].get('FogEnd', 0)
+    polyObject.FogStartDistance = services['Lighting'].get('FogStart', 0.0)
+    polyObject.FogEndDistance = services['Lighting'].get('FogEnd', 0.0)
     polyObject.FogColor = Color(*services['Lighting'].get('FogColor', Color3.WHITE))
     polyObject.addChild(DoSunLight(SunLight()))
 
@@ -837,7 +847,7 @@ classHandlers = {
     "Tool":             HandleTool,
     "TrussPart":        HandleTruss,
     "UnionOperation":   HandleUnionOperation,
-    "Vector3Value":     HandleValue,
+    "Vector3Value":     HandleVector3Value,
     "VehicleSeat":      HandlePart,
     "WedgePart":        HandlePart,
     "Weld":             HandleWeld,
