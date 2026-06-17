@@ -24,6 +24,7 @@ from rbxl.data_types import MeshInfo
 from rbxl.data_types import CoordinateFrame
 from rbxl.data_types import BrickColor
 from rbxl.data_types import Color3
+from rbxl.data_types import FontFace
 
 import util.extmath as extmath
 
@@ -646,7 +647,7 @@ def HandleScreenGui(obj, polyObject):
 def HandleFrame(obj, polyObject):
     polyObject.Color = getColor(obj, 'Background')
     polyObject.BorderColor = Color(*obj.get('BorderColor3'))
-    polyObject.BorderWidth = obj.get('BorderSizePixel')
+    polyObject.BorderWidth = float(obj.get('BorderSizePixel'))
     HandleUIField(obj, polyObject)
 
 def fixUIPosition(position):
@@ -658,10 +659,10 @@ def HandleUIField(obj, polyObject):
     position = obj.get('Position')
     size = obj.get('Size')
     fixUIPosition(position)
-    polyObject.PositionOffset = position.offset
-    polyObject.PositionRelative = position.scale
-    polyObject.SizeOffset = size.offset
-    polyObject.SizeRelative = size.scale
+    polyObject.PositionOffset = Vector2(*position.offset)
+    polyObject.PositionRelative = Vector2(*position.scale)
+    polyObject.SizeOffset = Vector2(*size.offset)
+    polyObject.SizeRelative = Vector2(*size.scale)
     polyObject.Visible = obj.get('Visible')
     polyObject.ClipDescendants = obj.get('ClipsDescendants', False)
     polyObject.IgnoreMouse = not obj.get('Active', False)
