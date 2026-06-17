@@ -97,20 +97,8 @@ class NetworkedObject:
                         json_self["Properties"][propName] = ""
                     else:
                         json_self["Properties"][propName] = str(prop.uuid)
-                case "color":
-                    r = int(prop.r*255)
-                    g = int(prop.g*255)
-                    b = int(prop.b*255)
-                    a = int(prop.a*255)
-                    json_self["Properties"][propName] = f'{r:02x}{g:02x}{b:02x}{a:02x}'
-                case "vector2" | "vector3":
-                    json_self["Properties"][propName] = [*prop]
-                case "numberrange":
-                    #TODO: implement
-                    json_self["Properties"][propName] = ""#prop
-                case "colorrange":
-                    #TODO: implement
-                    json_self["Properties"][propName] = ""#prop
+                case "vector2" | "vector3" | "color" | "numberrange" | "numberseries" | "colorseries":
+                    json_self["Properties"][propName] = prop.json()
                 case _:
                     print("INVALID DATATYPE: " + datatype)
                     exit()

@@ -6,6 +6,8 @@ class Vector3:
         self.x = x
         self.y = y
         self.z = z
+    def json(self):
+        return [*self]
     def copy(self):
         return Vector3(self.x, self.y, self.z)
     def __iter__(self):

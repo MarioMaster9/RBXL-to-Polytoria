@@ -75,3 +75,9 @@ class Color:
             self.g = g
             self.b = b
             self.a = a
+    def json(self):
+        r = int(self.r*255)
+        g = int(self.g*255)
+        b = int(self.b*255)
+        a = int(self.a*255)
+        return f'{r:02x}{g:02x}{b:02x}{a:02x}'
